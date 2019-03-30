@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Hexo</title>
+  
+  
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="blog.virualyz.com/"/>
+  <updated>2019-03-18T05:42:28.715Z</updated>
+  <id>blog.virualyz.com/</id>
+  
+  <author>
+    <name>xcxd</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql优化神器explain介绍</title>
+    <link href="blog.virualyz.com/2019/03/16/2019-03-17_18-06-48_mysql%E4%BC%98%E5%8C%96%E7%A5%9E%E5%99%A8explain/"/>
+    <id>blog.virualyz.com/2019/03/16/2019-03-17_18-06-48_mysql优化神器explain/</id>
+    <published>2019-03-15T16:00:00.000Z</published>
+    <updated>2019-03-18T05:42:28.715Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>explain是mysql提供的一个优化sql的命令,在5.6以及以后的版本中,<br>除select,如insert,update和delete均可以使用explain查看执行计划，<br>从而知道mysql是如何处理sql语句，分析查询语句或者表结构的性能瓶颈,<br>本次使用的mysql 版本为</p><pre><code>@@version5.6.38</code></pre><p>但是为与5.6之后版本关联起来，所以部分内容可能还会含有其他版本的内容</p><h1 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h1><p>在sql语句前面增加 explain 即可,5.6.x版本显示部分字段需要添加部分关键字</p><pre><code>explain SELECT * FROM TABLE_NAMEexplain extended SELECT * FROM TABLE_NAME</code></pre><a id="more"></a> <h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><p>1.需要分析的sql</p><p>2.数据库工具或直接连接数据库</p><p>这里我们创建表来查看</p><pre><code>CREATE TABLE `test_table_3` (  `id`   BIGINT(63)  NOT NULL AUTO_INCREMENT,  `ball_name` VARCHAR(125) NOT NULL DEFAULT &apos;&apos;,  `size`  INT(115)              DEFAULT NULL,  PRIMARY KEY (`id`),  KEY `ball_name_index` (`ball_name`))  ENGINE = InnoDB  DEFAULT CHARSET = utf8INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;1&apos;, 100);INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;2&apos;, 200);INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;3&apos;, 300);INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;4&apos;, 400);INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;5&apos;, 500);INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;6&apos;, 600);INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;7&apos;, 700);INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;8&apos;, 800);INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;9&apos;, 900);INSERT INTO test_table_3 (ball_name, size) VALUES (&apos;10&apos;, 1000);CREATE TABLE `test_table_4` (  `id`           BIGINT(15)  NOT NULL AUTO_INCREMENT,  `ball_id`      BIGINT(15)           DEFAULT NULL,  `product_name` VARCHAR(50) NOT NULL DEFAULT &apos;&apos;,  `productor`    VARCHAR(30)          DEFAULT NULL,  PRIMARY KEY (`id`),  KEY `user_product_detail_index` (`ball_id`, `product_name`, `productor`))  ENGINE = InnoDB  DEFAULT CHARSET = utf8INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (1, &apos;A&apos;, &apos;耐克&apos;);INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (1, &apos;B&apos;, &apos;李宁&apos;);INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (1, &apos;A&apos;, &apos;安踏&apos;);INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (2, &apos;A&apos;, &apos;耐克&apos;);INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (2, &apos;C&apos;, &apos;李宁&apos;);INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (3, &apos;D&apos;, &apos;361&apos;);INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (4, &apos;A&apos;, &apos;耐克&apos;);INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (6, &apos;A&apos;, &apos;耐克&apos;);INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (9, &apos;E&apos;, &apos;特步&apos;);</code></pre><h1 id="介绍explain查询出的每项的含义"><a href="#介绍explain查询出的每项的含义" class="headerlink" title="介绍explain查询出的每项的含义"></a>介绍explain查询出的每项的含义</h1><p>   执行sql </p><pre><code>explain select * from test_table_3 where id = 2</code></pre><p>   <img src="/16/2019-03-17_18-06-48_mysql优化神器explain/Snipaste_2019-03-17_17-25-55.jpg" alt="图片"></p><h2 id="列介绍"><a href="#列介绍" class="headerlink" title="列介绍"></a>列介绍</h2><p>各列的含义如下:</p><pre><code>id: SELECT 查询的标识符. 每个 SELECT 都会自动分配一个唯一的标识符.select_type: SELECT 查询的类型.table: 查询的是哪个表partitions: 匹配的分区type: join 类型possible_keys: 此次查询中可能选用的索引key: 此次查询中确切使用到的索引.ref: 哪个字段或常数与 key 一起被使用rows: 显示此查询一共扫描了多少行. 这个是一个估计值.filtered: 表示此查询条件所过滤的数据的百分比extra: 额外的信息</code></pre><h2 id="每列数值分析"><a href="#每列数值分析" class="headerlink" title="每列数值分析"></a>每列数值分析</h2><p>   id:由数据库分配的id,无特定的某些数值</p><pre><code>1. ID如果相同，可以认为是一组，从上往下顺序执行2. ID不同,其中ID越大，优先级越高，越早执行3. ID列为null的就表是这是一个结果集，不需要使用它来进行查询。</code></pre><h3 id="select-type"><a href="#select-type" class="headerlink" title="select_type"></a>select_type</h3><p> 表示了查询的类型,主要用于区别普通查询，联合查询，子查询等的复杂查询。<br>它的值有:</p><pre><code>SIMPLE, 表示此查询不包含 UNION 查询或子查询PRIMARY, 表示此查询是最外层的查询UNION, 表示此查询是 UNION 的第二或随后的查询DEPENDENT UNION, UNION 中的第二个或后面的查询语句, 取决于外面的查询UNION RESULT, UNION 的结果SUBQUERY, 子查询中的第一个 SELECTDEPENDENT SUBQUERY(会严重消耗性能): 子查询中的第一个 SELECT, 取决于外面的查询. 即子查询依赖于外层查询的结果.DERIVED：被驱动的SELECT子查询（子查询位于FROM子句）MATERIALIZED：被物化的子查询UNCACHEABLE SUBQUERY：对于外层的主表，子查询不可被物化，每次都需要计算（耗时操作）UNCACHEABLE UNION：UNION操作中，内层的不可被物化的子查询（类似于UNCACHEABLE SUBQUERY）</code></pre><h3 id="table"><a href="#table" class="headerlink" title="table"></a>table</h3><p>本次sql使用的表</p><pre><code>1.如果查询使用了别名,那么这里显示的是别名2.如果不涉及对数据表的操作，那么这显示为null。3.如果显示为尖括号括起来的&lt;derived N&gt;就表示这个是临时表，后边的N就是执行计划中的id,表示结果来自于这个查询产生。4.如果是尖括号括起来的&lt;union M,N&gt;，与&lt;derived N&gt;类似,也是一个临时表，表示这个结果来自于union查询的id为M,N的结果集。</code></pre><h3 id="type"><a href="#type" class="headerlink" title="type"></a>type</h3><p>提供了判断查询是否高效的重要依据. 通过此字段, 我们判断此次查询是 全表扫描 还是 索引扫描</p><p>通常来说, 不同的 type 类型的性能关系如下:</p><p>system &gt; const &gt; eq_ref &gt; ref &gt; fulltext &gt; ref_or_null &gt; unique_subquery &gt; index_subquery &gt; range &gt; index_merge &gt; index &gt; ALL</p><p>ALL 类型因为是全表扫描, 因此在相同的查询条件下, 它是速度最慢的.<br>而 index 类型的查询虽然不是全表扫描, 但是它扫描了所有的索引, 因此比 ALL 类型的稍快.<br>后面的几种类型都是利用了索引来查询数据, 因此可以过滤部分或大部分数据, 因此查询效率就比较高了.</p><p>除了all之外，其他的type都可以使用到索引，<br>除了index_merge之外，其他的type只可以用到一个索引</p><p>常用的值有:</p><pre><code>const: 针对主键或唯一索引的等值查询扫描, 最多只返回一行数据. const 查询速度非常快, 因为它仅仅读取一次即可.使用唯一索引或者主键，返回记录一定是1行记录的等值where条件时，通常type是const。因为仅有一行，在这行的列值可被优化器认为是常数.onst表很快，因为它们只读取一次！其他数据库也叫做唯一索引扫描        system: 表中只有一条数据. 这个类型是特殊的 const 类型.        表中只有一行数据或者是空表，且只能用于myisam和memory表。        如果是Innodb引擎表，type列在这个情况通常都是all或者indexeq_ref: 此类型通常出现在多表的 join 查询, 表示对于前表的每一个结果, 都只能匹配到后表的一行结果. 并且查询的比较操作通常是 =, 查询效率较高出现在要连接多个表的查询计划中，驱动表只返回一行数据，且这行数据是第二个表的主键或者唯一索引，且必须为not null，唯一索引和主键是多列时，只有所有的列都用作比较时才会出现eq_ref。ref: 此类型通常出现在多表的 join 查询, 针对于非唯一或非主键索引, 或者是使用了 最左前缀 规则索引的查询. 不像eq_ref那样要求连接顺序,也没有主键和唯一索引的要求,只要使用相等条件检索时就可能出现。常见与辅助索引的等值查找。或者多列主键、唯一索引中，使用第一个列之外的列作为等值查找也会出现。总之，返回数据不唯一的等值查找就可能出现。   ref可以用于使用=或&lt;=&gt;操作符的带索引的列。fulltext全文索引的优先级很高,若全文索引和普通索引同时存在时,mysql不管代价，优先选择使用全文索引ref_or_null该联接类型如同ref，但是添加了MySQL可以专门搜索包含NULL值的行。在解决子查询中经常使用该联接类型的优化。实际用的不多。5.7版本貌似已经废弃了,unique_subquery该类型替换了下面形式的IN子查询的ref：value IN (SELECT primary_key FROM single_table WHERE some_expr)子查询返回不重复值唯一值.unique_subquery是一个索引查找函数，可以完全替换子查询，效率更高。index_subquery该联接类型类似于unique_subquery。可以替换IN子查询，但只适合下列形式的子查询中的非唯一索引：value IN (SELECT key_column FROM single_table WHERE some_expr)range: 表示使用索引范围查询, 通过索引字段范围获取表中部分数据记录. 这个类型通常出现在 =, &lt;&gt;, &gt;, &gt;=, &lt;, &lt;=, IS NULL, &lt;=&gt;, BETWEEN, IN() 操作中.当 type 是 range 时, 那么 EXPLAIN 输出的 ref 字段为 NULL, 并且 key_len 字段是此次查询中使用到的索引的最长的那个index_merge该联接类型表示使用了索引合并优化方法。表示查询使用了两个以上的索引,最后取交集或者并集,常见and,or的条件使用了不同的索引。官方排序这个在ref_or_null之后，但是实际上由于要读取所有索引，性能可能大部分时间都不如rangeindex: 表示全索引扫描(full index scan), 和 ALL 类型类似, 只不过 ALL 类型是全表扫描, 而 index 类型则仅仅扫描所有的索引, 而不扫描数据.index 类型通常出现在: 所要查询的数据直接在索引树中就可以获取到, 而不需要扫描数据. 当是这种情况时, Extra 字段 会显示 Using index通常比ALL快,因为索引文件通常比数据文件小。可以使用索引排序或者分组的查询以及覆盖索引查询。ALL: 表示全表扫描, 这个类型的查询是性能最差的查询之一. 通常来说, 我们的查询不应该出现 ALL 类型的查询, 因为这样的查询在数据量大的情况下, 对数据库的性能是巨大的灾难. 如一个查询是 ALL 类型查询, 那么一般来说可以对相应的字段添加索引来避免.在全表扫描时, possible_keys 和 key 字段都是 NULL, 表示没有使用到索引, 并且 rows 十分巨大, 因此整个查询效率是十分低下的.全表扫描数据文件，然后再在server层进行过滤返回符合要求的记录。需要避免的类型,效率最低。可以根据查询条件新增或者调整索引。</code></pre><h3 id="possible-keys"><a href="#possible-keys" class="headerlink" title="possible_keys"></a>possible_keys</h3><p>表示 MySQL 在查询时, 能够使用到的索引. 注意, 即使有些索引在 possible_keys 中出现, 但是并不表示此索引会真正地被 MySQL 使用到. MySQL 在查询时具体使用了哪些索引, 由 key 字段决定.</p><pre><code>如果该列是NULL，则没有相关的索引。在这种情况下，可以通过检查WHERE子句看是否它引用某些列或适合索引的列来提高你的查询性能。</code></pre><h3 id="key"><a href="#key" class="headerlink" title="key"></a>key</h3><p>此字段是 MySQL 在当前查询时所真正使用到的索引.</p><pre><code>select_type为index_merge时，这里可能出现两个以上的索引。如果没有选择索引，键是NULL。要想强制MySQL使用或忽视possible_keys列中的索引,在查询中使用FORCE INDEX、USE INDEX或者IGNORE INDEX。</code></pre><h3 id="key-len"><a href="#key-len" class="headerlink" title="key_len"></a>key_len</h3><p>表示查询优化器使用了索引的字节数. 这个字段可以评估组合索引是否完全被使用, 或只有最左部分字段被使用到.<br>key_len 的计算规则如下:</p><pre><code>字符串    char(n): n 字节长度    varchar(n): 如果是 utf8 编码, 则是 3 n + 2字节; 如果是 utf8mb4 编码, 则是 4 n + 2 字节.数值类型:    TINYINT: 1字节    SMALLINT: 2字节    MEDIUMINT: 3字节    INT: 4字节    BIGINT: 8字节时间类型    DATE: 3字节    TIMESTAMP: 4字节    DATETIME: 8字节</code></pre><p>字段属性: NULL 属性 占用一个字节. 如果一个字段是 NOT NULL 的, 则没有此属性.</p><h3 id="ref"><a href="#ref" class="headerlink" title="ref"></a>ref</h3><p>   如果是使用的常数等值查询,这里会显示const<br>   如果是连接查询,被驱动表的执行计划这里会显示驱动表的关联字段<br>   如果是条件使用了表达式或者函数，或者条件列发生了内部隐式转换，这里可能显示为func</p><h3 id="rows"><a href="#rows" class="headerlink" title="rows"></a>rows</h3><p>  rows 也是一个重要的字段. MySQL 查询优化器根据统计信息, 估算 SQL 要查找到结果集需要扫描读取的数据行数.<br>  这个值非常直观显示 SQL 的效率好坏, 原则上 rows 越少越好</p><h3 id="Extra"><a href="#Extra" class="headerlink" title="Extra"></a>Extra</h3><p>   EXplain 中的很多额外的信息会在 Extra 字段显示,包含有关MySQL如何解析查询的其他信息。<br>   此字段能够给出让我们深入理解执行计划进一步的细节信息，比如是否使用ICP，MRR等<br>   常见的有以下几种内容:</p><pre><code>Using filesort排序时无法使用到索引，常见于order by和group by语句中,此时mysql会根据联接类型浏览所有符合条件的记录，并保存排序关键字和行指针，然后排序关键字并按顺序检索行。出现这个,查询就需要优化了,MYSQL需要进行额外的步骤来对返回的行排序。它根据连接类型以及存储排序键值和匹配条件的全部行的行指针来排序全部行.这并不代表着真的使用了文件排序！当 Extra 中有 Using filesort 时, 表示 MySQL 需额外的排序操作, 不能通过索引顺序达到排序效果. 一般有 Using filesort, 都建议优化去掉, 因为这样的查询 CPU 资源消耗大.Using index查询无需回表，直接通过索引就可以获取查询的数据,不用扫描表数据文件,即覆盖索引！Using temporary表示使用了临时表存储中间结果。临时表可以是内存临时表和磁盘临时表，执行计划中看不出来，需要查看status变量，used_tmp_table，used_tmp_disk_table才能看出来。发生这种情况一般都是需要进行优化的-般出现于排序, 分组和多表 join 的情况, 查询效率不高, 建议优化.Using where表示查询返回的记录并不是所有的都满足查询条件,需要在server层进行过滤。查询条件中分为限制条件和检查条件，5.6之前，存储引擎只能根据限制条件扫描数据并返回，然后server层根据检查条件进行过滤再返回真正符合查询的数据。5.6.x之后支持ICP特性，可以把检查条件也下推到存储引擎层,不符合检查条件和限制条件的数据，直接不读取,这样就大大减少了存储引擎扫描的记录数量。extra列显示using index conditionUsing sort_union(...)/Using union(...)/Using intersect(...)using intersect：表示使用and多个索引查询时,从处理结果获取交集using union：表示使用or多个索引查询时,从处理结果获取并集using sort_union和using sort_intersection：与前面两个对应的类似，只是他们是出现在用and和or查询信息量大时,先查询主键,然后进行排序合并后,才能读取记录并返回。using intersect：表示使用and多个索引查询时,从处理结果获取交集using union：表示使用or多个索引查询时,从处理结果获取并集using sort_union和using sort_intersection：与前面两个对应的类似，只是他们是出现在用and和or查询信息量大时,先查询主键,然后进行排序合并后,才能读取记录并返回。Using index for group-by表明可以在索引中找到分组所需的所有数据，不需要查询实际的表。 注意,这里是非主键！using join buffer（block nested loop），using join buffer（batched key accss）5.6.x之后的版本优化关联查询的BNL，BKA特性。主要是减少内表的循环数量以及比较顺序地扫描查询。firstmatch(tb_name)5.6.x开始引入的优化子查询的新特性之一,常见于where字句含有in()类型的子查询。如果内表的数据量比较大，就可能出现这个loosescan(m..n)5.6.x之后引入的优化子查询的新特性之一,在in()类型的子查询中，子查询返回的可能有重复记录时，就可能出现这个impossible where:where子句的值总是false，不能用来获取任何元组select tables optimized away：在没有group by子句的情况下，基于索引优化Min、max操作或者对于MyISAM存储引擎优化count（*），不必等到执行阶段再进行计算，查询执行计划生成的阶段即完成优化。distinct：优化distinct操作，在找到第一匹配的元组后即停止找同样值的动作。</code></pre><p>###<br>版本5.7以前，该项是解释分区显示的选项，5.7以后成为了默认选项。该列显示的为分区表命中的分区情况。非分区表该字段为空（null）。</p><h3 id="filtered"><a href="#filtered" class="headerlink" title="filtered"></a>filtered</h3><pre><code>使用explain extended时会出现这个列。5.7之后的版本默认就有这个字段。不需要使用explain extended了。这个字段表示存储引擎返回的数据在server层过滤后，剩下多少满足查询的记录数量的比例,注意是百分比，不是具体记录数。</code></pre><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://blog.csdn.net/bingoxubin/article/details/78720976" target="_blank" rel="noopener">https://blog.csdn.net/bingoxubin/article/details/78720976</a></p><p><a href="https://blog.csdn.net/bingoxubin/article/details/78720976" target="_blank" rel="noopener">https://blog.csdn.net/bingoxubin/article/details/78720976</a></p><p><a href="https://blog.csdn.net/itfootball/article/details/44876517" target="_blank" rel="noopener">关闭重启jenkins</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;explain是mysql提供的一个优化sql的命令,在5.6以及以后的版本中,&lt;br&gt;除select,如insert,update和delete均可以使用explain查看执行计划，&lt;br&gt;从而知道mysql是如何处理sql语句，分析查询语句或者表结构的性能瓶颈,&lt;br&gt;本次使用的mysql 版本为&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;@@version
+5.6.38
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;但是为与5.6之后版本关联起来，所以部分内容可能还会含有其他版本的内容&lt;/p&gt;
+&lt;h1 id=&quot;使用方式&quot;&gt;&lt;a href=&quot;#使用方式&quot; class=&quot;headerlink&quot; title=&quot;使用方式&quot;&gt;&lt;/a&gt;使用方式&lt;/h1&gt;&lt;p&gt;在sql语句前面增加 explain 即可,5.6.x版本显示部分字段需要添加部分关键字&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;explain SELECT * FROM TABLE_NAME
+
+explain extended SELECT * FROM TABLE_NAME
+&lt;/code&gt;&lt;/pre&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="blog.virualyz.com/categories/mysql/"/>
+    
+    
+      <category term="explain" scheme="blog.virualyz.com/tags/explain/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mac版DBeaver查询出来的日期错误</title>
+    <link href="blog.virualyz.com/2019/03/10/2019%E5%B9%B403%E6%9C%8810%E6%97%A515:26:21_mac%E7%89%88DBeaver%E6%9F%A5%E8%AF%A2%E5%87%BA%E6%9D%A5%E7%9A%84%E6%97%A5%E6%9C%9F%E9%94%99%E8%AF%AF/"/>
+    <id>blog.virualyz.com/2019/03/10/2019年03月10日15:26:21_mac版DBeaver查询出来的日期错误/</id>
+    <published>2019-03-10T04:00:00.000Z</published>
+    <updated>2019-03-10T07:50:51.876Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>通过DBeaver查询出来的日期发现比正常时间多,明明是今天的日期，但是sql查询数据库出来的数据确是明天<br>因此对于使用有很大的影响</p><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要解决mac中DBeaver中查询数据错误的问题解决</p> <a id="more"></a><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p> 1:在数据库连接上点击出图示(一般为右键)</p><p> <img src="/10/2019年03月10日15:26:21_mac版DBeaver查询出来的日期错误/1552199583202.jpg" alt="图片"></p><p> 2:在其中修改</p><p> <img src="/10/2019年03月10日15:26:21_mac版DBeaver查询出来的日期错误/WX20190310-144340@2x.png" alt="图片"></p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p> [<a href="https://blog.csdn.net/qq_40763761/article/details/79729147]" target="_blank" rel="noopener">https://blog.csdn.net/qq_40763761/article/details/79729147]</a>(<a href="https://blog.csdn.net/qq_40763761/article/details/79729147" target="_blank" rel="noopener">https://blog.csdn.net/qq_40763761/article/details/79729147</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;原因-cause&quot;&gt;&lt;a href=&quot;#原因-cause&quot; class=&quot;headerlink&quot; title=&quot;原因(cause)&quot;&gt;&lt;/a&gt;原因(cause)&lt;/h1&gt;&lt;p&gt;通过DBeaver查询出来的日期发现比正常时间多,明明是今天的日期，但是sql查询数据库出来的数据确是明天&lt;br&gt;因此对于使用有很大的影响&lt;/p&gt;
+&lt;h1 id=&quot;本文介绍&quot;&gt;&lt;a href=&quot;#本文介绍&quot; class=&quot;headerlink&quot; title=&quot;本文介绍&quot;&gt;&lt;/a&gt;本文介绍&lt;/h1&gt;&lt;p&gt; 本文主要解决mac中DBeaver中查询数据错误的问题解决&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="MAC" scheme="blog.virualyz.com/categories/MAC/"/>
+    
+    
+      <category term="DBeaver" scheme="blog.virualyz.com/tags/DBeaver/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>23种设计模式(一)工厂方法模式</title>
+    <link href="blog.virualyz.com/2019/03/03/2019%E5%B9%B403%E6%9C%8803%E6%97%A522:05:02-23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%B8%80)%E5%B7%A5%E5%8E%82%E6%96%B9%E6%B3%95%E6%A8%A1%E5%BC%8F/"/>
+    <id>blog.virualyz.com/2019/03/03/2019年03月03日22:05:02-23种设计模式(一)工厂方法模式/</id>
+    <published>2019-03-03T14:05:02.000Z</published>
+    <updated>2019-03-03T14:24:58.232Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>学习工厂模式<br><a id="more"></a></p><h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>工厂方法模式：也叫工厂模式，属于类创建型模式，工厂父类（接口）负责定义产品对象的公共接口，而子类工厂则负责创建具体的产品对象。</p><p>目的：是为了把产品的实例化操作延迟到子类工厂中完成，通过工厂子类来决定究竟应该实例化哪一个产品具体对象。</p><p>工厂方法模式包含四个部分：</p><p>1.抽象产品：产品对象同一的基类，或者是同一的接口。</p><p>2.具体的产品：各个不同的实例对象类</p><p>3.抽象工厂：所有的子类工厂类的基类，或是同一的接口</p><p>4.具体的工厂子类：负责每个不同的产品对象的实际创建</p><h1 id="代码介绍"><a href="#代码介绍" class="headerlink" title="代码介绍"></a>代码介绍</h1><p>具体的实例代码：</p><p>1.抽象的产品类：定义car  交通工具类下：</p><pre><code>package factory.simple;/** * 抽象产品角色 交通工具接口 *  * @author lilin *  */public interface Car {    /**     * 上班函数     */    void gotowork();}</code></pre><p>2.定义实际的产品类，总共定义两个，bike 和bus 分别表示不同的交通工具类</p><pre><code>package factory.simple;/** * 具体产品角色，自行车 *  * @author lilin *  */public class Bike implements Car {    @Override    public void gotowork() {        System.out.println(&quot;骑自行车去上班！&quot;);    }}package factory.simple;/** * @author lilin *  */public class Bus implements Car {    @Override    public void gotowork() {        System.out.println(&quot;坐公交车去上班！&quot;);    }}</code></pre><p>3.抽象的工厂接口定义如下：</p><pre><code>/** *  */package factory.factory;import factory.simple.Car;/** * @author lilin *  */public interface ICarFactory {    /**     * 获取交通工具     *      * @return     */    Car getCar();}</code></pre><p>4.具体的工厂子类，分别为每个具体的产品类创建不同的工厂子类：</p><pre><code>/** *  */package factory.factory;import factory.simple.Bike;import factory.simple.Car;/** * @author lilin *  */public class BikeFactory implements ICarFactory {    @Override    public Car getCar() {        return new Bike();    }}/** *  */package factory.factory;import factory.simple.Bus;import factory.simple.Car;/** * @author lilin *  */public class BusFactory implements ICarFactory {    @Override    public Car getCar() {        return new Bus();    }}</code></pre><p>最后，使用简单的测试类，来验证下 不同的工厂能够产生不同的产品对象：测试类如下：</p><pre><code>/** *  */package factory.factory;import org.testng.annotations.Test;import factory.simple.Car;/** * @author lilin *  */public class TestFactory {    @Test    public void test() {        ICarFactory factory = null;        // bike        factory = new BikeFactory();        Car bike = factory.getCar();        bike.gotowork();        // bus        factory = new BusFactory();        Car bus = factory.getCar();        bus.gotowork();    }}</code></pre><p>打印结果如下：</p><p>骑自行车去上班！<br>坐公交车去上班！</p><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>工厂模式，可以理解为：有了很多个工厂方法，自己需要哪一个产品，就调用当前产品的工厂方法，获取相应的具体实例。</p><h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://www.cnblogs.com/lilin0719/p/5309397.html" target="_blank" rel="noopener">https://www.cnblogs.com/lilin0719/p/5309397.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;本文介绍&quot;&gt;&lt;a href=&quot;#本文介绍&quot; class=&quot;headerlink&quot; title=&quot;本文介绍&quot;&gt;&lt;/a&gt;本文介绍&lt;/h1&gt;&lt;p&gt;学习工厂模式&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="blog.virualyz.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mac端口占用问题</title>
+    <link href="blog.virualyz.com/2019/02/28/2019%E5%B9%B402%E6%9C%8828%E6%97%A521:54:55-mac%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/"/>
+    <id>blog.virualyz.com/2019/02/28/2019年02月28日21:54:55-mac端口占用问题/</id>
+    <published>2019-02-28T13:56:04.000Z</published>
+    <updated>2019-03-10T06:44:38.653Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>第一次使用mac,关闭idea时忘记关闭tomcat,这时再次启动tomcat会有提示:</p><pre><code>错误: 代理抛出异常错误: java.rmi.server.ExportException: Port already in use: 1099; nested exception is: java.net.BindException: Address already in use: JVM_Bind</code></pre><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要解决mac中端口占用问题</p><a id="more"></a><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>端口xxxx被占用了</p><p>1)打开终端输入:</p><p>2)lsof -i tcp:xxxx;</p><p>找到被占用的数字，我的是<em>**</em>;</p><p>3)kill <em>**</em>;</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/qq_40763761/article/details/79729147" target="_blank" rel="noopener">https://blog.csdn.net/qq_40763761/article/details/79729147</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;原因-cause&quot;&gt;&lt;a href=&quot;#原因-cause&quot; class=&quot;headerlink&quot; title=&quot;原因(cause)&quot;&gt;&lt;/a&gt;原因(cause)&lt;/h1&gt;&lt;p&gt;第一次使用mac,关闭idea时忘记关闭tomcat,这时再次启动tomcat会有提示:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;错误: 代理抛出异常错误: java.rmi.server.ExportException: Port already in use: 1099; nested exception is: 
+
+java.net.BindException: Address already in use: JVM_Bind
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;本文介绍&quot;&gt;&lt;a href=&quot;#本文介绍&quot; class=&quot;headerlink&quot; title=&quot;本文介绍&quot;&gt;&lt;/a&gt;本文介绍&lt;/h1&gt;&lt;p&gt; 本文主要解决mac中端口占用问题&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="system" scheme="blog.virualyz.com/categories/system/"/>
+    
+    
+      <category term="system" scheme="blog.virualyz.com/tags/system/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>node使用过程中碰见的问题</title>
+    <link href="blog.virualyz.com/2019/02/28/2019%E5%B9%B402%E6%9C%8828%E6%97%A521:37:38-node%E4%BD%BF%E7%94%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%A2%B0%E8%A7%81%E7%9A%84%E9%97%AE%E9%A2%98/"/>
+    <id>blog.virualyz.com/2019/02/28/2019年02月28日21:37:38-node使用过程中碰见的问题/</id>
+    <published>2019-02-28T13:39:02.000Z</published>
+    <updated>2019-02-28T13:46:07.952Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>在使用过程中总会碰见一些hexo的问题,这些问题都是一些微小并且繁杂的问题，记录下来希望对其他朋友有所帮助</p><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要记录本人在使用hexo中碰见的有关hexo的问题</p><a id="more"></a><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="在使用新的next主题重新创建静态文件之后-部分文件顺序错乱"><a href="#在使用新的next主题重新创建静态文件之后-部分文件顺序错乱" class="headerlink" title="在使用新的next主题重新创建静态文件之后,部分文件顺序错乱"></a>在使用新的next主题重新创建静态文件之后,部分文件顺序错乱</h3><pre><code>date: 2015-01-19 00:34:14</code></pre><p>就是在文章的 md 文档前面加 date: ，这个时间的格式可以在你 blog 目录下的_config.yml 中通过 date_format: YYYY-MM-DD HH:mm:ss 来指定。</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p>[tps://<a href="http://www.jianshu.com/p/04d31f6c22bd]" target="_blank" rel="noopener">www.jianshu.com/p/04d31f6c22bd]</a>(<a href="https://www.v2ex.com/t/231549）" target="_blank" rel="noopener">https://www.v2ex.com/t/231549）</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;原因-cause&quot;&gt;&lt;a href=&quot;#原因-cause&quot; class=&quot;headerlink&quot; title=&quot;原因(cause)&quot;&gt;&lt;/a&gt;原因(cause)&lt;/h1&gt;&lt;p&gt;在使用过程中总会碰见一些hexo的问题,这些问题都是一些微小并且繁杂的问题，记录下来希望对其他朋友有所帮助&lt;/p&gt;
+&lt;h1 id=&quot;本文介绍&quot;&gt;&lt;a href=&quot;#本文介绍&quot; class=&quot;headerlink&quot; title=&quot;本文介绍&quot;&gt;&lt;/a&gt;本文介绍&lt;/h1&gt;&lt;p&gt; 本文主要记录本人在使用hexo中碰见的有关hexo的问题&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="hexo" scheme="blog.virualyz.com/categories/hexo/"/>
+    
+    
+      <category term="hexo" scheme="blog.virualyz.com/tags/hexo/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mac使用nvm管理node以及npm</title>
+    <link href="blog.virualyz.com/2019/02/28/2019%E5%B9%B402%E6%9C%8828%E6%97%A521:30:37-nvm%E7%AE%A1%E7%90%86node/"/>
+    <id>blog.virualyz.com/2019/02/28/2019年02月28日21:30:37-nvm管理node/</id>
+    <published>2019-02-28T00:00:00.000Z</published>
+    <updated>2019-02-28T13:32:18.690Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>好久没动笔，我想启动我的hexo，并写上一些分享，我通过下载gitlab上的私有仓库，然后转入github中，下载下来并安装好node.js之后，我执行<br>    npm install -g hexo-cli<br>希望可以启动我的hexo，但此时却抛出个异常</p><pre><code>The operation was rejected by your operating system</code></pre><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要解决mac中node的各个版本会有差异，新旧系统兼容，第三方组件与node版本导致的全局版本混乱等等，所以通过nvm管理起来,网上查询了下资料,有人说可以不卸载直接安装,为了保险起见，我先卸载了，对于不卸载的朋友，请斟酌后再试。</p><a id="more"></a><h2 id="nvm介绍"><a href="#nvm介绍" class="headerlink" title="nvm介绍"></a>nvm介绍</h2><p>nvm是node版本管理工具，主要特点：</p><p>1.可安装多版本的node。</p><p>2.灵活切换当前的node版本。</p><p>3.以沙箱方式全局安装第三方组件到对应版本的node中。</p><p>4.通过.vnmrc文件，方便灵活地指定各应用系统所需的node版本进行运行。</p><p>直接支持linux，OS系统。windows系统需要使用nvm-windows：<br><a href="https://github.com/coreybutler/nvm-windows/releases" target="_blank" rel="noopener">https://github.com/coreybutler/nvm-windows/releases</a></p><p>通过nvm管理node，如果之前通过安装包安装推荐删除，如果不删除也不影响安装，只有在别人使用你的电脑的另外账户时会有问题。具体的注意事项可以参考：<br><a href="https://github.com/creationix/nvm" target="_blank" rel="noopener">https://github.com/creationix/nvm</a></p><h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="卸载之前的node-js"><a href="#卸载之前的node-js" class="headerlink" title="卸载之前的node.js"></a>卸载之前的node.js</h3><p>如果通过<a href="https://nodejs.org/zh-cn/" target="_blank" rel="noopener">node</a>下载的安装包进行安装，在终端输入以下命令：</p><pre><code>sudo rm -rf                 /usr/local/{bin/{node,npm},lib/node_modules/npm,lib/node,share/man/*/node.*}</code></pre><p>如果是从brew安装的, 运行brew uninstall node</p><p>如果不是则可以直接删除文件夹</p><p>sudo rm /usr/local/bin/npm<br>sudo rm/usr/local/share/man/man1/node.1<br>sudo rm /usr/local/lib/dtrace/node.d<br>sudo rm -rf ~/.npm<br>sudo rm -rf ~/.node-gyp<br>sudo rm /opt/local/bin/node<br>sudo rm /opt/local/include/node<br>sudo rm -rf /opt/local/lib/node_modules</p><h4 id="安装nvm"><a href="#安装nvm" class="headerlink" title="安装nvm"></a>安装nvm</h4><p>安装nvm可以通过两个命令</p><pre><code>curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash</code></pre><p>或者</p><pre><code>wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.8/install.sh | bash</code></pre><h4 id="查看安装"><a href="#查看安装" class="headerlink" title="查看安装"></a>查看安装</h4><p>安装完毕后输入nvm，当有一段输出并没有明显的报错时，代表安装成功。<br>博主通过命令安装后，自动在 .bash_profile 文件内添加了</p><pre><code>export NVM_DIR=&quot;$HOME/.nvm&quot;[ -s &quot;$NVM_DIR/nvm.sh&quot; ] &amp;&amp; . &quot; $NVM_DIR/nvm.sh&quot;</code></pre><p>如果你没有添加，可以手动添加<br>然后 source 一下 .bash_profile</p><pre><code>source .bash_profile</code></pre><h4 id="安装版本"><a href="#安装版本" class="headerlink" title="安装版本"></a>安装版本</h4><pre><code>nvm install stable # 安装最新稳定版 nodenvm install 10.15.1 # 安装 10.15.1 版本</code></pre><p>查看nvm版本：打开新的终端，用nvm current查看当前版本显示</p><p>删除指定版本 node：nvm uninstall v10.15.1</p><p>使用指定版本 node：nvm use v10.15.1</p><p>切换到最新版：<br>nvm use node</p><pre><code>我们给 10.15.1 这个版本号起了一个名字叫做 my-versionnvm alias my-version 10.15.1</code></pre><p>然后我们可以运行：</p><pre><code>nvm use my-version</code></pre><p>下面这个命令可以取消别名：</p><pre><code>nvm unalias my-version</code></pre><p>另外，你还可以设置 default 这个特殊别名：</p><pre><code>nvm alias default node</code></pre><p>列出已安装实例</p><pre><code>nvm ls</code></pre><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://github.com/creationix/nvm" target="_blank" rel="noopener">https://github.com/creationix/nvm</a><br><a href="https://blog.csdn.net/hahahhahahahha123456/article/details/85220526" target="_blank" rel="noopener">https://blog.csdn.net/hahahhahahahha123456/article/details/85220526</a><br><a href="https://www.jianshu.com/p/04d31f6c22bd" target="_blank" rel="noopener">https://www.jianshu.com/p/04d31f6c22bd</a><br><a href="https://www.jianshu.com/p/04d31f6c22bd" target="_blank" rel="noopener">https://www.jianshu.com/p/04d31f6c22bd</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;原因-cause&quot;&gt;&lt;a href=&quot;#原因-cause&quot; class=&quot;headerlink&quot; title=&quot;原因(cause)&quot;&gt;&lt;/a&gt;原因(cause)&lt;/h1&gt;&lt;p&gt;好久没动笔，我想启动我的hexo，并写上一些分享，我通过下载gitlab上的私有仓库，然后转入github中，下载下来并安装好node.js之后，我执行&lt;br&gt;    npm install -g hexo-cli&lt;br&gt;希望可以启动我的hexo，但此时却抛出个异常&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;The operation was rejected by your operating system
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;本文介绍&quot;&gt;&lt;a href=&quot;#本文介绍&quot; class=&quot;headerlink&quot; title=&quot;本文介绍&quot;&gt;&lt;/a&gt;本文介绍&lt;/h1&gt;&lt;p&gt; 本文主要解决mac中node的各个版本会有差异，新旧系统兼容，第三方组件与node版本导致的全局版本混乱等等，所以通过nvm管理起来,网上查询了下资料,有人说可以不卸载直接安装,为了保险起见，我先卸载了，对于不卸载的朋友，请斟酌后再试。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="mvn" scheme="blog.virualyz.com/categories/mvn/"/>
+    
+    
+      <category term="mvn" scheme="blog.virualyz.com/tags/mvn/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mac中git创建秘钥</title>
+    <link href="blog.virualyz.com/2018/10/06/201810061650-git%E5%88%9B%E5%BB%BA%E7%A7%98%E9%92%A5/"/>
+    <id>blog.virualyz.com/2018/10/06/201810061650-git创建秘钥/</id>
+    <published>2018-10-06T08:50:03.000Z</published>
+    <updated>2019-03-03T12:07:10.211Z</updated>
+    
+    <content type="html"><![CDATA[<p>#背景<br>从git上通过idea工具clone了一个项目，但是在提交代码的时候发现提示错误，错误代码大致如下</p><pre><code>git@github.com: Permission denied (publickey)</code></pre><p>找了下原因发现是没有公钥导致的，之前安装git并clone下代码之后没有进行提交，觉得没问题了，发现还是省不得操作啊。</p><p>#解决方法</p><p>通过生成一个公钥配置到git账号里面的ssh那个菜单就ok了</p><a id="more"></a><p>#具体步骤</p><p>1.通过ssh -T <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>进行测试查看有没有公钥，如果没提示就会出现和我一样的情况</p><p>2.通过命令直接生成公钥</p><pre><code>ssh-keygen -t rsa -b 2048 -C “youreamil@email.com” </code></pre><p>3.执行完之后会出，此步是让你输入自定义的文件名，这里不用管他，默认就好，直接回车进行下一步骤</p><pre><code>Generating public/private rsa key pair. Enter file in which to save the key (/home/xxx/.ssh/id_rsa):</code></pre><p>4.然后会出现如下提示，这步是让你输入一个密码，密码会在提交代码使用(这里除了下面一步，我提交代码时没使用这个密码)，不想设置就直接回车(这步我没有尝试)，如果不能默认<br>那就输入一个然后记住吧。与git密码相同好记忆</p><pre><code>Enter passphrase (empty for no passphrase): Enter same passphrase again: </code></pre><p>5.然后就创建成功了你会看到提示，还有其他一些输出，这里就不写了</p><pre><code>Your identification has been saved in /home/xxx/.ssh/id_rsa. Your public key has been saved in /home/xxx/.ssh/id_rsa.pub. </code></pre><p>6.在成功后把秘钥交给ssh-agent管理</p><pre><code>ssh-agent是一种控制用来保存公钥身份验证所使用的私钥的程序。ssh-agent是一个密钥管理器，运行ssh-agent以后，使用ssh-add将私钥交给ssh-agent保管，其他程序需要身份验证的时候可以将验证申请交给ssh-agent来完成整个认证过程。</code></pre><p>   先确认ssh-agent处于启用状态： </p><pre><code>eval “$(ssh-agent -s)”</code></pre><p>   输出类似于：</p><pre><code>Agent pid xxxxx</code></pre><p>   然后将SSH key添加到ssh-agent：</p><pre><code>ssh-add ~/.ssh/id_rsa</code></pre><p>   这时又会要你输入上面定义的密码：</p><pre><code>Enter passphrase for /home/xxx/.ssh/id_rsa: </code></pre><p>   输入，回车</p><p>7.打开秘钥所在文件/.ssh,找到默认文件id_rsa.pub</p><pre><code>open ～/.ssh  </code></pre><p>8.把文件内容复制，并添加到你邮件注册的git中，具体路径 git登陆-&gt;settings-&gt;ssh and GPG keys-&gt;new ssh key -&gt; title 随便输入，自己认识就好，key 填写之前生成的公钥-&gt;保存</p><p>9.完毕</p><p>#碰到的问题以及解决方法</p><p>1.mac中直接访达当爱你用户文件找不到/.ssh,通过命令行打开的<br>2.提交代码出现提示，找了下是host没有地址xxx所致，加进去就好了(这个错误在我这里偶尔出现)</p><pre><code>Warning: Permanently added the RSA host key for IP address &apos;xxxxxxxx&apos; to the list of known hosts.</code></pre><p>   解决：</p><pre><code>vim /etc/hosts</code></pre><p>   添加一行：xxx.xxx.xxx.xxx　　github.com</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;#背景&lt;br&gt;从git上通过idea工具clone了一个项目，但是在提交代码的时候发现提示错误，错误代码大致如下&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;git@github.com: Permission denied (publickey)
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;找了下原因发现是没有公钥导致的，之前安装git并clone下代码之后没有进行提交，觉得没问题了，发现还是省不得操作啊。&lt;/p&gt;
+&lt;p&gt;#解决方法&lt;/p&gt;
+&lt;p&gt;通过生成一个公钥配置到git账号里面的ssh那个菜单就ok了&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="git" scheme="blog.virualyz.com/categories/git/"/>
+    
+    
+      <category term="git" scheme="blog.virualyz.com/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>centOS7安装docker</title>
+    <link href="blog.virualyz.com/2018/09/24/201809241939-centOS7%E5%AE%89%E8%A3%85docker/"/>
+    <id>blog.virualyz.com/2018/09/24/201809241939-centOS7安装docker/</id>
+    <published>2018-09-24T11:40:31.000Z</published>
+    <updated>2019-02-24T07:47:44.620Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。</p><p>一个完整的Docker有以下几个部分组成：</p><ul><li>dockerClient客户端</li><li>Docker Daemon守护进程</li><li>Docker Image镜像</li><li>DockerContainer容器</li></ul><p>另:docker分为社区版CE和企业版EE。<br>社区版是免费提供给个人开发者和小型团体使用的。<br>企业版会提供额外的收费服务，比如插件等。<br>社区版按照stable和edge两种方式发布，每个季度更新stable版本，比如3月6月；每个月份更新edge版本，如1月，2月</p><h2 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h2><p>1.确认当前系统支持安装(我这里用centOS，Docker 要求 CentOS 系统的内核版本高于 3.10 )<br>2.查看是否已经安装，如果是你已经安装，可以自行确认下可否使用，也可以移除已安装<br>3.选择docker版本并安装其他支持<br>4.验证</p><a id="more"></a> <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>1.yum源:<a href="https://download.docker.com/linux/centos/docker-ce.repo(也可以选择阿里源)" target="_blank" rel="noopener">https://download.docker.com/linux/centos/docker-ce.repo(也可以选择阿里源)</a></p><p>2.想要安装的docker版本</p><h2 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h2><p>1.查看系统信息</p><pre><code>uname -r</code></pre><p>2.用root账户操作</p><pre><code>sudo su</code></pre><p>3.安装需要的软件包</p><pre><code>yum install -y yum-utils device-mapper-persistent-data lvm2</code></pre><p>4.设置yum源</p><pre><code>yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo</code></pre><p>5.可以查看仓库中所有docker版本，并选择版本安装</p><pre><code>yum list docker-ce --showduplicates | sort -r</code></pre><p>   <img src="/24/201809241939-centOS7安装docker/docker-ce版本.png" alt="docker-ce版本"></p><p>6.安装docker</p><pre><code>yum install docker-ce-17.12.0.ce</code></pre><p>7.验证安装是否成功</p><pre><code>docker version</code></pre><p>8.增加开机启动</p><pre><code>systemctl start dockersystemctl enable docker</code></pre><p>   查看</p><pre><code>systemctl status docker.service</code></pre><p>   <img src="/24/201809241939-centOS7安装docker/docker开机启动.png" alt="docker开机启动"></p><h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><p><a href="https://baike.baidu.com/item/Docker/13344470?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/Docker/13344470?fr=aladdin</a><br><a href="https://www.cnblogs.com/yufeng218/p/8370670.html" target="_blank" rel="noopener">https://www.cnblogs.com/yufeng218/p/8370670.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口。&lt;/p&gt;
+&lt;p&gt;一个完整的Docker有以下几个部分组成：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dockerClient客户端&lt;/li&gt;
+&lt;li&gt;Docker Daemon守护进程&lt;/li&gt;
+&lt;li&gt;Docker Image镜像&lt;/li&gt;
+&lt;li&gt;DockerContainer容器&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;另:docker分为社区版CE和企业版EE。&lt;br&gt;社区版是免费提供给个人开发者和小型团体使用的。&lt;br&gt;企业版会提供额外的收费服务，比如插件等。&lt;br&gt;社区版按照stable和edge两种方式发布，每个季度更新stable版本，比如3月6月；每个月份更新edge版本，如1月，2月&lt;/p&gt;
+&lt;h2 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h2&gt;&lt;p&gt;1.确认当前系统支持安装(我这里用centOS，Docker 要求 CentOS 系统的内核版本高于 3.10 )&lt;br&gt;2.查看是否已经安装，如果是你已经安装，可以自行确认下可否使用，也可以移除已安装&lt;br&gt;3.选择docker版本并安装其他支持&lt;br&gt;4.验证&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>idea创建maven项目--helloWord</title>
+    <link href="blog.virualyz.com/2018/09/09/201809091735-idea%E5%88%9B%E5%BB%BAmaven%E9%A1%B9%E7%9B%AE-helloWord/"/>
+    <id>blog.virualyz.com/2018/09/09/201809091735-idea创建maven项目-helloWord/</id>
+    <published>2018-09-09T09:36:48.000Z</published>
+    <updated>2019-02-24T07:47:44.616Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Maven项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。<br>Maven 是一个构建项目十分方便的工具，并且提供许多项目管理的高级功能</p><h1 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>1.idea</p><p>2.maven（此项可以省略）</p><h2 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h2><p>1.打开idea，在选项卡中选择file-&gt;new-&gt;Project,选择并填写相关信息，确认保存</p><p>2.配置tomcat启动<br><a id="more"></a> </p><h2 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h2><p>1.打开idea，在选项卡中选择file-&gt;new-&gt;Project</p><p>2.选择maven,选中create from archetype,在列表中找到图示选项,next<br><img src="/09/201809091735-idea创建maven项目-helloWord/idea创建maven项目选项.png" alt="idea创建maven项目选项"></p><p>3.输入groupId,artifactId<br>GroupID实际对应JAVA的包的结构，是main目录里java的目录结构。 ArtifactID就是项目的唯一的标识符，实际对应项目的名称，就是项目根目录的名称。<br><img src="/09/201809091735-idea创建maven项目-helloWord/idea创建maven项目填写.png" alt="idea创建maven项目填写"></p><p>4.这步可以直接next，这时使用的maven版本就是idea自带的，如果不想使用，可以选择，也可以自定义setting文件路径<br>，以及本地的仓库路径<br><img src="/09/201809091735-idea创建maven项目-helloWord/idea创建maven项目选择版本.png" alt="idea创建maven项目选择版本"></p><p>5.然后就是项目名以及项目路径，可以不改，直接next<br><img src="/09/201809091735-idea创建maven项目-helloWord/idea创建maven项目项目名以及路径.png" alt="idea创建maven项目项目名以及路径"></p><p>项目创建完，我们来尝试启动它看看他的效果</p><p>6.然后进入配置，一种通过选项卡点击run-&gt;Edit Configurations,另一种选择<br>idea右上角的图示位置点击，然后选择Edit Configurations<br><img src="/09/201809091735-idea创建maven项目-helloWord/idea配置tomcat启动EditConfigurations.png" alt="idea配置tomcat启动EditConfigurations"></p><p>7.在Edit Configurations按照图示顺序选择<br><img src="/09/201809091735-idea创建maven项目-helloWord/idea配置tomcat启动.png" alt="idea配置tomcat启动"></p><p>8.选择Artifact<br>Artifact 是maven中的一个概念，表示某个module要如何打包。例如war exploded、war、jar、ear等等这种打包形式；<br>一个module有了 Artifacts 就可以部署到应用服务器中了！</p><p>至于带不带的区别，explode 在这里你可以理解为展开，不压缩的意思。也就是war、jar等产出物没压缩前的目录结构。<br>建议在开发的时候使用这种模式，便于修改了文件的效果立刻显现出来。<br><img src="/09/201809091735-idea创建maven项目-helloWord/idea配置tomcat启动选择Artifact.png" alt="idea配置tomcat启动选择Artifact"><br><img src="/09/201809091735-idea创建maven项目-helloWord/idea配置tomcat启动选择Artifact文件.png" alt="idea配置tomcat启动选择Artifact文件"></p><p>9.最后启动你的项目，你就会看到这样的效果啦<br><img src="/09/201809091735-idea创建maven项目-helloWord/idea配置tomcat启动成功页面.png" alt="idea配置tomcat启动成功页面"></p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/qq_27093465/article/details/76091287" target="_blank" rel="noopener">https://blog.csdn.net/qq_27093465/article/details/76091287</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;Maven项目对象模型(POM)，可以通过一小段描述信息来管理项目的构建，报告和文档的软件项目管理工具。&lt;br&gt;Maven 是一个构建项目十分方便的工具，并且提供许多项目管理的高级功能&lt;/p&gt;
+&lt;h1 id=&quot;执行&quot;&gt;&lt;a href=&quot;#执行&quot; class=&quot;headerlink&quot; title=&quot;执行&quot;&gt;&lt;/a&gt;执行&lt;/h1&gt;&lt;h2 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h2&gt;&lt;p&gt;1.idea&lt;/p&gt;
+&lt;p&gt;2.maven（此项可以省略）&lt;/p&gt;
+&lt;h2 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h2&gt;&lt;p&gt;1.打开idea，在选项卡中选择file-&amp;gt;new-&amp;gt;Project,选择并填写相关信息，确认保存&lt;/p&gt;
+&lt;p&gt;2.配置tomcat启动&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="maven" scheme="blog.virualyz.com/categories/maven/"/>
+    
+    
+      <category term="maven" scheme="blog.virualyz.com/tags/maven/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>jenkins在windows下的自动集成</title>
+    <link href="blog.virualyz.com/2018/09/07/201809091716-jenkins%E5%9C%A8windows%E4%B8%8B%E7%9A%84%E8%87%AA%E5%8A%A8%E9%9B%86%E6%88%90/"/>
+    <id>blog.virualyz.com/2018/09/07/201809091716-jenkins在windows下的自动集成/</id>
+    <published>2018-09-06T16:00:00.000Z</published>
+    <updated>2019-02-24T07:47:44.610Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>jenkins优秀的自动集成解决繁琐的项目部署问题，对于提高开发效率有显著的帮助</p><h1 id="执行"><a href="#执行" class="headerlink" title="执行"></a>执行</h1><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p>1.需要自动集成的项目test（博主这里创建了一个简单的maven项目）</p><p>2.tomcat配置</p><h2 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h2><p>1.创建或准备一个项目（博主这里名为test的maven项目）</p><p>2.启动的jenkins与安装的插件</p><p>3.tomcat的manager用户配置信息（博主这里admin）</p><a id="more"></a> <h2 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h2><p>1.准备自动集成的项目，如果你自己手上有项目，这步可以略过，不会影响下面。<br>如果您没有，可以像我一样创建一个项目<a href="http://focusvirtual.club/2018/09/09/201809091735-idea%E5%88%9B%E5%BB%BAmaven%E9%A1%B9%E7%9B%AE-helloWord/" target="_blank" rel="noopener">idea创建maven项目-helloWord</a>,<br>最终您会有个项目<br><img src="/07/201809091716-jenkins在windows下的自动集成/jenkins集成项目.png" alt="jenkins集成项目"></p><p>2.配置tomcat用户访问权限<br>到tomcat的安装目录下的conf目录下找 tomcat-users.xml文件，将下面的代码copy到<tomcat-users>标签内，用户名密码可以自己设置</tomcat-users></p><pre><code>&lt;role rolename=&quot;manager-gui&quot;/&gt;&lt;role rolename=&quot;manager-script&quot;/&gt;&lt;role rolename=&quot;manager-jmx&quot;/&gt;&lt;role rolename=&quot;manager-status&quot;/&gt;&lt;user password=&quot;admin&quot; roles=&quot;manager-gui,manager-script,manager-jmx,manager-status&quot; username=&quot;admin&quot;/&gt;</code></pre><p>然后启动tomcat，可以到conf同级的bin目录点击startup.bat运行</p><p>注意:这里如果你的tomcat与jenkins的端口号有冲突的话,修改jenkins、tomcat的端口号任一即可</p><p>3.登录jenkins,并在系统管理-&gt;插件管理-&gt;已安装中查找插件–Deploy to container Plugin，<br>如果能找到代表您已经安装，如果没有请在可选插件中查找并安装<br><img src="/07/201809091716-jenkins在windows下的自动集成/jenkins插件_Deploy-to-container-Plugin.png" alt="jenkins插件_Deploy-to-container-Plugin"></p><p>4.在jenkins主界面点击新建任务，选择如图,然后输入名称这里起名test，点击下方的确定<br><img src="/07/201809091716-jenkins在windows下的自动集成/jenkins创建任务.png" alt="jenkins创建任务"></p><p><img src="/07/201809091716-jenkins在windows下的自动集成/jenkins构建自由风格软件.png" alt="jenkins构建自由风格软件"></p><p>5.然后进入配置页面，描述可以不填写，选择丢弃旧的构建，剩下保持构建天数以及保持构建的最大个数均可按照自己的喜好填写</p><p>保持构建的天数 就是根据你所填写的天数来保存构建记录</p><p>保持构建的最大个数  就是保存填写条数的构建记录<br>jenkins创建任务配置1.png<br><img src="/07/201809091716-jenkins在windows下的自动集成/jenkins创建任务配置1.png" alt="jenkins创建任务配置1"></p><p>6.在源码管理中，选择无,其次在最开始的配置中，打开高级，可以看到如下更多的设置，其中-&gt;使用自定义的工作空间这个配置我们暂时不用，<br>name这时候，我们的默认工作空间在哪里呢，如下<br><img src="/07/201809091716-jenkins在windows下的自动集成/jenkins创建任务配置2.png" alt="jenkins创建任务配置2"><br>当然，你使用它也没问题，那你需要在配置-&gt;构建-&gt;批量执行windows命令中，做相应的修改</p><p>7.构建触发器，构建环境暂时我们不配置</p><p>8.在构建中(打包)，点击增加构建步骤-&gt;执行windows批处理命令（1），即会增加一个执行块（2），再出先得执行块里输入相应的命令<br>这里是windows命令<br><img src="/07/201809091716-jenkins在windows下的自动集成/jenkins创建任务配置3.png" alt="jenkins创建任务配置3"></p><p>9.在构建后中(发布)，我们，先点击增加构建后操作步骤，选择-&gt;Deploy war/ear to a container,在出现的配置框填写相应的信息，<br>在增加containers中点击Add Container,选择tomcat版本（博主这里8.x），点击Add,在弹出页中填写2步骤配置的用户名，密码确认即可，然后选择<br><img src="/07/201809091716-jenkins在windows下的自动集成/jenkins创建任务配置4.png" alt="jenkins创建任务配置4"><br><img src="/07/201809091716-jenkins在windows下的自动集成/jenkins创建任务配置5.png" alt="jenkins创建任务配置5"><br>10.点击应用-&gt;保存。至此，配置已经完成，返回创建任务的主页面</p><p>11.点击立即构建，构建历史就会出现构建的进度，构建完成记录前图标蓝色，构建失败红色。可以在页面访问<a href="http://localhost/test,也可以在webapp" target="_blank" rel="noopener">http://localhost/test,也可以在webapp</a><br>中查看项目war是否已经构建并解压</p><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><p>1.需要先启动tomcat，不启动直接在jenkins执行构建任务则会失败。</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;jenkins优秀的自动集成解决繁琐的项目部署问题，对于提高开发效率有显著的帮助&lt;/p&gt;
+&lt;h1 id=&quot;执行&quot;&gt;&lt;a href=&quot;#执行&quot; class=&quot;headerlink&quot; title=&quot;执行&quot;&gt;&lt;/a&gt;执行&lt;/h1&gt;&lt;h2 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h2&gt;&lt;p&gt;1.需要自动集成的项目test（博主这里创建了一个简单的maven项目）&lt;/p&gt;
+&lt;p&gt;2.tomcat配置&lt;/p&gt;
+&lt;h2 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h2&gt;&lt;p&gt;1.创建或准备一个项目（博主这里名为test的maven项目）&lt;/p&gt;
+&lt;p&gt;2.启动的jenkins与安装的插件&lt;/p&gt;
+&lt;p&gt;3.tomcat的manager用户配置信息（博主这里admin）&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="数据集成" scheme="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/"/>
+    
+    
+      <category term="jenkins" scheme="blog.virualyz.com/tags/jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>jenkins介绍-安装</title>
+    <link href="blog.virualyz.com/2018/09/04/201809042330-jenkins%E4%BB%8B%E7%BB%8D-%E5%AE%89%E8%A3%85/"/>
+    <id>blog.virualyz.com/2018/09/04/201809042330-jenkins介绍-安装/</id>
+    <published>2018-09-03T16:00:00.000Z</published>
+    <updated>2019-02-24T07:47:44.605Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p>Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具</p><h2 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h2><p><a href="http://mirrors.jenkins-ci.org/war/latest/jenkins.war" target="_blank" rel="noopener">jenkins下载地址</a></p><a id="more"></a> <h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>jenkins部署有两种方法</p><p>1.执行命令，访问<a href="http://localhost:8081，然后输入信息即可。" target="_blank" rel="noopener">http://localhost:8081，然后输入信息即可。</a></p><p>2.把下载的文件放入tomcat的webapps下，访问地址<a href="http://localhost:8081/jenkins" target="_blank" rel="noopener">http://localhost:8081/jenkins</a></p><h2 id="具体"><a href="#具体" class="headerlink" title="具体"></a>具体</h2><h3 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h3><p>这里采用第一种方式</p><p>1.下载<a href="http://mirrors.jenkins-ci.org/war/latest/jenkins.war" target="_blank" rel="noopener">jenkins</a></p><p>2.java -jar C:\Users\time\Downloads\jenkins.war –httpPort=8081<br>或 java -jar C:\Users\time\Downloads\jenkins.war<br><img src="/04/201809042330-jenkins介绍-安装/jenkins执行命令.png" alt="jenkins执行命令"></p><p>3.访问地址<a href="http://localhost:8081(如果采用第二种请访问第二个地址)" target="_blank" rel="noopener">http://localhost:8081(如果采用第二种请访问第二个地址)</a></p><p>4.显示页面，并让你输入密码，密码在页面提示路径文件里这里url为：C:\Users*<strong>**</strong>.jenkins\secrets\initialAdminPassword，<br>在initialAdminPassword文件中招待密码，粘贴复制到浏览器页面，回车<br><img src="/04/201809042330-jenkins介绍-安装/jenkins默认进入输入管理员密码.png" alt="jenkins默认进入输入管理员密码"></p><p>5.输入后会等待启动，然后选择插件形式，这里博主选择左边选项-安装推荐的插件，第一次使用还是选择默认的<br><img src="/04/201809042330-jenkins介绍-安装/jenkins安装插件选择.png" alt="jenkins安装插件选择"></p><p>6.选择后进入插件安装页面，如图，等待完成<br><img src="/04/201809042330-jenkins介绍-安装/jenkins插件安装页面.png" alt="jenkins插件安装页面"></p><p>7.创建管理员账号，这里可以创建也可以不创建，创建则输入账号，密码。不创建则通过admin登录<br><img src="/04/201809042330-jenkins介绍-安装/jenkins创建管理员用户.png" alt="jenkins创建管理员用户"></p><p>8.填写或修改实例配置url，默认<br><img src="/04/201809042330-jenkins介绍-安装/jenkins实例配置.png" alt="jenkins实例配置"></p><p>6.完成安装<br><img src="/04/201809042330-jenkins介绍-安装/jenkins安装成功.png" alt="jenkins安装成功"></p><p>7.进入即可看到如下界面<br><img src="/04/201809042330-jenkins介绍-安装/jenkins管理员登录界面.png" alt="jenkins管理员登录界面"></p><h3 id="关闭"><a href="#关闭" class="headerlink" title="关闭"></a>关闭</h3><p>关闭jenkins服务</p><p>只需要在访问jenkins服务器的网址url地址后加上exit，例如：<a href="http://localhost:8081/exit" target="_blank" rel="noopener">http://localhost:8081/exit</a><br><img src="/04/201809042330-jenkins介绍-安装/jenkins关闭.png" alt="jenkins关闭"></p><p>回车后,点击Retry using POST/使用POST重试，即会关闭<br><img src="/04/201809042330-jenkins介绍-安装/jenkins关闭确认.png" alt="jenkins关闭确认"></p><h3 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h3><p>重启jenkins服务（与关闭相似）</p><p>只需要在访问jenkins服务器的网址url地址后加上restart，例如：<a href="http://localhost:8081/restart" target="_blank" rel="noopener">http://localhost:8081/restart</a></p><p>在新出现的界面上点击yes/是，即可</p><h3 id="重载"><a href="#重载" class="headerlink" title="重载"></a>重载</h3><p>重新加载jenkins服务配置信息（与关闭相似）</p><p>只需要在访问jenkins服务器的网址url地址后加上reload，例如：<a href="http://localhost:8081/reload" target="_blank" rel="noopener">http://localhost:8081/reload</a></p><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><p>1.安装后，自动启动失败</p><pre><code>信息: Shutting down a Jenkins instance that was still starting upjava.lang.Throwable: reason    at hudson.WebAppMain.contextDestroyed(WebAppMain.java:388)    at org.eclipse.jetty.server.handler.ContextHandler.callContextDestroyed(ContextHandler.java:961)    at org.eclipse.jetty.servlet.ServletContextHandler.callContextDestroyed(ServletContextHandler.java:571)    at org.eclipse.jetty.server.handler.ContextHandler.stopContext(ContextHandler.java:938)    at org.eclipse.jetty.servlet.ServletContextHandler.stopContext(ServletContextHandler.java:381)    at org.eclipse.jetty.webapp.WebAppContext.stopWebapp(WebAppContext.java:1503)    at org.eclipse.jetty.webapp.WebAppContext.stopContext(WebAppContext.java:1467)    at org.eclipse.jetty.server.handler.ContextHandler.doStop(ContextHandler.java:990)    at org.eclipse.jetty.servlet.ServletContextHandler.doStop(ServletContextHandler.java:297)    at org.eclipse.jetty.webapp.WebAppContext.doStop(WebAppContext.java:569)    at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:89)    at org.eclipse.jetty.util.component.ContainerLifeCycle.stop(ContainerLifeCycle.java:149)    at org.eclipse.jetty.util.component.ContainerLifeCycle.doStop(ContainerLifeCycle.java:170)    at org.eclipse.jetty.server.handler.AbstractHandler.doStop(AbstractHandler.java:124)    at org.eclipse.jetty.server.Server.doStop(Server.java:490)    at org.eclipse.jetty.util.component.AbstractLifeCycle.stop(AbstractLifeCycle.java:89)    at winstone.Launcher.shutdown(Launcher.java:310)    at winstone.Launcher.&lt;init&gt;(Launcher.java:197)    at winstone.Launcher.main(Launcher.java:354)    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)    at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)    at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)    at java.lang.reflect.Method.invoke(Unknown Source)    at Main._main(Main.java:344)    at Main.main(Main.java:160)九月 04, 2018 7:50:11 下午 org.eclipse.jetty.server.handler.ContextHandler doStop信息: Stopped w.@3e0e1046{Jenkins v2.141,/,null,UNAVAILABLE}{C:\Users\T440\.jenkins\war}Exception in thread &quot;Jenkins initialization thread&quot; java.lang.NoClassDefFoundError: hudson/util/HudsonFailedToLoad        at hudson.WebAppMain$3.run(WebAppMain.java:247)Caused by: java.lang.ClassNotFoundException: hudson.util.HudsonFailedToLoad    at java.net.URLClassLoader.findClass(Unknown Source)    at java.lang.ClassLoader.loadClass(Unknown Source)    at java.lang.ClassLoader.loadClass(Unknown Source)    at org.eclipse.jetty.webapp.WebAppClassLoader.loadClass(WebAppClassLoader.java:565)    at java.lang.ClassLoader.loadClass(Unknown Source)    ... 1 more九月 04, 2018 7:50:11 下午 winstone.Logger logInternal信息: Jetty shutdown successfullyjava.io.IOException: Failed to start Jetty    at winstone.Launcher.&lt;init&gt;(Launcher.java:186)    at winstone.Launcher.main(Launcher.java:354)    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)    at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)    at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)    at java.lang.reflect.Method.invoke(Unknown Source)    at Main._main(Main.java:344)    at Main.main(Main.java:160)Caused by: java.net.BindException: Address already in use: bind    at sun.nio.ch.Net.bind0(Native Method)    at sun.nio.ch.Net.bind(Unknown Source)    at sun.nio.ch.Net.bind(Unknown Source)    at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)    at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)    at org.eclipse.jetty.server.ServerConnector.openAcceptChannel(ServerConnector.java:331)    at org.eclipse.jetty.server.ServerConnector.open(ServerConnector.java:299)    at org.eclipse.jetty.server.AbstractNetworkConnector.doStart(AbstractNetworkConnector.java:80)    at org.eclipse.jetty.server.ServerConnector.doStart(ServerConnector.java:235)    at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)    at org.eclipse.jetty.server.Server.doStart(Server.java:398)    at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)    at winstone.Launcher.&lt;init&gt;(Launcher.java:184)    ... 7 more[31m九月 04, 2018 7:50:11 下午 winstone.Logger logInternal严重: Container startup failedjava.io.IOException: Failed to start Jetty    at winstone.Launcher.&lt;init&gt;(Launcher.java:186)    at winstone.Launcher.main(Launcher.java:354)    at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)    at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)    at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)    at java.lang.reflect.Method.invoke(Unknown Source)    at Main._main(Main.java:344)    at Main.main(Main.java:160)Caused by: java.net.BindException: Address already in use: bind    at sun.nio.ch.Net.bind0(Native Method)    at sun.nio.ch.Net.bind(Unknown Source)    at sun.nio.ch.Net.bind(Unknown Source)    at sun.nio.ch.ServerSocketChannelImpl.bind(Unknown Source)    at sun.nio.ch.ServerSocketAdaptor.bind(Unknown Source)    at org.eclipse.jetty.server.ServerConnector.openAcceptChannel(ServerConnector.java:331)    at org.eclipse.jetty.server.ServerConnector.open(ServerConnector.java:299)    at org.eclipse.jetty.server.AbstractNetworkConnector.doStart(AbstractNetworkConnector.java:80)    at org.eclipse.jetty.server.ServerConnector.doStart(ServerConnector.java:235)    at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)    at org.eclipse.jetty.server.Server.doStart(Server.java:398)    at org.eclipse.jetty.util.component.AbstractLifeCycle.start(AbstractLifeCycle.java:68)    at winstone.Launcher.&lt;init&gt;(Launcher.java:184)    ... 7 more</code></pre><p>怀疑是端口问题，百度了下，确实是端口冲突，之前启动了一个项目，占用了8080端口，jenkins默认8080端口，这个时候可以 在启动war包时候增加端口，命令为 </p><pre><code>java -jar jenkinsWAR包路径  --httpPort=$HTTP_PORT</code></pre><p>exp</p><pre><code>java -jar D:\jenkins.war --httpPort=8081    </code></pre><p>然后等在启动访问 </p><pre><code>http://localhost:8081/</code></pre><p>就会看到jenkins界面了</p><p>2.在安装中创建管理员账号时需要填写邮箱，不填写无法保存，也不报错</p><h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://blog.csdn.net/bingoxubin/article/details/78720976" target="_blank" rel="noopener">https://blog.csdn.net/bingoxubin/article/details/78720976</a></p><p><a href="https://blog.csdn.net/bingoxubin/article/details/78720976" target="_blank" rel="noopener">https://blog.csdn.net/bingoxubin/article/details/78720976</a></p><p><a href="https://blog.csdn.net/itfootball/article/details/44876517" target="_blank" rel="noopener">关闭重启jenkins</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt;Jenkins是一个开源软件项目，是基于Java开发的一种持续集成工具&lt;/p&gt;
+&lt;h2 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h2&gt;&lt;p&gt;&lt;a href=&quot;http://mirrors.jenkins-ci.org/war/latest/jenkins.war&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;jenkins下载地址&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="数据集成" scheme="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/"/>
+    
+    
+      <category term="jenkins" scheme="blog.virualyz.com/tags/jenkins/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>初步了解数据库</title>
+    <link href="blog.virualyz.com/2018/09/03/201809030244-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    <id>blog.virualyz.com/2018/09/03/201809030244-初步了解数据库/</id>
+    <published>2018-09-02T18:45:30.000Z</published>
+    <updated>2019-02-24T07:47:44.605Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h5 id="数据库定义"><a href="#数据库定义" class="headerlink" title="数据库定义"></a>数据库定义</h5><p>数据库(Database)是按照数据结构来组织、存储和管理数据的仓库</p><h5 id="数据库分类"><a href="#数据库分类" class="headerlink" title="数据库分类"></a>数据库分类</h5><p>早起数据库比较流行的数据库类型分为三类：层次式数据库、网络式数据库和关系型数据库(现在大部分为关系型数据库)。而当今互联网常见的数据库类型分为两类：关系型、非关系型。</p><h6 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h6><p>关系型数据库模型是把复杂的数据结构归为简单的二元关系(即二维表格形式)，在关系型数据库中，对数据的操作就全部建立在一个或多个表格中，通过这些表格的分类、合并、连接或选取等运算来实现数据的管理。</p><p>关系型数据库诞生于1969年，由 Edgar F.“Ted” Codd发明了关系数据库。最常见的关系型数据库：mysql、Oracle、DB2、MariaDB(mysql分支）、Microsoft SQL Server(微软)，Access（Microsoft）</p><h6 id="非关系型数据库"><a href="#非关系型数据库" class="headerlink" title="非关系型数据库"></a>非关系型数据库</h6><p>非关系型数据库又被称为NoSQL（以下简称NoSQL），NoSQL不是没有SQL的意思，而是“不仅仅是SQL”（not only sql），NoSQL的产生并不是要彻底否定关系型数据库，而是作为传统关系型数据库的一个有效补充。NOSQL典型产品memcached（纯内存），redis（持久化缓存），mongodb（面向文档）</p><a id="more"></a> <p>####### NoSQL的四大分类</p><p>1.键值存储数据库 </p><pre><code>典型产品：Memcached、Redis、MemcacheDB、Berkeley DB</code></pre><p>2.列存储数据库</p><pre><code>典型产品：Hbase、Cassandra</code></pre><p>3.文档型数据库</p><pre><code>典型产品：MongoDB、CouchDB</code></pre><p>4.图形（Graph）数据库</p><pre><code>典型的产品有：Neo4J、InfoGrid。</code></pre><p>####### NoSQL共同特征</p><p>1.不需要预定义模式:在存储时不需要预先定义他们的模式</p><p>2.无共享架构:NoSQL把数据存储在本地服务器上，从本地磁盘读取数据比通过网络获取数据快，从而提高了性能</p><p>3.弹性可扩展</p><p>4.分区</p><p>5.异步复制</p><p>6.BASE:关系型数据库是严格的ACID特性，NoSQL数据库保证的是BASE特性。BASE是最终一致性和软事务</p><p>NoSQL数据库并没有一个统一的架构，两种NoSQL数据库之间的不同，甚至远远超过两种关系型数据库的不同。可以说，NoSQL各有所长，成功的NoSQL必然特别适用于某些场合或者某些应用，在这些场合中会远远胜过关系型数据库和其他的NoSQL。</p><p>####### NoSQL 适用场景</p><p>1.数据模型比较简单；</p><p>2.需要灵活性更强的IT系统；</p><p>3.对数据库性能要求较高；</p><p>4.不需要高度的数据一致性；</p><p>5.对于给定key，比较容易映射复杂值的环境。</p><h5 id="数据库排名"><a href="#数据库排名" class="headerlink" title="数据库排名"></a>数据库排名</h5><p>地址：<a href="https://db-engines.com/en/ranking" target="_blank" rel="noopener">https://db-engines.com/en/ranking</a></p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://baike.baidu.com/item/NoSQL/8828247?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/NoSQL/8828247?fr=aladdin</a><br><a href="http://blog.51cto.com/13178102/2064041" target="_blank" rel="noopener">http://blog.51cto.com/13178102/2064041</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;h5 id=&quot;数据库定义&quot;&gt;&lt;a href=&quot;#数据库定义&quot; class=&quot;headerlink&quot; title=&quot;数据库定义&quot;&gt;&lt;/a&gt;数据库定义&lt;/h5&gt;&lt;p&gt;数据库(Database)是按照数据结构来组织、存储和管理数据的仓库&lt;/p&gt;
+&lt;h5 id=&quot;数据库分类&quot;&gt;&lt;a href=&quot;#数据库分类&quot; class=&quot;headerlink&quot; title=&quot;数据库分类&quot;&gt;&lt;/a&gt;数据库分类&lt;/h5&gt;&lt;p&gt;早起数据库比较流行的数据库类型分为三类：层次式数据库、网络式数据库和关系型数据库(现在大部分为关系型数据库)。而当今互联网常见的数据库类型分为两类：关系型、非关系型。&lt;/p&gt;
+&lt;h6 id=&quot;关系型数据库&quot;&gt;&lt;a href=&quot;#关系型数据库&quot; class=&quot;headerlink&quot; title=&quot;关系型数据库&quot;&gt;&lt;/a&gt;关系型数据库&lt;/h6&gt;&lt;p&gt;关系型数据库模型是把复杂的数据结构归为简单的二元关系(即二维表格形式)，在关系型数据库中，对数据的操作就全部建立在一个或多个表格中，通过这些表格的分类、合并、连接或选取等运算来实现数据的管理。&lt;/p&gt;
+&lt;p&gt;关系型数据库诞生于1969年，由 Edgar F.“Ted” Codd发明了关系数据库。最常见的关系型数据库：mysql、Oracle、DB2、MariaDB(mysql分支）、Microsoft SQL Server(微软)，Access（Microsoft）&lt;/p&gt;
+&lt;h6 id=&quot;非关系型数据库&quot;&gt;&lt;a href=&quot;#非关系型数据库&quot; class=&quot;headerlink&quot; title=&quot;非关系型数据库&quot;&gt;&lt;/a&gt;非关系型数据库&lt;/h6&gt;&lt;p&gt;非关系型数据库又被称为NoSQL（以下简称NoSQL），NoSQL不是没有SQL的意思，而是“不仅仅是SQL”（not only sql），NoSQL的产生并不是要彻底否定关系型数据库，而是作为传统关系型数据库的一个有效补充。NOSQL典型产品memcached（纯内存），redis（持久化缓存），mongodb（面向文档）&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="数据库" scheme="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+    
+      <category term="数据库" scheme="blog.virualyz.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>设计模式介绍及解析</title>
+    <link href="blog.virualyz.com/2018/08/31/201808310312-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E8%A7%A3%E6%9E%90/"/>
+    <id>blog.virualyz.com/2018/08/31/201808310312-设计模式介绍及解析/</id>
+    <published>2018-08-30T16:00:00.000Z</published>
+    <updated>2019-02-24T07:47:44.605Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类的、代码设计经验的总结。<br>使用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性</p><h2 id="设计模式分类"><a href="#设计模式分类" class="headerlink" title="设计模式分类"></a>设计模式分类</h2><p>根据设计模式的参考书 Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素）<br>，一共有23种设计模式。</p><p>这些模式可以分为三大类：</p><ul><li>创建模式(五)：工厂方法模式，抽象工厂模式，单例模式，建造者模式，原型模式</li><li>结构模式(七)：适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式</li><li>行为模式(十一)：策略模式，模板方法模式，观察者模式，迭代子模式，责任链模式，命令模式，备忘录模式，状态模式，访问者模式，中介者模式，解释器模式</li></ul><a id="more"></a> <h2 id="设计模式的六大原则"><a href="#设计模式的六大原则" class="headerlink" title="设计模式的六大原则"></a>设计模式的六大原则</h2><p>总原则：开闭原则</p><ul><li>单一职责原则</li><li>里氏替换原则</li><li>依赖倒转原则</li><li>接口隔离原则</li><li>最少知道原则(迪米特法则)</li><li>合成复用原则</li></ul><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.cnblogs.com/geek6/p/3951677.html" target="_blank" rel="noopener">https://www.cnblogs.com/geek6/p/3951677.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;简介&quot;&gt;&lt;a href=&quot;#简介&quot; class=&quot;headerlink&quot; title=&quot;简介&quot;&gt;&lt;/a&gt;简介&lt;/h2&gt;&lt;p&gt;设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类的、代码设计经验的总结。&lt;br&gt;使用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性&lt;/p&gt;
+&lt;h2 id=&quot;设计模式分类&quot;&gt;&lt;a href=&quot;#设计模式分类&quot; class=&quot;headerlink&quot; title=&quot;设计模式分类&quot;&gt;&lt;/a&gt;设计模式分类&lt;/h2&gt;&lt;p&gt;根据设计模式的参考书 Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素）&lt;br&gt;，一共有23种设计模式。&lt;/p&gt;
+&lt;p&gt;这些模式可以分为三大类：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;创建模式(五)：工厂方法模式，抽象工厂模式，单例模式，建造者模式，原型模式&lt;/li&gt;
+&lt;li&gt;结构模式(七)：适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式&lt;/li&gt;
+&lt;li&gt;行为模式(十一)：策略模式，模板方法模式，观察者模式，迭代子模式，责任链模式，命令模式，备忘录模式，状态模式，访问者模式，中介者模式，解释器模式&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="blog.virualyz.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>jvm监控工具-VisualVM介绍以及实践</title>
+    <link href="blog.virualyz.com/2018/08/30/201808300000-jvm%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7-VisualVM%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/"/>
+    <id>blog.virualyz.com/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/</id>
+    <published>2018-08-29T16:00:00.000Z</published>
+    <updated>2019-02-24T07:47:44.602Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>visualvm 是一个jvm监控工具,其实就是oracle的jvisualvm,VisualVM是免费的图形化的jvm监控和分析工具，<br>集成多个jdk命令的行工具的可视化工具，他包括以下命令行工具jstat,JConsole,jstack,jmap,jinfo等，<br>可以使用VisualVM生成和分析海量数据、跟踪内存泄漏、监控垃圾回收器、执行内存和CPU分析，<br>同时它还支持在MBeans上进行浏览和操作，虽然visualvm需要jdk1.6，但是其实jdk1.4以上版本都可以监控。</p><a id="more"></a> <h2 id="获取visualVM"><a href="#获取visualVM" class="headerlink" title="获取visualVM"></a>获取visualVM</h2><p>1.不辞辛苦从github下载，这里还有部分解读，可以看看熟悉下<a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">https://www.appinn.com/markdown/</a><br>2.在你安装完jdk之后，你可以在jdk安装根目录-&gt;bin下找到如图所示的exe文件.</p><p><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvmexe所在位置.png" alt="visualvm所在位置"></p><h2 id="打开VisualVM"><a href="#打开VisualVM" class="headerlink" title="打开VisualVM"></a>打开VisualVM</h2><p>visualvm.exe文件双击打开，显示如下界面<br><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualVM初始页面.png" alt="visualvm初始页面"></p><h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>visual vm 有许多有用的插件，插件的安装位置在tools-&gt;plugins，在available plugins中选择并安装自己想要下载的插件，下载前建议先了解下<br><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvm插件界面.png" alt="visualvm插件页面"></p><h2 id="查看监控"><a href="#查看监控" class="headerlink" title="查看监控"></a>查看监控</h2><p>1.本地<br>    如果你本地已经有启动的程序就在local中查找即可查看相应的数据.<br><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/vimualvm监控显示.png" alt="visualvm监控"></p><p>2.远程  （暂无）</p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;visualvm 是一个jvm监控工具,其实就是oracle的jvisualvm,VisualVM是免费的图形化的jvm监控和分析工具，&lt;br&gt;集成多个jdk命令的行工具的可视化工具，他包括以下命令行工具jstat,JConsole,jstack,jmap,jinfo等，&lt;br&gt;可以使用VisualVM生成和分析海量数据、跟踪内存泄漏、监控垃圾回收器、执行内存和CPU分析，&lt;br&gt;同时它还支持在MBeans上进行浏览和操作，虽然visualvm需要jdk1.6，但是其实jdk1.4以上版本都可以监控。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="jvm" scheme="blog.virualyz.com/categories/jvm/"/>
+    
+    
+      <category term="jvm监控工具" scheme="blog.virualyz.com/tags/jvm%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>window8安装makedownPad2</title>
+    <link href="blog.virualyz.com/2018/08/22/201808220131_window8%E5%AE%89%E8%A3%85makedownpad2/"/>
+    <id>blog.virualyz.com/2018/08/22/201808220131_window8安装makedownpad2/</id>
+    <published>2018-08-21T16:00:00.000Z</published>
+    <updated>2019-02-24T07:47:44.602Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p> 本文介绍window8在Markdown 的安装，有个比较坑的地方，所以记录下来</p><h6 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h6><p>1：下载安装MakedownPad2</p><p>2：安装并运行makedownPad2</p><p>3：正常情况下会打开默认界面，并在右边显示相应的编辑效果</p><p>4：如果右边不显示相应的效果，第二个下载连接的文件下载并安装，然后重新打开makedownpad2就好了</p><p><a href="">图片暂无</a></p><h6 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h6><p>1：下载</p><p>#######下载地址</p><pre><code>http://markdownpad.com/download.htmlhttp://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe</code></pre><p>2：安装</p><a id="more"></a> <h4 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h4><p><img src="/22/201808220131_window8安装makedownpad2/2019.png" alt=""></p><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><p>安装makedownpad2编辑后的内容无法预览，右边页面无效果<br>解决：需要安装第二个连接，他是缺少实时预览的引擎，相当于html解析的引擎</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/a60782885/article/details/69267934" target="_blank" rel="noopener">https://blog.csdn.net/a60782885/article/details/69267934</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt; 本文介绍window8在Markdown 的安装，有个比较坑的地方，所以记录下来&lt;/p&gt;
+&lt;h6 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h6&gt;&lt;p&gt;1：下载安装MakedownPad2&lt;/p&gt;
+&lt;p&gt;2：安装并运行makedownPad2&lt;/p&gt;
+&lt;p&gt;3：正常情况下会打开默认界面，并在右边显示相应的编辑效果&lt;/p&gt;
+&lt;p&gt;4：如果右边不显示相应的效果，第二个下载连接的文件下载并安装，然后重新打开makedownpad2就好了&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;&quot;&gt;图片暂无&lt;/a&gt;&lt;/p&gt;
+&lt;h6 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h6&gt;&lt;p&gt;1：下载&lt;/p&gt;
+&lt;p&gt;#######下载地址&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;http://markdownpad.com/download.html
+
+http://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2：安装&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="makedownPad2" scheme="blog.virualyz.com/categories/makedownPad2/"/>
+    
+    
+      <category term="makedownPad2" scheme="blog.virualyz.com/tags/makedownPad2/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Markdown 学习</title>
+    <link href="blog.virualyz.com/2018/08/22/201808220037_Markdown%E5%AD%A6%E4%B9%A0/"/>
+    <id>blog.virualyz.com/2018/08/22/201808220037_Markdown学习/</id>
+    <published>2018-08-21T16:00:00.000Z</published>
+    <updated>2019-02-24T07:47:44.601Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p> 本文介绍Markdown 的简单功能以及实现</p><p>##宗旨</p><p> Markdown 的目标是实现「易读易写」。</p><p> 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。</p><p> 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像<em>强调</em>。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p><a id="more"></a> <p>##区块元素</p><p>###段落和换行</p><p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进</p><p>####标题</p><p>Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。</p><p>类 Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第二阶标题），例如：</p><pre><code>This is an H1=============This is an H2-------------</code></pre><p>任何数量的 = 和 - 都可以有效果。</p><p>类 Atx 形式则是在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶，行首的井字符数量决定标题的阶数，例如：</p><pre><code># 这是 H1## 这是 H2###### 这是 H6</code></pre><p>####区块引用 Blockquotes</p><p>Markdown 标记区块引用是使用类似 email 中用 &gt; 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 &gt; ：</p><pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&gt; &gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse&gt; id sem consectetuer libero luctus adipiscing.</code></pre><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">https://www.appinn.com/markdown/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt; 本文介绍Markdown 的简单功能以及实现&lt;/p&gt;
+&lt;p&gt;##宗旨&lt;/p&gt;
+&lt;p&gt; Markdown 的目标是实现「易读易写」。&lt;/p&gt;
+&lt;p&gt; 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。&lt;/p&gt;
+&lt;p&gt; 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像&lt;em&gt;强调&lt;/em&gt;。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Markdown" scheme="blog.virualyz.com/categories/Markdown/"/>
+    
+    
+      <category term="Markdown" scheme="blog.virualyz.com/tags/Markdown/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring-cloud-使用Hystrix实现断路器</title>
+    <link href="blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/"/>
+    <id>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-使用Hystrix实现断路器/</id>
+    <published>2018-08-13T18:55:00.000Z</published>
+    <updated>2019-02-24T07:47:44.601Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="必看提示以及声明："><a href="#必看提示以及声明：" class="headerlink" title="必看提示以及声明："></a>必看提示以及声明：</h3><p>请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关</p><p>####介绍<br>在微服务架构中，服务被拆分成一个一个的单元，各个单元之间相互依赖调用。如果某个单元由于网络原因或者别的单元故障奔溃，那么会直接导致调用方对外的服务也发生延迟。若此时调用方的请求不断增加，最后就会出现因等待出现故障的依赖方响应而形成任务积压，最终导致自身服务的瘫痪，为了解决这个问题，我们可以采用断路器</p><p>在分布式架构中，当某个服务单元发生故障，使用断路器返回一个错误的相应，而不是进行长时间的等待，这样就不会使得线程被长时间占用，导致服务器的瘫痪。</p><p>Spring Cloud提供了Hystrix这么一个组件来实现断路器的功能。</p><h6 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h6><p>1：确认注册中心已启动</p><p>2：确认客户端已启动(上节是2222端口为服务端，我们可以创建并配置一模一样的端口号为2223的客户端)</p><p>3：开发工具创建maven项目(博主这里选择与客户端一样的创建流程，稍后修改下pom)</p><p>4：配置pom,并修改负载均衡的controller，创建service</p><p><a href="">图片暂无</a></p><h6 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h6><p>1：启动注册中心(博主这里端口号为:1111)以及2222端口2223端口的客户端</p><p>2：idea工具</p><a id="more"></a> <h4 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h4><p>1：启动注册中心，访问<a href="http://localhost:1111，出现注册中心页面" target="_blank" rel="noopener">http://localhost:1111，出现注册中心页面</a></p><p>2：启动客户端，访问<a href="http://localhost:1111，客户端已注册" target="_blank" rel="noopener">http://localhost:1111，客户端已注册</a></p><p>3：修改Ribbon负载均衡项目的pom(博主这里是client-2333项目),添加如下依赖</p><pre><code>&lt;dependency&gt;    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;    &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;&lt;/dependency&gt;</code></pre><p>4：修改Ribbon负载均衡项目的application中增加@EnableCircuitBreaker注解，表明使用断路器。</p><pre><code>@SpringBootApplication@EnableDiscoveryClient@EnableCircuitBreakerpublic class RibbonApplication {    @Bean    @LoadBalanced    RestTemplate restTemplate() {        return new RestTemplate();    }    public static void main(String[] args) {        SpringApplication.run(RibbonApplication.class, args);    }}</code></pre><p>   Hystrix使用消息队列的方式，如果连接的服务崩溃，则异步回调某个方法进行处理。</p><p>5： 新增一个Service类，在这个类中定义好如何访问，以及失败之后的返回等</p><p>   代码如下</p><pre><code>@Servicepublic class ComputeService {    @Autowired    RestTemplate restTemplate;    @HystrixCommand(fallbackMethod = &quot;addServiceFallback&quot;)    public String addService() {        return restTemplate.getForEntity(&quot;http://COMPUTE-SERVICE/add?a=10&amp;b=20&quot;, String.class).getBody();    }    public String addServiceFallback() {        return &quot;error&quot;;    }}</code></pre><p>   这里重点是@HystrixCommand注解：表明该方法为hystrix包裹，可以对依赖服务进行隔离、降级、快速失败、快速重试等等hystrix相关功能</p><p>   列举几个属性：</p><ol><li><p>fallbackMethod 降级方法</p></li><li><p>commandProperties 普通配置属性，可以配置HystrixCommand对应属性，例如采用线程池还是信号量隔离、熔断器熔断规则等等</p></li><li><p>ignoreExceptions 忽略的异常，默认HystrixBadRequestException不计入失败</p></li><li><p>groupKey() 组名称，默认使用类名称</p></li><li><p>commandKey 命令名称，默认使用方法名</p></li></ol><p>5：在application.properties中配置如下：</p><pre><code>spring.application.name=ribbon-consumerserver.port=2333eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka/</code></pre><p>6：最后修改Controller<br>    @RestController<br>    public class ConsumerController {</p><pre><code>    @Autowired    private ComputeService computeService;    @RequestMapping(value = &quot;/add&quot;, method = RequestMethod.GET)    public String add() {        return computeService.addService();    }}</code></pre><p>8：访问<a href="http://localhost:2333/add" target="_blank" rel="noopener">http://localhost:2333/add</a><br>    当客户端关闭时访问： 显示error<br>    客户端启动时访问： 返回正确的数据</p><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/a60782885/article/details/69267934" target="_blank" rel="noopener">https://blog.csdn.net/a60782885/article/details/69267934</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;必看提示以及声明：&quot;&gt;&lt;a href=&quot;#必看提示以及声明：&quot; class=&quot;headerlink&quot; title=&quot;必看提示以及声明：&quot;&gt;&lt;/a&gt;必看提示以及声明：&lt;/h3&gt;&lt;p&gt;请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关&lt;/p&gt;
+&lt;p&gt;####介绍&lt;br&gt;在微服务架构中，服务被拆分成一个一个的单元，各个单元之间相互依赖调用。如果某个单元由于网络原因或者别的单元故障奔溃，那么会直接导致调用方对外的服务也发生延迟。若此时调用方的请求不断增加，最后就会出现因等待出现故障的依赖方响应而形成任务积压，最终导致自身服务的瘫痪，为了解决这个问题，我们可以采用断路器&lt;/p&gt;
+&lt;p&gt;在分布式架构中，当某个服务单元发生故障，使用断路器返回一个错误的相应，而不是进行长时间的等待，这样就不会使得线程被长时间占用，导致服务器的瘫痪。&lt;/p&gt;
+&lt;p&gt;Spring Cloud提供了Hystrix这么一个组件来实现断路器的功能。&lt;/p&gt;
+&lt;h6 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h6&gt;&lt;p&gt;1：确认注册中心已启动&lt;/p&gt;
+&lt;p&gt;2：确认客户端已启动(上节是2222端口为服务端，我们可以创建并配置一模一样的端口号为2223的客户端)&lt;/p&gt;
+&lt;p&gt;3：开发工具创建maven项目(博主这里选择与客户端一样的创建流程，稍后修改下pom)&lt;/p&gt;
+&lt;p&gt;4：配置pom,并修改负载均衡的controller，创建service&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;&quot;&gt;图片暂无&lt;/a&gt;&lt;/p&gt;
+&lt;h6 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h6&gt;&lt;p&gt;1：启动注册中心(博主这里端口号为:1111)以及2222端口2223端口的客户端&lt;/p&gt;
+&lt;p&gt;2：idea工具&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="spring cloud" scheme="blog.virualyz.com/categories/spring-cloud/"/>
+    
+    
+      <category term="spring cloud" scheme="blog.virualyz.com/tags/spring-cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring-cloud-使用Ribbon实现负载均衡</title>
+    <link href="blog.virualyz.com/2018/08/14/201808140251_spring-cloud-%E4%BD%BF%E7%94%A8Ribbon%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/"/>
+    <id>blog.virualyz.com/2018/08/14/201808140251_spring-cloud-使用Ribbon实现负载均衡/</id>
+    <published>2018-08-13T18:55:00.000Z</published>
+    <updated>2019-02-24T07:47:44.601Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="必看提示以及声明："><a href="#必看提示以及声明：" class="headerlink" title="必看提示以及声明："></a>必看提示以及声明：</h3><p>请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关</p><h6 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h6><p>1：确认注册中心已启动</p><p>2：确认客户端已启动(上节是2222端口为服务端，我们可以创建并配置一模一样的端口号为2223的客户端)</p><p>3：开发工具创建maven项目(博主这里选择与客户端一样的创建流程，稍后修改下pom)</p><p>4：配置pom,并创建controller</p><p><a href="">图片暂无</a></p><h6 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h6><p>1：启动注册中心(博主这里端口号为:1111)以及2222端口2223端口的客户端</p><p>2：idea工具</p><a id="more"></a> <h4 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h4><p>1：启动注册中心，访问<a href="http://localhost:1111，出现注册中心页面" target="_blank" rel="noopener">http://localhost:1111，出现注册中心页面</a></p><p>2：启动客户端，访问<a href="http://localhost:1111，客户端已注册" target="_blank" rel="noopener">http://localhost:1111，客户端已注册</a></p><p>3：打开idea，选择file-&gt;new-&gt;project-&gt;Spring Initializr,在弹出页面填写信息，默认就好，然后选择Cloud Discovery-&gt;Eureka client,最后finish</p><p>4：在启动类**Application,添加服务注释,使用@EnableDiscoveryClient注解在将其注册在注册中心。并且提供一个返回RestTemplate的bean实例，使用@LoadBalanced注解对这个实例进行负载均衡这样，使用这个实例去获取服务的时候，就会帮我们进行负载均衡了。</p><p>   代码如下</p><pre><code>import org.springframework.boot.SpringApplication;import org.springframework.boot.autoconfigure.SpringBootApplication;import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;import org.springframework.cloud.client.discovery.EnableDiscoveryClient;import org.springframework.cloud.client.loadbalancer.LoadBalanced;import org.springframework.context.annotation.Bean;import org.springframework.web.client.RestTemplate;@SpringBootApplication@EnableDiscoveryClient@EnableCircuitBreakerpublic class Client2333Application { @Bean @LoadBalanced RestTemplate restTemplate() {     return new RestTemplate(); } public static void main(String[] args) {     SpringApplication.run(Client2333Application.class, args); }}</code></pre><p>5：在application.properties中配置如下：</p><pre><code>spring.application.name=ribbon-consumerserver.port=2333eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka/</code></pre><p>6：最后修改pom文件<br>    按照步骤通过idea 修改的pom如下:</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;    &lt;groupId&gt;com.vf.eureka&lt;/groupId&gt;    &lt;artifactId&gt;client-2333&lt;/artifactId&gt;    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;    &lt;packaging&gt;jar&lt;/packaging&gt;    &lt;name&gt;client-2333&lt;/name&gt;    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;    &lt;parent&gt;        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;        &lt;version&gt;2.0.4.RELEASE&lt;/version&gt;        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;    &lt;/parent&gt;    &lt;properties&gt;        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;        &lt;java.version&gt;1.8&lt;/java.version&gt;        &lt;spring-cloud.version&gt;Finchley.SR1&lt;/spring-cloud.version&gt;    &lt;/properties&gt;    &lt;dependencies&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-ribbon&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;            &lt;version&gt;1.4.2.RELEASE&lt;/version&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;            &lt;scope&gt;test&lt;/scope&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;com.netflix.hystrix&lt;/groupId&gt;            &lt;artifactId&gt;hystrix-core&lt;/artifactId&gt;            &lt;version&gt;1.5.12&lt;/version&gt;        &lt;/dependency&gt;    &lt;/dependencies&gt;    &lt;dependencyManagement&gt;        &lt;dependencies&gt;            &lt;dependency&gt;                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;                &lt;type&gt;pom&lt;/type&gt;                &lt;scope&gt;import&lt;/scope&gt;            &lt;/dependency&gt;        &lt;/dependencies&gt;    &lt;/dependencyManagement&gt;    &lt;build&gt;        &lt;plugins&gt;            &lt;plugin&gt;                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;/plugin&gt;        &lt;/plugins&gt;    &lt;/build&gt;&lt;/project&gt;</code></pre><p>7：创建文件 ConsumerController<br>    创建了bean实例，我们就可以通过@Autowired来获取这个RestTemplate了，并且使用这个实例去调用服务。</p><pre><code>@Autowiredprivate ComputeService computeService;@RequestMapping(value = &quot;/add&quot;, method = RequestMethod.GET)public String add() {    return computeService.addService();}</code></pre><p>8：最后在启动类**Application右键启动，访问配置的地址：<a href="http://localhost:2333/add" target="_blank" rel="noopener">http://localhost:2333/add</a><br>    即可看到 两个客户端分别输出信息，但是页面只有一个回复</p><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/a60782885/article/details/69267934" target="_blank" rel="noopener">https://blog.csdn.net/a60782885/article/details/69267934</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;必看提示以及声明：&quot;&gt;&lt;a href=&quot;#必看提示以及声明：&quot; class=&quot;headerlink&quot; title=&quot;必看提示以及声明：&quot;&gt;&lt;/a&gt;必看提示以及声明：&lt;/h3&gt;&lt;p&gt;请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关&lt;/p&gt;
+&lt;h6 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h6&gt;&lt;p&gt;1：确认注册中心已启动&lt;/p&gt;
+&lt;p&gt;2：确认客户端已启动(上节是2222端口为服务端，我们可以创建并配置一模一样的端口号为2223的客户端)&lt;/p&gt;
+&lt;p&gt;3：开发工具创建maven项目(博主这里选择与客户端一样的创建流程，稍后修改下pom)&lt;/p&gt;
+&lt;p&gt;4：配置pom,并创建controller&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;&quot;&gt;图片暂无&lt;/a&gt;&lt;/p&gt;
+&lt;h6 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h6&gt;&lt;p&gt;1：启动注册中心(博主这里端口号为:1111)以及2222端口2223端口的客户端&lt;/p&gt;
+&lt;p&gt;2：idea工具&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="spring cloud" scheme="blog.virualyz.com/categories/spring-cloud/"/>
+    
+    
+      <category term="spring cloud" scheme="blog.virualyz.com/tags/spring-cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring-cloud-向注册中心注册服务</title>
+    <link href="blog.virualyz.com/2018/08/13/201808130444_spring-cloud-%E5%90%91%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1/"/>
+    <id>blog.virualyz.com/2018/08/13/201808130444_spring-cloud-向注册中心注册服务/</id>
+    <published>2018-08-12T20:44:00.000Z</published>
+    <updated>2019-02-24T07:47:44.601Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="必看提示以及声明："><a href="#必看提示以及声明：" class="headerlink" title="必看提示以及声明："></a>必看提示以及声明：</h3><p>请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关</p><h6 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h6><p>1：确认注册中心已启动</p><p>2：开发工具创建客户端项目(博主idea)</p><p>3：配置pom,Application并启动</p><p><a href="">图片暂无</a></p><h6 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h6><p>1：确认注册中心已经启动(博主这里端口号为:1111)</p><p>2：idea</p><a id="more"></a> <h4 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h4><p>1：访问<a href="http://localhost:1111，出现注册中心页面" target="_blank" rel="noopener">http://localhost:1111，出现注册中心页面</a><br>2：打开idea，选择file-&gt;new-&gt;project-&gt;Spring Initializr,在弹出页面填写信息，默认就好，然后选择Cloud Discovery-&gt;Eureka client,最后finish<br>3：在启动类**Application,添加服务注释,代码如下</p><pre><code>@EnableDiscoveryClient@SpringBootApplicationpublic class ClientApplication {  public static void main(String[] args) {      SpringApplication.run(ClientApplication.class, args);  }</code></pre><p>4：在application.properties中配置如下：</p><pre><code>spring.application.name=hello-serviceserver.port=2222eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka/    </code></pre><p>5：最后修改pom文件<br>    按照步骤通过idea 创建的pom如下:</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;    &lt;groupId&gt;&gt;com.vf.Eureka&lt;/groupId&gt;    &lt;artifactId&gt;client&lt;/artifactId&gt;    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;    &lt;packaging&gt;jar&lt;/packaging&gt;    &lt;name&gt;client&lt;/name&gt;    &lt;description&gt;Demo project for Spring Cloud&lt;/description&gt;    &lt;parent&gt;        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;        &lt;version&gt;2.0.4.RELEASE&lt;/version&gt;        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;    &lt;/parent&gt;    &lt;properties&gt;        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;        &lt;java.version&gt;1.8&lt;/java.version&gt;        &lt;spring-cloud.version&gt;Finchley.SR1&lt;/spring-cloud.version&gt;    &lt;/properties&gt;    &lt;dependencies&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;            &lt;scope&gt;test&lt;/scope&gt;        &lt;/dependency&gt;    &lt;/dependencies&gt;    &lt;dependencyManagement&gt;        &lt;dependencies&gt;            &lt;dependency&gt;                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;                &lt;type&gt;pom&lt;/type&gt;                &lt;scope&gt;import&lt;/scope&gt;            &lt;/dependency&gt;        &lt;/dependencies&gt;    &lt;/dependencyManagement&gt;    &lt;build&gt;        &lt;plugins&gt;            &lt;plugin&gt;                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;/plugin&gt;        &lt;/plugins&gt;    &lt;/build&gt;&lt;/project&gt;</code></pre><p>   修改为 如下pom内容</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;    &lt;groupId&gt;com.vf.Eureka&lt;/groupId&gt;    &lt;artifactId&gt;client&lt;/artifactId&gt;    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;    &lt;packaging&gt;jar&lt;/packaging&gt;    &lt;name&gt;client&lt;/name&gt;    &lt;description&gt;Demo project for Spring Boot&lt;/description&gt;    &lt;parent&gt;        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;        &lt;version&gt;2.0.4.RELEASE&lt;/version&gt;        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;    &lt;/parent&gt;    &lt;properties&gt;        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;        &lt;java.version&gt;1.8&lt;/java.version&gt;        &lt;spring-cloud.version&gt;Finchley.SR1&lt;/spring-cloud.version&gt;    &lt;/properties&gt;    &lt;dependencies&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;            &lt;scope&gt;test&lt;/scope&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-web&lt;/artifactId&gt;            &lt;version&gt;2.0.4.RELEASE&lt;/version&gt;        &lt;/dependency&gt;    &lt;/dependencies&gt;    &lt;dependencyManagement&gt;        &lt;dependencies&gt;            &lt;dependency&gt;                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;                &lt;type&gt;pom&lt;/type&gt;                &lt;scope&gt;import&lt;/scope&gt;            &lt;/dependency&gt;        &lt;/dependencies&gt;    &lt;/dependencyManagement&gt;    &lt;build&gt;        &lt;plugins&gt;            &lt;plugin&gt;                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;/plugin&gt;        &lt;/plugins&gt;    &lt;/build&gt;&lt;/project&gt;</code></pre><p>6：创建文件 Controller</p><pre><code>@RestControllerpublic class Controller {    private final Logger logger = Logger.getLogger(getClass());    @Autowired    private DiscoveryClient client;    @RequestMapping(value=&quot;/hello&quot;,method = RequestMethod.GET)    public String index(){        client.getServices().forEach(id -&gt; {            client.getInstances(id).forEach(instance -&gt; {                logger.info(&quot;/hello, host:&quot; + instance.getHost() + &quot;, service_id:&quot; + instance.getServiceId());            });        });        return &quot;Hello World&quot;;    }}</code></pre><p>7：最后在启动类MainCloudApplication右键启动，访问配置的地址：<a href="http://localhost:1111" target="_blank" rel="noopener">http://localhost:1111</a><br>    即可看到 hello-service 注册成功<br>    访问<a href="https://localhost:2222//hello" target="_blank" rel="noopener">https://localhost:2222//hello</a><br>    即可看到创建的服务方法返回的数据</p><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><p>1:spring boot 1.x 版本与2.x版本的改变 导致在获取服务列表时的方法改变</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;必看提示以及声明：&quot;&gt;&lt;a href=&quot;#必看提示以及声明：&quot; class=&quot;headerlink&quot; title=&quot;必看提示以及声明：&quot;&gt;&lt;/a&gt;必看提示以及声明：&lt;/h3&gt;&lt;p&gt;请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关&lt;/p&gt;
+&lt;h6 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h6&gt;&lt;p&gt;1：确认注册中心已启动&lt;/p&gt;
+&lt;p&gt;2：开发工具创建客户端项目(博主idea)&lt;/p&gt;
+&lt;p&gt;3：配置pom,Application并启动&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;&quot;&gt;图片暂无&lt;/a&gt;&lt;/p&gt;
+&lt;h6 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h6&gt;&lt;p&gt;1：确认注册中心已经启动(博主这里端口号为:1111)&lt;/p&gt;
+&lt;p&gt;2：idea&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="spring cloud" scheme="blog.virualyz.com/categories/spring-cloud/"/>
+    
+    
+      <category term="spring cloud" scheme="blog.virualyz.com/tags/spring-cloud/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>spring-cloud入门-idea中创建cloud服务中心</title>
+    <link href="blog.virualyz.com/2018/08/08/201808080344_spring-cloud%E5%85%A5%E9%97%A8-%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E4%B8%AD%E5%BF%83/"/>
+    <id>blog.virualyz.com/2018/08/08/201808080344_spring-cloud入门-创建服务中心/</id>
+    <published>2018-08-07T19:46:00.000Z</published>
+    <updated>2019-02-24T07:47:44.601Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="必看提示以及声明："><a href="#必看提示以及声明：" class="headerlink" title="必看提示以及声明："></a>必看提示以及声明：</h3><p>请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关</p><h6 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h6><p>1：确认环境</p><p>2：开发工具创建项目(博主idea)</p><p>3：配置并启动<br><a href="">图片暂无</a></p><h6 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h6><p>1：maven</p><p>2：idea</p><a id="more"></a> <h4 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h4><p>1：打开终端并运行以下命令以确保您已安装了idea和Maven的有效版本</p><p>2：打开idea，选择file-&gt;new-&gt;project-&gt;Spring Initializr,在弹出页面填写信息，默认就好，然后选择Cloud Discovery-&gt;Eureka server,最后finish</p><p>3：在com.virtual.maincloud 下启动类**Application,代码如下</p><pre><code>package com.virtual.maincloud;import org.springframework.boot.SpringApplication;import org.springframework.boot.autoconfigure.SpringBootApplication;import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;@EnableEurekaServer@SpringBootApplicationpublic class MainCloudApplication {    public static void main(String[] args) {        SpringApplication.run(MainCloudApplication.class, args);    }}</code></pre><p>4：在application.properties中配置如下：</p><pre><code>#提供服务端口server.port=1111#提供服务的域名，本地可以使用localhost或者配置hosts测试eureka.instance.hostname=localhost#关闭向注册中心注册自己eureka.client.register-with-eureka=false#关闭发现注册服务，注册中心仅用于维护节点eureka.client.fetch-registry=false#配置注册中心提供服务的url（这里引用上边的配置）eureka.client.serviceUrl.defaultZone=http://${eureka.instance.hostname}:${server.port}/eureka/</code></pre><p>5：最后修改pom文件<br>    按照步骤通过idea 创建的pom如下:</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;    &lt;groupId&gt;com.virtual&lt;/groupId&gt;    &lt;artifactId&gt;main-cloud&lt;/artifactId&gt;    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;    &lt;packaging&gt;jar&lt;/packaging&gt;    &lt;name&gt;main-cloud&lt;/name&gt;    &lt;description&gt;Demo project for Spring Cloud&lt;/description&gt;    &lt;parent&gt;        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;        &lt;version&gt;2.0.4.RELEASE&lt;/version&gt;        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;    &lt;/parent&gt;    &lt;properties&gt;        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;        &lt;java.version&gt;1.8&lt;/java.version&gt;        &lt;spring-cloud.version&gt;Finchley.SR1&lt;/spring-cloud.version&gt;    &lt;/properties&gt;    &lt;dependencies&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;            &lt;scope&gt;test&lt;/scope&gt;        &lt;/dependency&gt;    &lt;/dependencies&gt;    &lt;dependencyManagement&gt;        &lt;dependencies&gt;            &lt;dependency&gt;                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;                &lt;type&gt;pom&lt;/type&gt;                &lt;scope&gt;import&lt;/scope&gt;            &lt;/dependency&gt;        &lt;/dependencies&gt;    &lt;/dependencyManagement&gt;    &lt;build&gt;        &lt;plugins&gt;            &lt;plugin&gt;                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;/plugin&gt;        &lt;/plugins&gt;    &lt;/build&gt;&lt;/project&gt;</code></pre><p>   修改为 如下pom内容</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;    &lt;groupId&gt;com.virtual&lt;/groupId&gt;    &lt;artifactId&gt;main-cloud&lt;/artifactId&gt;    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;    &lt;packaging&gt;jar&lt;/packaging&gt;    &lt;name&gt;main-cloud&lt;/name&gt;    &lt;description&gt;Demo project for Spring Cloud&lt;/description&gt;    &lt;parent&gt;        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;        &lt;version&gt;1.5.3.RELEASE&lt;/version&gt;        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;    &lt;/parent&gt;    &lt;properties&gt;        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;        &lt;java.version&gt;1.8&lt;/java.version&gt;        &lt;spring-cloud.version&gt;Dalston.RC1&lt;/spring-cloud.version&gt;&lt;!--        &lt;spring-cloud.version&gt;Finchley.SR1&lt;/spring-cloud.version&gt;--&gt;    &lt;/properties&gt;    &lt;dependencies&gt;    &lt;!--    &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;        &lt;/dependency&gt;--&gt;        &lt;!--eureka server --&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;            &lt;scope&gt;test&lt;/scope&gt;        &lt;/dependency&gt;    &lt;/dependencies&gt;    &lt;dependencyManagement&gt;        &lt;dependencies&gt;            &lt;dependency&gt;                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;                &lt;type&gt;pom&lt;/type&gt;                &lt;scope&gt;import&lt;/scope&gt;            &lt;/dependency&gt;        &lt;/dependencies&gt;    &lt;/dependencyManagement&gt;    &lt;build&gt;        &lt;plugins&gt;            &lt;plugin&gt;                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;/plugin&gt;        &lt;/plugins&gt;    &lt;/build&gt;    &lt;repositories&gt;        &lt;repository&gt;            &lt;id&gt;spring-milestones&lt;/id&gt;            &lt;name&gt;Spring Milestones&lt;/name&gt;            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;            &lt;snapshots&gt;                &lt;enabled&gt;false&lt;/enabled&gt;            &lt;/snapshots&gt;        &lt;/repository&gt;    &lt;/repositories&gt;&lt;/project&gt;</code></pre><p>6：最后在启动类MainCloudApplication右键启动，访问配置的地址：<a href="http://localhost:1111" target="_blank" rel="noopener">http://localhost:1111</a><br>   即可看到spring Eureka 页面</p><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><p>1:关于SpringBoot版本不建议大于等于2.0版本，百度说是2.0改动比较大，创建有问题，确实我也碰到了，<br>启动后访问页面直接报错了.</p><p>2:关于pom文件还有挺多坑的<br>选择cloud创建的pom中<br>    <dependency><br>        <groupid>org.springframework.cloud</groupid><br>        <artifactid>spring-cloud-starter-netflix-eureka-server</artifactid><br>    </dependency><br>   这个引入默认创建应该都包含了，但是你直接启动却无法启动，<br>   还有最后spring-milestones这个不会知道起到了什么作用，<br>   删了他启动项注解什么的都报错了</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.cnblogs.com/chry/p/7248947.html" target="_blank" rel="noopener">https://www.cnblogs.com/chry/p/7248947.html</a><br><a href="https://www.jb51.net/article/138554.htm" target="_blank" rel="noopener">https://www.jb51.net/article/138554.htm</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;必看提示以及声明：&quot;&gt;&lt;a href=&quot;#必看提示以及声明：&quot; class=&quot;headerlink&quot; title=&quot;必看提示以及声明：&quot;&gt;&lt;/a&gt;必看提示以及声明：&lt;/h3&gt;&lt;p&gt;请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关&lt;/p&gt;
+&lt;h6 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h6&gt;&lt;p&gt;1：确认环境&lt;/p&gt;
+&lt;p&gt;2：开发工具创建项目(博主idea)&lt;/p&gt;
+&lt;p&gt;3：配置并启动&lt;br&gt;&lt;a href=&quot;&quot;&gt;图片暂无&lt;/a&gt;&lt;/p&gt;
+&lt;h6 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h6&gt;&lt;p&gt;1：maven&lt;/p&gt;
+&lt;p&gt;2：idea&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="spring cloud" scheme="blog.virualyz.com/categories/spring-cloud/"/>
+    
+    
+      <category term="spring cloud" scheme="blog.virualyz.com/tags/spring-cloud/"/>
+    
+  </entry>
+  
+</feed>
