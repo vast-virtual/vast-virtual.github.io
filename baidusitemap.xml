@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>blog.virualyz.com/2018/10/06/201810061650-git%E5%88%9B%E5%BB%BA%E7%A7%98%E9%92%A5/</loc>
+    <lastmod>2019-03-30T13:40:05.641Z</lastmod>
+    <data>
+        <display>
+        <title>mac中git创建秘钥</title>
+        <pubTime>2018-10-06T08:50:03.000Z</pubTime>
+        
+        <tag>git</tag>
+         
+         
+           
+             
+              <breadCrumb title="git" url="blog.virualyz.com/categories/git/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>blog.virualyz.com/2019/02/28/2019%E5%B9%B402%E6%9C%8828%E6%97%A521:54:55-mac%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/</loc>
     <lastmod>2019-03-29T06:46:46.638Z</lastmod>
     <data>
@@ -117,26 +137,6 @@
            
              
               <breadCrumb title="设计模式" url="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2018/10/06/201810061650-git%E5%88%9B%E5%BB%BA%E7%A7%98%E9%92%A5/</loc>
-    <lastmod>2019-03-03T12:07:10.211Z</lastmod>
-    <data>
-        <display>
-        <title>mac中git创建秘钥</title>
-        <pubTime>2018-10-06T08:50:03.000Z</pubTime>
-        
-        <tag>git</tag>
-         
-         
-           
-             
-              <breadCrumb title="git" url="blog.virualyz.com/categories/git/"/>
           
         </display>
     </data>
@@ -607,26 +607,6 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/06/13/201806140052_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E6%B6%88%E6%81%AF%E5%88%B0%E7%88%B6%E7%BB%84%E4%BB%B6/</loc>
-    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
-    <data>
-        <display>
-        <title>angular4主从结构子组件传递消息到父组件</title>
-        <pubTime>2018-06-12T17:20:00.000Z</pubTime>
-        
-        <tag>angular</tag>
-         
-         
-           
-             
-              <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>blog.virualyz.com/2018/06/13/201806130205_github+hexo%E5%88%9B%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2019-02-24T07:47:44.599Z</lastmod>
     <data>
@@ -640,6 +620,26 @@
            
              
               <breadCrumb title="hexo" url="blog.virualyz.com/categories/hexo/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/06/13/201806140052_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E6%B6%88%E6%81%AF%E5%88%B0%E7%88%B6%E7%BB%84%E4%BB%B6/</loc>
+    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
+    <data>
+        <display>
+        <title>angular4主从结构子组件传递消息到父组件</title>
+        <pubTime>2018-06-12T17:20:00.000Z</pubTime>
+        
+        <tag>angular</tag>
+         
+         
+           
+             
+              <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
           
         </display>
     </data>
