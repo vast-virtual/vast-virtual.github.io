@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="blog.virualyz.com/"/>
-  <updated>2019-03-18T05:42:28.715Z</updated>
+  <updated>2019-03-28T15:01:03.037Z</updated>
   <id>blog.virualyz.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql中or条件的使用优化避免全表扫描</title>
+    <link href="blog.virualyz.com/2019/03/28/2019-03-28_22-39-35-mysql%E4%B8%ADor%E6%9D%A1%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8%E4%BC%98%E5%8C%96%E9%81%BF%E5%85%8D%E5%85%A8%E8%A1%A8%E6%89%AB%E6%8F%8F/"/>
+    <id>blog.virualyz.com/2019/03/28/2019-03-28_22-39-35-mysql中or条件的使用优化避免全表扫描/</id>
+    <published>2019-03-28T14:00:00.000Z</published>
+    <updated>2019-03-28T15:01:03.037Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>生产环境有个sql很缓慢,查询了全表,类似</p><pre><code>select * from table where  = 1 or b = 2</code></pre><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要解决在sql中使用or的情况下,尽量避免sql进行全表查询，也就是type 显示all的情况</p><a id="more"></a><h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p> MySQL在 5.0版本中引入新特性：索引合并优化(Index merge optimization)，当查询中单张表可以使用多个索引时，同时扫描多个索引并将扫描结果进行合并</p><p>该特新主要应用于以下三种场景：</p><p>1、对OR语句求并集，如查询SELECT * FROM TB1 WHERE c1=”xxx” OR c2=””xxx”时，如果c1和c2列上分别有索引，可以按照c1和c2条件进行查询，再将查询结果合并（union）操作，得到最终结果</p><p>2、对AND语句求交集，如查询SELECT * FROM TB1 WHERE c1=”xxx” AND c2=””xxx”时，如果c1和c2列上分别有索引，可以按照c1和c2条件进行查询，再将查询结果取交集（intersect）操作，得到最终结果</p><p>3、对AND和OR组合语句求结果</p><p>该新特性可以在一些场景中大幅度提升查询性能，但受限于MySQL糟糕的统计信息，也导致很多场景查询性能极差甚至导致数据库崩溃。</p><p>以SELECT * FROM table WHERE a=”xxx” AND a=””xxx” 为例：</p><p>1、当a列和b列选择性较高时，按照a和b条件进行查询性能较高且返回数据集较小，再对两个数据量较小的数据集求交集的操作成本也较低，最终整个语句查询高效；</p><p>2、当a列或b列选择性较差且统计信息不准时，比如整表数据量2000万，按照b列条件返回1500万数据，按照a列返回1000条数据，此时按照b列条件进行索引扫描+聚集索引查找的操作成本极高(可能是整表扫描的百倍消耗)，对1000条数据和1500万数据求交集的成本也极高，最终导致整条SQL需要消耗大量CPU和IO资源且相应时间超长，而如果值使用a列的索引，查询消耗资源较少且性能较高。</p><p>由于上述的问题，绝大多数的运维团队都会选择关闭该特性来避免执行异常，京东商城也出现过类似案例，严重影响业务正常运行。</p><h2 id="解决方法"><a href="#解决方法" class="headerlink" title="解决方法"></a>解决方法</h2><p>在某些情况下，or条件可以避免全表扫描的。<br>1、where 语句里面如果带有or条件, myisam表能用到索引， innodb不行。</p><pre><code>mysql版本5.5.24测试不成功 mysql版本5.5.35innodb测试不成功</code></pre><p>2 .必须所有的or条件都必须是独立索引，独立索引通俗的讲就是自己这一列单独有一个索引</p><ol start="3"><li>用UNION替换OR (适用于索引列)</li></ol><pre><code>通常情况下, 用UNION替换WHERE子句中的OR将会起到较好的效果. 对索引列使用OR将造成全表扫描. 注意, 以上规则只针对多个索引列有效. 如果有column没有被索引, 查询效率可能会因为你没有选择OR而降低. </code></pre><ol start="4"><li>用in来替换or  </li></ol><pre><code>低效: select…. from location where loc_id = 10 or loc_id = 20 or loc_id = 30 高效 select… from location where loc_in  in (10,20,30);</code></pre><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/hguisu/article/details/7106159" target="_blank" rel="noopener">https://blog.csdn.net/hguisu/article/details/7106159</a><br><a href="https://blog.csdn.net/fsp88927/article/details/80662422" target="_blank" rel="noopener">https://blog.csdn.net/fsp88927/article/details/80662422</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;原因-cause&quot;&gt;&lt;a href=&quot;#原因-cause&quot; class=&quot;headerlink&quot; title=&quot;原因(cause)&quot;&gt;&lt;/a&gt;原因(cause)&lt;/h1&gt;&lt;p&gt;生产环境有个sql很缓慢,查询了全表,类似&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select * from table where  = 1 or b = 2
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;本文介绍&quot;&gt;&lt;a href=&quot;#本文介绍&quot; class=&quot;headerlink&quot; title=&quot;本文介绍&quot;&gt;&lt;/a&gt;本文介绍&lt;/h1&gt;&lt;p&gt; 本文主要解决在sql中使用or的情况下,尽量避免sql进行全表查询，也就是type 显示all的情况&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="blog.virualyz.com/categories/mysql/"/>
+    
+    
+      <category term="数据库" scheme="blog.virualyz.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
   
   <entry>
     <title>mysql优化神器explain介绍</title>
@@ -96,9 +120,9 @@ explain extended SELECT * FROM TABLE_NAME
     <link href="blog.virualyz.com/2019/02/28/2019%E5%B9%B402%E6%9C%8828%E6%97%A521:54:55-mac%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/"/>
     <id>blog.virualyz.com/2019/02/28/2019年02月28日21:54:55-mac端口占用问题/</id>
     <published>2019-02-28T13:56:04.000Z</published>
-    <updated>2019-03-10T06:44:38.653Z</updated>
+    <updated>2019-03-29T06:46:46.638Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>第一次使用mac,关闭idea时忘记关闭tomcat,这时再次启动tomcat会有提示:</p><pre><code>错误: 代理抛出异常错误: java.rmi.server.ExportException: Port already in use: 1099; nested exception is: java.net.BindException: Address already in use: JVM_Bind</code></pre><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要解决mac中端口占用问题</p><a id="more"></a><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>端口xxxx被占用了</p><p>1)打开终端输入:</p><p>2)lsof -i tcp:xxxx;</p><p>找到被占用的数字，我的是<em>**</em>;</p><p>3)kill <em>**</em>;</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/qq_40763761/article/details/79729147" target="_blank" rel="noopener">https://blog.csdn.net/qq_40763761/article/details/79729147</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>第一次使用mac,关闭idea时忘记关闭tomcat,这时再次启动tomcat会有提示:</p><pre><code>错误: 代理抛出异常错误: java.rmi.server.ExportException: Port already in use: 1099; nested exception is: java.net.BindException: Address already in use: JVM_Bind</code></pre><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要解决mac中端口占用问题</p><a id="more"></a><h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>端口xxxx被占用了</p><p>1)打开终端输入:</p><p>2)lsof -i tcp:占用端口;</p><p>找到被占用的数字，我的是<em>**</em>;</p><pre><code>lsof -i tcp:1099;</code></pre><p>3)kill PID;</p><pre><code>kill ****;  </code></pre><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/qq_40763761/article/details/79729147" target="_blank" rel="noopener">https://blog.csdn.net/qq_40763761/article/details/79729147</a></p>]]></content>
     
     <summary type="html">
     
@@ -371,6 +395,32 @@ java.net.BindException: Address already in use: JVM_Bind
   </entry>
   
   <entry>
+    <title>Markdown 学习</title>
+    <link href="blog.virualyz.com/2018/08/22/201808220037_Markdown%E5%AD%A6%E4%B9%A0/"/>
+    <id>blog.virualyz.com/2018/08/22/201808220037_Markdown学习/</id>
+    <published>2018-08-21T16:00:00.000Z</published>
+    <updated>2019-02-24T07:47:44.601Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p> 本文介绍Markdown 的简单功能以及实现</p><p>##宗旨</p><p> Markdown 的目标是实现「易读易写」。</p><p> 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。</p><p> 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像<em>强调</em>。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p><a id="more"></a> <p>##区块元素</p><p>###段落和换行</p><p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进</p><p>####标题</p><p>Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。</p><p>类 Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第二阶标题），例如：</p><pre><code>This is an H1=============This is an H2-------------</code></pre><p>任何数量的 = 和 - 都可以有效果。</p><p>类 Atx 形式则是在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶，行首的井字符数量决定标题的阶数，例如：</p><pre><code># 这是 H1## 这是 H2###### 这是 H6</code></pre><p>####区块引用 Blockquotes</p><p>Markdown 标记区块引用是使用类似 email 中用 &gt; 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 &gt; ：</p><pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&gt; &gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse&gt; id sem consectetuer libero luctus adipiscing.</code></pre><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">https://www.appinn.com/markdown/</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt; 本文介绍Markdown 的简单功能以及实现&lt;/p&gt;
+&lt;p&gt;##宗旨&lt;/p&gt;
+&lt;p&gt; Markdown 的目标是实现「易读易写」。&lt;/p&gt;
+&lt;p&gt; 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。&lt;/p&gt;
+&lt;p&gt; 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像&lt;em&gt;强调&lt;/em&gt;。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="Markdown" scheme="blog.virualyz.com/categories/Markdown/"/>
+    
+    
+      <category term="Markdown" scheme="blog.virualyz.com/tags/Markdown/"/>
+    
+  </entry>
+  
+  <entry>
     <title>window8安装makedownPad2</title>
     <link href="blog.virualyz.com/2018/08/22/201808220131_window8%E5%AE%89%E8%A3%85makedownpad2/"/>
     <id>blog.virualyz.com/2018/08/22/201808220131_window8安装makedownpad2/</id>
@@ -400,32 +450,6 @@ http://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe
     
     
       <category term="makedownPad2" scheme="blog.virualyz.com/tags/makedownPad2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Markdown 学习</title>
-    <link href="blog.virualyz.com/2018/08/22/201808220037_Markdown%E5%AD%A6%E4%B9%A0/"/>
-    <id>blog.virualyz.com/2018/08/22/201808220037_Markdown学习/</id>
-    <published>2018-08-21T16:00:00.000Z</published>
-    <updated>2019-02-24T07:47:44.601Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p> 本文介绍Markdown 的简单功能以及实现</p><p>##宗旨</p><p> Markdown 的目标是实现「易读易写」。</p><p> 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。</p><p> 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像<em>强调</em>。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p><a id="more"></a> <p>##区块元素</p><p>###段落和换行</p><p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进</p><p>####标题</p><p>Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。</p><p>类 Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第二阶标题），例如：</p><pre><code>This is an H1=============This is an H2-------------</code></pre><p>任何数量的 = 和 - 都可以有效果。</p><p>类 Atx 形式则是在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶，行首的井字符数量决定标题的阶数，例如：</p><pre><code># 这是 H1## 这是 H2###### 这是 H6</code></pre><p>####区块引用 Blockquotes</p><p>Markdown 标记区块引用是使用类似 email 中用 &gt; 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 &gt; ：</p><pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&gt; &gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse&gt; id sem consectetuer libero luctus adipiscing.</code></pre><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">https://www.appinn.com/markdown/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt; 本文介绍Markdown 的简单功能以及实现&lt;/p&gt;
-&lt;p&gt;##宗旨&lt;/p&gt;
-&lt;p&gt; Markdown 的目标是实现「易读易写」。&lt;/p&gt;
-&lt;p&gt; 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。&lt;/p&gt;
-&lt;p&gt; 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像&lt;em&gt;强调&lt;/em&gt;。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Markdown" scheme="blog.virualyz.com/categories/Markdown/"/>
-    
-    
-      <category term="Markdown" scheme="blog.virualyz.com/tags/Markdown/"/>
     
   </entry>
   
@@ -507,33 +531,6 @@ http://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe
 &lt;p&gt;3：配置pom,Application并启动&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;&quot;&gt;图片暂无&lt;/a&gt;&lt;/p&gt;
 &lt;h6 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h6&gt;&lt;p&gt;1：确认注册中心已经启动(博主这里端口号为:1111)&lt;/p&gt;
-&lt;p&gt;2：idea&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="spring cloud" scheme="blog.virualyz.com/categories/spring-cloud/"/>
-    
-    
-      <category term="spring cloud" scheme="blog.virualyz.com/tags/spring-cloud/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>spring-cloud入门-idea中创建cloud服务中心</title>
-    <link href="blog.virualyz.com/2018/08/08/201808080344_spring-cloud%E5%85%A5%E9%97%A8-%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E4%B8%AD%E5%BF%83/"/>
-    <id>blog.virualyz.com/2018/08/08/201808080344_spring-cloud入门-创建服务中心/</id>
-    <published>2018-08-07T19:46:00.000Z</published>
-    <updated>2019-02-24T07:47:44.601Z</updated>
-    
-    <content type="html"><![CDATA[<h3 id="必看提示以及声明："><a href="#必看提示以及声明：" class="headerlink" title="必看提示以及声明："></a>必看提示以及声明：</h3><p>请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关</p><h6 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h6><p>1：确认环境</p><p>2：开发工具创建项目(博主idea)</p><p>3：配置并启动<br><a href="">图片暂无</a></p><h6 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h6><p>1：maven</p><p>2：idea</p><a id="more"></a> <h4 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h4><p>1：打开终端并运行以下命令以确保您已安装了idea和Maven的有效版本</p><p>2：打开idea，选择file-&gt;new-&gt;project-&gt;Spring Initializr,在弹出页面填写信息，默认就好，然后选择Cloud Discovery-&gt;Eureka server,最后finish</p><p>3：在com.virtual.maincloud 下启动类**Application,代码如下</p><pre><code>package com.virtual.maincloud;import org.springframework.boot.SpringApplication;import org.springframework.boot.autoconfigure.SpringBootApplication;import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;@EnableEurekaServer@SpringBootApplicationpublic class MainCloudApplication {    public static void main(String[] args) {        SpringApplication.run(MainCloudApplication.class, args);    }}</code></pre><p>4：在application.properties中配置如下：</p><pre><code>#提供服务端口server.port=1111#提供服务的域名，本地可以使用localhost或者配置hosts测试eureka.instance.hostname=localhost#关闭向注册中心注册自己eureka.client.register-with-eureka=false#关闭发现注册服务，注册中心仅用于维护节点eureka.client.fetch-registry=false#配置注册中心提供服务的url（这里引用上边的配置）eureka.client.serviceUrl.defaultZone=http://${eureka.instance.hostname}:${server.port}/eureka/</code></pre><p>5：最后修改pom文件<br>    按照步骤通过idea 创建的pom如下:</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;    &lt;groupId&gt;com.virtual&lt;/groupId&gt;    &lt;artifactId&gt;main-cloud&lt;/artifactId&gt;    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;    &lt;packaging&gt;jar&lt;/packaging&gt;    &lt;name&gt;main-cloud&lt;/name&gt;    &lt;description&gt;Demo project for Spring Cloud&lt;/description&gt;    &lt;parent&gt;        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;        &lt;version&gt;2.0.4.RELEASE&lt;/version&gt;        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;    &lt;/parent&gt;    &lt;properties&gt;        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;        &lt;java.version&gt;1.8&lt;/java.version&gt;        &lt;spring-cloud.version&gt;Finchley.SR1&lt;/spring-cloud.version&gt;    &lt;/properties&gt;    &lt;dependencies&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;            &lt;scope&gt;test&lt;/scope&gt;        &lt;/dependency&gt;    &lt;/dependencies&gt;    &lt;dependencyManagement&gt;        &lt;dependencies&gt;            &lt;dependency&gt;                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;                &lt;type&gt;pom&lt;/type&gt;                &lt;scope&gt;import&lt;/scope&gt;            &lt;/dependency&gt;        &lt;/dependencies&gt;    &lt;/dependencyManagement&gt;    &lt;build&gt;        &lt;plugins&gt;            &lt;plugin&gt;                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;/plugin&gt;        &lt;/plugins&gt;    &lt;/build&gt;&lt;/project&gt;</code></pre><p>   修改为 如下pom内容</p><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;&lt;project xmlns=&quot;http://maven.apache.org/POM/4.0.0&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;    xsi:schemaLocation=&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;&gt;    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;    &lt;groupId&gt;com.virtual&lt;/groupId&gt;    &lt;artifactId&gt;main-cloud&lt;/artifactId&gt;    &lt;version&gt;0.0.1-SNAPSHOT&lt;/version&gt;    &lt;packaging&gt;jar&lt;/packaging&gt;    &lt;name&gt;main-cloud&lt;/name&gt;    &lt;description&gt;Demo project for Spring Cloud&lt;/description&gt;    &lt;parent&gt;        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;        &lt;artifactId&gt;spring-boot-starter-parent&lt;/artifactId&gt;        &lt;version&gt;1.5.3.RELEASE&lt;/version&gt;        &lt;relativePath/&gt; &lt;!-- lookup parent from repository --&gt;    &lt;/parent&gt;    &lt;properties&gt;        &lt;project.build.sourceEncoding&gt;UTF-8&lt;/project.build.sourceEncoding&gt;        &lt;project.reporting.outputEncoding&gt;UTF-8&lt;/project.reporting.outputEncoding&gt;        &lt;java.version&gt;1.8&lt;/java.version&gt;        &lt;spring-cloud.version&gt;Dalston.RC1&lt;/spring-cloud.version&gt;&lt;!--        &lt;spring-cloud.version&gt;Finchley.SR1&lt;/spring-cloud.version&gt;--&gt;    &lt;/properties&gt;    &lt;dependencies&gt;    &lt;!--    &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-netflix-eureka-server&lt;/artifactId&gt;        &lt;/dependency&gt;--&gt;        &lt;!--eureka server --&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-eureka&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-eureka-server&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;            &lt;artifactId&gt;spring-cloud-starter-config&lt;/artifactId&gt;        &lt;/dependency&gt;        &lt;dependency&gt;            &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;            &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;            &lt;scope&gt;test&lt;/scope&gt;        &lt;/dependency&gt;    &lt;/dependencies&gt;    &lt;dependencyManagement&gt;        &lt;dependencies&gt;            &lt;dependency&gt;                &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;                &lt;artifactId&gt;spring-cloud-dependencies&lt;/artifactId&gt;                &lt;version&gt;${spring-cloud.version}&lt;/version&gt;                &lt;type&gt;pom&lt;/type&gt;                &lt;scope&gt;import&lt;/scope&gt;            &lt;/dependency&gt;        &lt;/dependencies&gt;    &lt;/dependencyManagement&gt;    &lt;build&gt;        &lt;plugins&gt;            &lt;plugin&gt;                &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;                &lt;artifactId&gt;spring-boot-maven-plugin&lt;/artifactId&gt;            &lt;/plugin&gt;        &lt;/plugins&gt;    &lt;/build&gt;    &lt;repositories&gt;        &lt;repository&gt;            &lt;id&gt;spring-milestones&lt;/id&gt;            &lt;name&gt;Spring Milestones&lt;/name&gt;            &lt;url&gt;https://repo.spring.io/milestone&lt;/url&gt;            &lt;snapshots&gt;                &lt;enabled&gt;false&lt;/enabled&gt;            &lt;/snapshots&gt;        &lt;/repository&gt;    &lt;/repositories&gt;&lt;/project&gt;</code></pre><p>6：最后在启动类MainCloudApplication右键启动，访问配置的地址：<a href="http://localhost:1111" target="_blank" rel="noopener">http://localhost:1111</a><br>   即可看到spring Eureka 页面</p><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><p>1:关于SpringBoot版本不建议大于等于2.0版本，百度说是2.0改动比较大，创建有问题，确实我也碰到了，<br>启动后访问页面直接报错了.</p><p>2:关于pom文件还有挺多坑的<br>选择cloud创建的pom中<br>    <dependency><br>        <groupid>org.springframework.cloud</groupid><br>        <artifactid>spring-cloud-starter-netflix-eureka-server</artifactid><br>    </dependency><br>   这个引入默认创建应该都包含了，但是你直接启动却无法启动，<br>   还有最后spring-milestones这个不会知道起到了什么作用，<br>   删了他启动项注解什么的都报错了</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.cnblogs.com/chry/p/7248947.html" target="_blank" rel="noopener">https://www.cnblogs.com/chry/p/7248947.html</a><br><a href="https://www.jb51.net/article/138554.htm" target="_blank" rel="noopener">https://www.jb51.net/article/138554.htm</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h3 id=&quot;必看提示以及声明：&quot;&gt;&lt;a href=&quot;#必看提示以及声明：&quot; class=&quot;headerlink&quot; title=&quot;必看提示以及声明：&quot;&gt;&lt;/a&gt;必看提示以及声明：&lt;/h3&gt;&lt;p&gt;请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关&lt;/p&gt;
-&lt;h6 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h6&gt;&lt;p&gt;1：确认环境&lt;/p&gt;
-&lt;p&gt;2：开发工具创建项目(博主idea)&lt;/p&gt;
-&lt;p&gt;3：配置并启动&lt;br&gt;&lt;a href=&quot;&quot;&gt;图片暂无&lt;/a&gt;&lt;/p&gt;
-&lt;h6 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h6&gt;&lt;p&gt;1：maven&lt;/p&gt;
 &lt;p&gt;2：idea&lt;/p&gt;
     
     </summary>

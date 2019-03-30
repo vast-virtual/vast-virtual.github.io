@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>blog.virualyz.com/2019/02/28/2019%E5%B9%B402%E6%9C%8828%E6%97%A521:54:55-mac%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/</loc>
+    <lastmod>2019-03-29T06:46:46.638Z</lastmod>
+    <data>
+        <display>
+        <title>mac端口占用问题</title>
+        <pubTime>2019-02-28T13:56:04.000Z</pubTime>
+        
+        <tag>system</tag>
+         
+         
+           
+             
+              <breadCrumb title="system" url="blog.virualyz.com/categories/system/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2019/03/28/2019-03-28_22-39-35-mysql%E4%B8%ADor%E6%9D%A1%E4%BB%B6%E7%9A%84%E4%BD%BF%E7%94%A8%E4%BC%98%E5%8C%96%E9%81%BF%E5%85%8D%E5%85%A8%E8%A1%A8%E6%89%AB%E6%8F%8F/</loc>
+    <lastmod>2019-03-28T15:01:03.037Z</lastmod>
+    <data>
+        <display>
+        <title>mysql中or条件的使用优化避免全表扫描</title>
+        <pubTime>2019-03-28T14:00:00.000Z</pubTime>
+        
+        <tag>数据库</tag>
+         
+         
+           
+             
+              <breadCrumb title="mysql" url="blog.virualyz.com/categories/mysql/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>blog.virualyz.com/2019/03/16/2019-03-17_18-06-48_mysql%E4%BC%98%E5%8C%96%E7%A5%9E%E5%99%A8explain/</loc>
     <lastmod>2019-03-18T05:42:28.715Z</lastmod>
     <data>
@@ -57,26 +97,6 @@
            
              
               <breadCrumb title="MAC" url="blog.virualyz.com/categories/MAC/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2019/02/28/2019%E5%B9%B402%E6%9C%8828%E6%97%A521:54:55-mac%E7%AB%AF%E5%8F%A3%E5%8D%A0%E7%94%A8%E9%97%AE%E9%A2%98/</loc>
-    <lastmod>2019-03-10T06:44:38.653Z</lastmod>
-    <data>
-        <display>
-        <title>mac端口占用问题</title>
-        <pubTime>2019-02-28T13:56:04.000Z</pubTime>
-        
-        <tag>system</tag>
-         
-         
-           
-             
-              <breadCrumb title="system" url="blog.virualyz.com/categories/system/"/>
           
         </display>
     </data>
@@ -252,26 +272,6 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/31/201808310312-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E8%A7%A3%E6%9E%90/</loc>
-    <lastmod>2019-02-24T07:47:44.605Z</lastmod>
-    <data>
-        <display>
-        <title>设计模式介绍及解析</title>
-        <pubTime>2018-08-30T16:00:00.000Z</pubTime>
-        
-        <tag>设计模式</tag>
-         
-         
-           
-             
-              <breadCrumb title="设计模式" url="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>blog.virualyz.com/2018/09/03/201809030244-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2019-02-24T07:47:44.605Z</lastmod>
     <data>
@@ -285,6 +285,26 @@
            
              
               <breadCrumb title="数据库" url="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/08/31/201808310312-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E8%A7%A3%E6%9E%90/</loc>
+    <lastmod>2019-02-24T07:47:44.605Z</lastmod>
+    <data>
+        <display>
+        <title>设计模式介绍及解析</title>
+        <pubTime>2018-08-30T16:00:00.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
           
         </display>
     </data>
@@ -352,12 +372,12 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/</loc>
+    <loc>blog.virualyz.com/2018/08/13/201808130444_spring-cloud-%E5%90%91%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud-使用Hystrix实现断路器</title>
-        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
+        <title>spring-cloud-向注册中心注册服务</title>
+        <pubTime>2018-08-12T20:44:00.000Z</pubTime>
         
         <tag>spring cloud</tag>
          
@@ -412,11 +432,11 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/14/201808140251_spring-cloud-%E4%BD%BF%E7%94%A8Ribbon%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
+    <loc>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud-使用Ribbon实现负载均衡</title>
+        <title>spring-cloud-使用Hystrix实现断路器</title>
         <pubTime>2018-08-13T18:55:00.000Z</pubTime>
         
         <tag>spring cloud</tag>
@@ -432,12 +452,12 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/13/201808130444_spring-cloud-%E5%90%91%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1/</loc>
+    <loc>blog.virualyz.com/2018/08/14/201808140251_spring-cloud-%E4%BD%BF%E7%94%A8Ribbon%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud-向注册中心注册服务</title>
-        <pubTime>2018-08-12T20:44:00.000Z</pubTime>
+        <title>spring-cloud-使用Ribbon实现负载均衡</title>
+        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
         
         <tag>spring cloud</tag>
          
@@ -567,26 +587,6 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/06/13/201806140052_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E6%B6%88%E6%81%AF%E5%88%B0%E7%88%B6%E7%BB%84%E4%BB%B6/</loc>
-    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
-    <data>
-        <display>
-        <title>angular4主从结构子组件传递消息到父组件</title>
-        <pubTime>2018-06-12T17:20:00.000Z</pubTime>
-        
-        <tag>angular</tag>
-         
-         
-           
-             
-              <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>blog.virualyz.com/2018/07/15/201807152339_aws%E7%94%B3%E8%AF%B712%E4%B8%AA%E6%9C%88%E5%85%8D%E8%B4%B9yun/</loc>
     <lastmod>2019-02-24T07:47:44.599Z</lastmod>
     <data>
@@ -600,6 +600,26 @@
            
              
               <breadCrumb title="aws" url="blog.virualyz.com/categories/aws/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/06/13/201806140052_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E6%B6%88%E6%81%AF%E5%88%B0%E7%88%B6%E7%BB%84%E4%BB%B6/</loc>
+    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
+    <data>
+        <display>
+        <title>angular4主从结构子组件传递消息到父组件</title>
+        <pubTime>2018-06-12T17:20:00.000Z</pubTime>
+        
+        <tag>angular</tag>
+         
+         
+           
+             
+              <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
           
         </display>
     </data>

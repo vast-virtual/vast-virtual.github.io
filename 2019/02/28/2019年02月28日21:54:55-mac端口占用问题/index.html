@@ -89,7 +89,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="原因(cause)第一次使用mac,关闭idea时忘记关闭tomcat,这时再次启动tomcat会有提示: 错误: 代理抛出异常错误: java.rmi.server.ExportException: Port already in use: 1099; nested exception is:   java.net.BindException: Address already in use: J">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-03-10T06:44:38.653Z">
+<meta property="og:updated_time" content="2019-03-29T06:46:46.638Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mac端口占用问题">
 <meta name="twitter:description" content="原因(cause)第一次使用mac,关闭idea时忘记关闭tomcat,这时再次启动tomcat会有提示: 错误: 代理抛出异常错误: java.rmi.server.ExportException: Port already in use: 1099; nested exception is:   java.net.BindException: Address already in use: J">
@@ -392,10 +392,12 @@ java.net.BindException: Address already in use: JVM_Bind
 <a id="more"></a>
 <h2 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h2><p>端口xxxx被占用了</p>
 <p>1)打开终端输入:</p>
-<p>2)lsof -i tcp:xxxx;</p>
+<p>2)lsof -i tcp:占用端口;</p>
 <p>找到被占用的数字，我的是<em>**</em>;</p>
-<p>3)kill <em>**</em>;</p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/qq_40763761/article/details/79729147" target="_blank" rel="noopener">https://blog.csdn.net/qq_40763761/article/details/79729147</a></p>
+<pre><code>lsof -i tcp:1099;
+</code></pre><p>3)kill PID;</p>
+<pre><code>kill ****;  
+</code></pre><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/qq_40763761/article/details/79729147" target="_blank" rel="noopener">https://blog.csdn.net/qq_40763761/article/details/79729147</a></p>
 
       
     </div>
@@ -515,7 +517,7 @@ java.net.BindException: Address already in use: JVM_Bind
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
