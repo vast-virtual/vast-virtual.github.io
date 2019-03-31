@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="angular," />
+  <meta name="keywords" content="设计模式延伸," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="父组件引用子组件1&amp;lt;app-hero-detail [params]=&quot;params&quot;&amp;gt;&amp;lt;/app-hero-detail&amp;gt; 子组件定义接收参数 1$ @Input() params:params 然后你就可以使用params这个参数了. 碰到的问题:父组件第一次改变参数后子组件相应做出改变,父组件之后的参数改变，却无法再次使子组件改变，是因为什么？需要怎么修改？原理？ps">
-<meta name="keywords" content="angular">
+<meta name="description" content="本文介绍学习简单工厂模式">
+<meta name="keywords" content="设计模式延伸">
 <meta property="og:type" content="article">
-<meta property="og:title" content="angular4主从结构父组件参数传递到子组件">
-<meta property="og:url" content="blog.virualyz.com/2018/06/13/201806130120_angular4主从结构父组件参数传递到子组件/index.html">
+<meta property="og:title" content="23种设计模式延伸-简单工厂模式">
+<meta property="og:url" content="blog.virualyz.com/2019/03/31/2019-03-31_17-09-37_23中设计模式延伸-简单工厂模式/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="父组件引用子组件1&amp;lt;app-hero-detail [params]=&quot;params&quot;&amp;gt;&amp;lt;/app-hero-detail&amp;gt; 子组件定义接收参数 1$ @Input() params:params 然后你就可以使用params这个参数了. 碰到的问题:父组件第一次改变参数后子组件相应做出改变,父组件之后的参数改变，却无法再次使子组件改变，是因为什么？需要怎么修改？原理？ps">
+<meta property="og:description" content="本文介绍学习简单工厂模式">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-24T07:47:44.599Z">
+<meta property="og:updated_time" content="2019-03-31T12:31:57.692Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="angular4主从结构父组件参数传递到子组件">
-<meta name="twitter:description" content="父组件引用子组件1&amp;lt;app-hero-detail [params]=&quot;params&quot;&amp;gt;&amp;lt;/app-hero-detail&amp;gt; 子组件定义接收参数 1$ @Input() params:params 然后你就可以使用params这个参数了. 碰到的问题:父组件第一次改变参数后子组件相应做出改变,父组件之后的参数改变，却无法再次使子组件改变，是因为什么？需要怎么修改？原理？ps">
+<meta name="twitter:title" content="23种设计模式延伸-简单工厂模式">
+<meta name="twitter:description" content="本文介绍学习简单工厂模式">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="blog.virualyz.com/2018/06/13/201806130120_angular4主从结构父组件参数传递到子组件/"/>
+  <link rel="canonical" href="blog.virualyz.com/2019/03/31/2019-03-31_17-09-37_23中设计模式延伸-简单工厂模式/"/>
 
 
 
 
 
-  <title>angular4主从结构父组件参数传递到子组件 | Hexo</title>
+  <title>23种设计模式延伸-简单工厂模式 | Hexo</title>
   
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2018/06/13/201806130120_angular4主从结构父组件参数传递到子组件/">
+    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2019/03/31/2019-03-31_17-09-37_23中设计模式延伸-简单工厂模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xcxd">
@@ -312,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">angular4主从结构父组件参数传递到子组件</h1>
+          <h1 class="post-title" itemprop="name headline">23种设计模式延伸-简单工厂模式</h1>
         
 
         <div class="post-meta">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-13T01:20:00+08:00">
-                2018-06-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-31T16:00:00+08:00">
+                2019-03-31
               </time>
             
 
@@ -347,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/angular/" itemprop="url" rel="index">
-                    <span itemprop="name">angular</span>
+                  <a href="/categories/设计模式延伸/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式延伸</span>
                   </a>
                 </span>
 
@@ -384,12 +384,132 @@
       
 
       
-        <h2 id="父组件"><a href="#父组件" class="headerlink" title="父组件"></a>父组件</h2><p>引用子组件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;app-hero-detail [params]=<span class="string">"params"</span>&gt;&lt;/app-hero-detail&gt;</span><br></pre></td></tr></table></figure></p>
-<h2 id="子组件"><a href="#子组件" class="headerlink" title="子组件"></a>子组件</h2><p>定义接收参数</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ @Input() params:params</span><br></pre></td></tr></table></figure>
-<p>然后你就可以使用params这个参数了.</p>
-<p>碰到的问题:<br>父组件第一次改变参数后子组件相应做出改变,父组件之后的参数改变，却无法再次使子组件改变，是因为什么？需要怎么修改？原理？<br>ps:第一次父组件改变参数为true，子组件弹出提示，第二次乃至以后却无法使子组件弹出</p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章:"></a>参考文章:</h2><p><a href="https://angular.cn/tutorial/toh-pt3" target="_blank" rel="noopener">angular中文官网</a></p>
+        <h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>学习简单工厂模式<br><a id="more"></a></p>
+<h1 id="简单工厂模式介绍"><a href="#简单工厂模式介绍" class="headerlink" title="简单工厂模式介绍"></a>简单工厂模式介绍</h1><p>简单工厂模式是属于创建型模式，又叫做静态工厂方法（Static Factory Method）模式，<br>但不属于23种GOF设计模式之一。<br>简单工厂模式是工厂模式家族中最简单实用的模式，<br>可以理解为是不同工厂模式的一个特殊实现。</p>
+<p>简单工厂模式的实质是由一个工厂类根据传入的参数，动态决定应该创建哪一个产品类（这些产品类继承自一个父类或接口）的实例。<br>该模式中包含的角色及其职责</p>
+<p>工厂（Creator）角色</p>
+<pre><code>简单工厂模式的核心，它负责实现创建所有实例的内部逻辑。工厂类的创建产品类的方法可以被外界直接调用，创建所需的产品对象。
+</code></pre><p>抽象产品（Product）角色</p>
+<pre><code>简单工厂模式所创建的所有对象的父类，它负责描述所有实例所共有的公共接口。
+</code></pre><p>具体产品（Concrete Product）角色</p>
+<pre><code>是简单工厂模式的创建目标，所有创建的对象都是充当这个角色的某个具体类的实例。
+</code></pre><h1 id="代码介绍"><a href="#代码介绍" class="headerlink" title="代码介绍"></a>代码介绍</h1><p>案例的实例代码：</p>
+<p>1.抽象的产品<br>    定义shoe</p>
+<pre><code>package com.test.factory;
+
+/**
+ * 产品的抽象接口  鞋子
+ * @author test
+ *
+ */
+public interface Shoe {
+
+    /**
+     * 获得名字
+     */
+    void getName();
+
+}
+</code></pre><p>2.实际的产品<br>    总共定义两个，ManShoe 和 WomanShoe 分别表示不同的鞋子</p>
+<pre><code>package com.test;
+
+import com.test.factory.Shoe;
+
+/**
+ * 具体产品类
+ * ManShoe  男鞋
+ * @author  test
+ *
+ */
+public class ManShoe implements Shoe {
+
+    @Override
+    public void getName() {
+        System.out.println(&quot;男鞋&quot;);
+    }
+
+}
+
+package com.test;
+
+import com.test.factory.Shoe;
+
+/**
+ * 具体产品类
+ * WomanShoe 女鞋
+ * @author test
+ *
+ */
+public class WomanShoe implements Shoe {
+
+    @Override
+    public void getName() {
+        System.out.println(&quot;女鞋&quot;);
+    }
+
+}
+</code></pre><p>3.工厂<br>    简单工厂核心类：</p>
+<pre><code>package com.test;
+
+import com.test.factory.Shoe;
+
+/**
+ * 简单工厂核心类
+ * @author test
+ *
+ */
+public class SampleFactory {
+    public static Shoe makeShoe(String type){
+        if(&quot;ManShoe&quot;.equals(type)){
+            Shoe manShoe = new ManShoe();
+            return manShoe;
+        }else if(&quot;WomanWShoe&quot;.equals(type)){
+            Shoe womanShoe = new WomanShoe();
+            return womanShoe;
+        }else{
+            System.out.println(&quot;暂时没有此类鞋&quot;);
+            return null;
+        }
+    }
+}
+</code></pre><p>最后，使用简单的测试类，来验证下 工厂能够产生不同的产品对象：测试类如下：</p>
+<pre><code>package com.test;
+
+import com.test.factory.Shoe;
+
+/**
+ * 简单工厂测试
+ * @author test
+ *
+ */
+public class Client {
+    public static void main(String[] args) {
+        Shoe manShoe = SampleFactory.makeShoe(&quot;ManShoe&quot;);
+        System.out.println(null == manShoe);
+        if(null != manShoe){
+            manShoe.getName();
+        }
+
+        Shoe wommanShoe = SampleFactory.makeShoe(&quot;WomanShoe&quot;);
+        System.out.println(null == wommanShoe);
+        if(null != wommanShoe){
+            wommanShoe.getName();
+        }
+
+        Shoe neuterShoe = SampleFactory.makeShoe(&quot;NeuterShoe&quot;);
+        System.out.println(null == neuterShoe);
+        if(null != neuterShoe){
+            wommanShoe.getName();
+        }
+
+    }
+}
+</code></pre><p>打印结果如下：</p>
+<p>false<br>男鞋<br>false<br>女鞋<br>没有此类鞋<br>true</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>工厂类是整个模式的关键.包含了必要的逻辑判断,根据外界给定的信息,决定究竟应该创建哪个具体类的对象.通过使用工厂类,外界可以从直接创建具体产品对象的尴尬局面摆脱出来,仅仅需要负责“消费”对象就可以了。而不必管这些对象究竟如何创建及如何组织的．明确了各自的职责和权利，有利于整个软件体系结构的优化。</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>由于工厂类集中了所有实例的创建逻辑，违反了高内聚责任分配原则，将全部创建逻辑集中到了一个工厂类中；它所能创建的类只能是事先考虑到的，如果需要添加新的类，则就需要改变工厂类了。<br>当系统中的具体产品类不断增多时候，可能会出现要求工厂类根据不同条件创建不同实例的需求．这种对条件的判断和对具体产品类型的判断交错在一起，很难避免模块功能的蔓延，对系统的维护和扩展非常不利；<br>这些缺点在工厂方法模式中得到了一定的克服。</p>
+<h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><p>工厂类负责创建的对象比较少；<br>客户只知道传入工厂类的参数，对于如何创建对象（逻辑）不关心；<br>由于简单工厂很容易违反高内聚责任分配原则，因此一般只在很简单的情况下应用。</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://baike.baidu.com/item/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/8801727" target="_blank" rel="noopener">https://baike.baidu.com/item/%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/8801727</a></p>
 
       
     </div>
@@ -407,7 +527,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/angular/" rel="tag"># angular</a>
+            <a href="/tags/设计模式延伸/" rel="tag"># 设计模式延伸</a>
           
         </div>
       
@@ -420,8 +540,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/12/20180612033100_配置hexo/" rel="next" title="初次使用hexo">
-                <i class="fa fa-chevron-left"></i> 初次使用hexo
+              <a href="/2019/03/28/2019-03-28_22-39-35-mysql中or条件的使用优化避免全表扫描/" rel="next" title="mysql中or条件的使用优化避免全表扫描">
+                <i class="fa fa-chevron-left"></i> mysql中or条件的使用优化避免全表扫描
               </a>
             
           </div>
@@ -430,8 +550,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/13/201806140052_angular4主从结构子组件传递消息到父组件/" rel="prev" title="angular4主从结构子组件传递消息到父组件">
-                angular4主从结构子组件传递消息到父组件 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/03/31/2019-03-31_16-43-12_23中设计模式(二)抽象工厂模式/" rel="prev" title="23种设计模式(二)抽象工厂模式">
+                23种设计模式(二)抽象工厂模式 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -571,7 +691,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#父组件"><span class="nav-number">1.</span> <span class="nav-text">父组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#子组件"><span class="nav-number">2.</span> <span class="nav-text">子组件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">3.</span> <span class="nav-text">参考文章:</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文介绍"><span class="nav-number">1.</span> <span class="nav-text">本文介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简单工厂模式介绍"><span class="nav-number">2.</span> <span class="nav-text">简单工厂模式介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码介绍"><span class="nav-number">3.</span> <span class="nav-text">代码介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">4.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">4.2.</span> <span class="nav-text">缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用场景"><span class="nav-number">4.3.</span> <span class="nav-text">使用场景</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">5.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
             
 
           </div>

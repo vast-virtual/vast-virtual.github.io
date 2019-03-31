@@ -4,6 +4,46 @@
 
     
   <url>
+    <loc>blog.virualyz.com/2019/03/31/2019-03-31_16-43-12_23%E4%B8%AD%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%BA%8C)%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2019-03-31T13:57:09.621Z</lastmod>
+    <data>
+        <display>
+        <title>23种设计模式(二)抽象工厂模式</title>
+        <pubTime>2019-03-31T10:00:00.000Z</pubTime>
+        
+        <tag>设计模式延伸</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式延伸" url="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%BB%B6%E4%BC%B8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2019/03/31/2019-03-31_17-09-37_23%E4%B8%AD%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%BB%B6%E4%BC%B8-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2019-03-31T12:31:57.692Z</lastmod>
+    <data>
+        <display>
+        <title>23种设计模式延伸-简单工厂模式</title>
+        <pubTime>2019-03-31T08:00:00.000Z</pubTime>
+        
+        <tag>设计模式延伸</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式延伸" url="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%BB%B6%E4%BC%B8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>blog.virualyz.com/2018/10/06/201810061650-git%E5%88%9B%E5%BB%BA%E7%A7%98%E9%92%A5/</loc>
     <lastmod>2019-03-30T13:40:05.641Z</lastmod>
     <data>
@@ -332,26 +372,6 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/22/201808220131_window8%E5%AE%89%E8%A3%85makedownpad2/</loc>
-    <lastmod>2019-02-24T07:47:44.602Z</lastmod>
-    <data>
-        <display>
-        <title>window8安装makedownPad2</title>
-        <pubTime>2018-08-21T16:00:00.000Z</pubTime>
-        
-        <tag>makedownPad2</tag>
-         
-         
-           
-             
-              <breadCrumb title="makedownPad2" url="blog.virualyz.com/categories/makedownPad2/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>blog.virualyz.com/2018/08/30/201808300000-jvm%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7-VisualVM%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</loc>
     <lastmod>2019-02-24T07:47:44.602Z</lastmod>
     <data>
@@ -365,6 +385,26 @@
            
              
               <breadCrumb title="jvm" url="blog.virualyz.com/categories/jvm/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/08/22/201808220131_window8%E5%AE%89%E8%A3%85makedownpad2/</loc>
+    <lastmod>2019-02-24T07:47:44.602Z</lastmod>
+    <data>
+        <display>
+        <title>window8安装makedownPad2</title>
+        <pubTime>2018-08-21T16:00:00.000Z</pubTime>
+        
+        <tag>makedownPad2</tag>
+         
+         
+           
+             
+              <breadCrumb title="makedownPad2" url="blog.virualyz.com/categories/makedownPad2/"/>
           
         </display>
     </data>
@@ -627,26 +667,6 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/06/13/201806130205_github+hexo%E5%88%9B%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
-    <data>
-        <display>
-        <title>github+hexo创建属于自己的博客</title>
-        <pubTime>2018-06-12T18:06:00.000Z</pubTime>
-        
-        <tag>hexo</tag>
-         
-         
-           
-             
-              <breadCrumb title="hexo" url="blog.virualyz.com/categories/hexo/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>blog.virualyz.com/2018/06/13/201806130120_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E7%88%B6%E7%BB%84%E4%BB%B6%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E5%88%B0%E5%AD%90%E7%BB%84%E4%BB%B6/</loc>
     <lastmod>2019-02-24T07:47:44.599Z</lastmod>
     <data>
@@ -660,6 +680,26 @@
            
              
               <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/06/13/201806130205_github+hexo%E5%88%9B%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
+    <data>
+        <display>
+        <title>github+hexo创建属于自己的博客</title>
+        <pubTime>2018-06-12T18:06:00.000Z</pubTime>
+        
+        <tag>hexo</tag>
+         
+         
+           
+             
+              <breadCrumb title="hexo" url="blog.virualyz.com/categories/hexo/"/>
           
         </display>
     </data>
