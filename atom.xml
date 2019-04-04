@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="blog.virualyz.com/"/>
-  <updated>2019-04-04T13:34:12.281Z</updated>
+  <updated>2019-04-04T13:36:36.189Z</updated>
   <id>blog.virualyz.com/</id>
   
   <author>
@@ -18,12 +18,12 @@
   
   <entry>
     <title>mysql中like何时使用索引</title>
-    <link href="blog.virualyz.com/2019/04/02/2019-04-02_22-24-09_mysql%E4%B8%ADlike%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95/"/>
-    <id>blog.virualyz.com/2019/04/02/2019-04-02_22-24-09_mysql中like何时使用索引/</id>
-    <published>2019-04-02T14:00:00.000Z</published>
-    <updated>2019-04-04T13:34:12.281Z</updated>
+    <link href="blog.virualyz.com/2019/04/04/2019-04-02_22-24-09_mysql%E4%B8%ADlike%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95/"/>
+    <id>blog.virualyz.com/2019/04/04/2019-04-02_22-24-09_mysql中like何时使用索引/</id>
+    <published>2019-04-04T14:00:00.000Z</published>
+    <updated>2019-04-04T13:36:36.189Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>生产环境有个sql查询，我自己查询挺慢的，但是我又看了下表，查询的字段是有索引的，所以我在奇怪，拿出log的日志</p><pre><code>select * from table where a like &apos;%xxx%&apos;</code></pre><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要解决在sql中使用like,不触发索引,探讨怎么使like下使用索引</p><a id="more"></a><h2 id="探讨过程"><a href="#探讨过程" class="headerlink" title="探讨过程"></a>探讨过程</h2><p>当sql中使用like关键字进行查询数据，这个时候所进行like的字段在部分情况下是无法使用到数据的索引的</p><pre><code>select * from table where a like &apos;%xxx%&apos;</code></pre><p><img src="/02/2019-04-02_22-24-09_mysql中like何时使用索引/Snipaste_2019-04-04_20-58-07.jpg" alt="图片"></p><p>这时索引a是存在的，但是在explain后type为all，至此a索引完全没用上</p><p>那既然like ‘%xxx%’不行，我们试一下’%xxx’</p><pre><code>select * from table where a like &apos;xxx%&apos;</code></pre><p><img src="/02/2019-04-02_22-24-09_mysql中like何时使用索引/Snipaste_2019-04-04_21-10-16.jpg" alt="图片"></p><p>这时还是没有使用到了索引a，那我们再换一下，试一下’xxx%’</p><p><img src="/02/2019-04-02_22-24-09_mysql中like何时使用索引/Snipaste_2019-04-04_21-08-10.jpg" alt="图片"></p><p>这时使用到了a的索引</p><p>所以当使用like时，如果想要使用索引通过 like ‘xxx%’，可以使用该字段的索引</p><p>如上所述，如果想要使用索引所使用的方式无法完成我们想要完成的。此时可以通过</p><p>LOCATE（’substr’,str,pos），FIND_IN_SET(str1,str2)</p><p>##总结<br>like 需要使用索引必须是 ‘xxx%’,LOCATE,FIND_IN_SET均可完成like模糊查询，<br>速度上这2个比用 like 稍快了一点。(不过这2个函数都不能使用索引)</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/sinat_41780498/article/details/83024781" target="_blank" rel="noopener">https://blog.csdn.net/sinat_41780498/article/details/83024781</a><br><a href="http://www.cnblogs.com/tommy-huang/p/4483583.html" target="_blank" rel="noopener">http://www.cnblogs.com/tommy-huang/p/4483583.html</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>生产环境有个sql查询，我自己查询挺慢的，但是我又看了下表，查询的字段是有索引的，所以我在奇怪，拿出log的日志</p><pre><code>select * from table where a like &apos;%xxx%&apos;</code></pre><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要解决在sql中使用like,不触发索引,探讨怎么使like下使用索引</p><a id="more"></a><h2 id="探讨过程"><a href="#探讨过程" class="headerlink" title="探讨过程"></a>探讨过程</h2><p>当sql中使用like关键字进行查询数据，这个时候所进行like的字段在部分情况下是无法使用到数据的索引的</p><pre><code>select * from table where a like &apos;%xxx%&apos;</code></pre><p><img src="/04/2019-04-02_22-24-09_mysql中like何时使用索引/Snipaste_2019-04-04_20-58-07.jpg" alt="图片"></p><p>这时索引a是存在的，但是在explain后type为all，至此a索引完全没用上</p><p>那既然like ‘%xxx%’不行，我们试一下’%xxx’</p><pre><code>select * from table where a like &apos;xxx%&apos;</code></pre><p><img src="/04/2019-04-02_22-24-09_mysql中like何时使用索引/Snipaste_2019-04-04_21-10-16.jpg" alt="图片"></p><p>这时还是没有使用到了索引a，那我们再换一下，试一下’xxx%’</p><p><img src="/04/2019-04-02_22-24-09_mysql中like何时使用索引/Snipaste_2019-04-04_21-08-10.jpg" alt="图片"></p><p>这时使用到了a的索引</p><p>所以当使用like时，如果想要使用索引通过 like ‘xxx%’，可以使用该字段的索引</p><p>如上所述，如果想要使用索引所使用的方式无法完成我们想要完成的。此时可以通过</p><p>LOCATE（’substr’,str,pos），FIND_IN_SET(str1,str2)</p><p>##总结<br>like 需要使用索引必须是 ‘xxx%’,LOCATE,FIND_IN_SET均可完成like模糊查询，<br>速度上这2个比用 like 稍快了一点。(不过这2个函数都不能使用索引)</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/sinat_41780498/article/details/83024781" target="_blank" rel="noopener">https://blog.csdn.net/sinat_41780498/article/details/83024781</a><br><a href="http://www.cnblogs.com/tommy-huang/p/4483583.html" target="_blank" rel="noopener">http://www.cnblogs.com/tommy-huang/p/4483583.html</a></p>]]></content>
     
     <summary type="html">
     
