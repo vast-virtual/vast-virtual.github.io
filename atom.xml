@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="blog.virualyz.com/"/>
-  <updated>2019-03-31T13:57:09.621Z</updated>
+  <updated>2019-04-04T13:34:12.281Z</updated>
   <id>blog.virualyz.com/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>mysql中like何时使用索引</title>
+    <link href="blog.virualyz.com/2019/04/02/2019-04-02_22-24-09_mysql%E4%B8%ADlike%E4%BD%95%E6%97%B6%E4%BD%BF%E7%94%A8%E7%B4%A2%E5%BC%95/"/>
+    <id>blog.virualyz.com/2019/04/02/2019-04-02_22-24-09_mysql中like何时使用索引/</id>
+    <published>2019-04-02T14:00:00.000Z</published>
+    <updated>2019-04-04T13:34:12.281Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="原因-cause"><a href="#原因-cause" class="headerlink" title="原因(cause)"></a>原因(cause)</h1><p>生产环境有个sql查询，我自己查询挺慢的，但是我又看了下表，查询的字段是有索引的，所以我在奇怪，拿出log的日志</p><pre><code>select * from table where a like &apos;%xxx%&apos;</code></pre><h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p> 本文主要解决在sql中使用like,不触发索引,探讨怎么使like下使用索引</p><a id="more"></a><h2 id="探讨过程"><a href="#探讨过程" class="headerlink" title="探讨过程"></a>探讨过程</h2><p>当sql中使用like关键字进行查询数据，这个时候所进行like的字段在部分情况下是无法使用到数据的索引的</p><pre><code>select * from table where a like &apos;%xxx%&apos;</code></pre><p><img src="/02/2019-04-02_22-24-09_mysql中like何时使用索引/Snipaste_2019-04-04_20-58-07.jpg" alt="图片"></p><p>这时索引a是存在的，但是在explain后type为all，至此a索引完全没用上</p><p>那既然like ‘%xxx%’不行，我们试一下’%xxx’</p><pre><code>select * from table where a like &apos;xxx%&apos;</code></pre><p><img src="/02/2019-04-02_22-24-09_mysql中like何时使用索引/Snipaste_2019-04-04_21-10-16.jpg" alt="图片"></p><p>这时还是没有使用到了索引a，那我们再换一下，试一下’xxx%’</p><p><img src="/02/2019-04-02_22-24-09_mysql中like何时使用索引/Snipaste_2019-04-04_21-08-10.jpg" alt="图片"></p><p>这时使用到了a的索引</p><p>所以当使用like时，如果想要使用索引通过 like ‘xxx%’，可以使用该字段的索引</p><p>如上所述，如果想要使用索引所使用的方式无法完成我们想要完成的。此时可以通过</p><p>LOCATE（’substr’,str,pos），FIND_IN_SET(str1,str2)</p><p>##总结<br>like 需要使用索引必须是 ‘xxx%’,LOCATE,FIND_IN_SET均可完成like模糊查询，<br>速度上这2个比用 like 稍快了一点。(不过这2个函数都不能使用索引)</p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/sinat_41780498/article/details/83024781" target="_blank" rel="noopener">https://blog.csdn.net/sinat_41780498/article/details/83024781</a><br><a href="http://www.cnblogs.com/tommy-huang/p/4483583.html" target="_blank" rel="noopener">http://www.cnblogs.com/tommy-huang/p/4483583.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;原因-cause&quot;&gt;&lt;a href=&quot;#原因-cause&quot; class=&quot;headerlink&quot; title=&quot;原因(cause)&quot;&gt;&lt;/a&gt;原因(cause)&lt;/h1&gt;&lt;p&gt;生产环境有个sql查询，我自己查询挺慢的，但是我又看了下表，查询的字段是有索引的，所以我在奇怪，拿出log的日志&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;select * from table where a like &amp;apos;%xxx%&amp;apos;
+&lt;/code&gt;&lt;/pre&gt;&lt;h1 id=&quot;本文介绍&quot;&gt;&lt;a href=&quot;#本文介绍&quot; class=&quot;headerlink&quot; title=&quot;本文介绍&quot;&gt;&lt;/a&gt;本文介绍&lt;/h1&gt;&lt;p&gt; 本文主要解决在sql中使用like,不触发索引,探讨怎么使like下使用索引&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="mysql" scheme="blog.virualyz.com/categories/mysql/"/>
+    
+    
+      <category term="数据库" scheme="blog.virualyz.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+    
+  </entry>
   
   <entry>
     <title>23种设计模式(二)抽象工厂模式</title>
@@ -439,32 +463,6 @@ java.net.BindException: Address already in use: JVM_Bind
   </entry>
   
   <entry>
-    <title>Markdown 学习</title>
-    <link href="blog.virualyz.com/2018/08/22/201808220037_Markdown%E5%AD%A6%E4%B9%A0/"/>
-    <id>blog.virualyz.com/2018/08/22/201808220037_Markdown学习/</id>
-    <published>2018-08-21T16:00:00.000Z</published>
-    <updated>2019-02-24T07:47:44.601Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p> 本文介绍Markdown 的简单功能以及实现</p><p>##宗旨</p><p> Markdown 的目标是实现「易读易写」。</p><p> 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。</p><p> 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像<em>强调</em>。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p><a id="more"></a> <p>##区块元素</p><p>###段落和换行</p><p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进</p><p>####标题</p><p>Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。</p><p>类 Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第二阶标题），例如：</p><pre><code>This is an H1=============This is an H2-------------</code></pre><p>任何数量的 = 和 - 都可以有效果。</p><p>类 Atx 形式则是在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶，行首的井字符数量决定标题的阶数，例如：</p><pre><code># 这是 H1## 这是 H2###### 这是 H6</code></pre><p>####区块引用 Blockquotes</p><p>Markdown 标记区块引用是使用类似 email 中用 &gt; 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 &gt; ：</p><pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&gt; &gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse&gt; id sem consectetuer libero luctus adipiscing.</code></pre><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">https://www.appinn.com/markdown/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt; 本文介绍Markdown 的简单功能以及实现&lt;/p&gt;
-&lt;p&gt;##宗旨&lt;/p&gt;
-&lt;p&gt; Markdown 的目标是实现「易读易写」。&lt;/p&gt;
-&lt;p&gt; 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。&lt;/p&gt;
-&lt;p&gt; 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像&lt;em&gt;强调&lt;/em&gt;。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Markdown" scheme="blog.virualyz.com/categories/Markdown/"/>
-    
-    
-      <category term="Markdown" scheme="blog.virualyz.com/tags/Markdown/"/>
-    
-  </entry>
-  
-  <entry>
     <title>window8安装makedownPad2</title>
     <link href="blog.virualyz.com/2018/08/22/201808220131_window8%E5%AE%89%E8%A3%85makedownpad2/"/>
     <id>blog.virualyz.com/2018/08/22/201808220131_window8安装makedownpad2/</id>
@@ -498,34 +496,28 @@ http://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe
   </entry>
   
   <entry>
-    <title>spring-cloud-使用Hystrix实现断路器</title>
-    <link href="blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/"/>
-    <id>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-使用Hystrix实现断路器/</id>
-    <published>2018-08-13T18:55:00.000Z</published>
+    <title>Markdown 学习</title>
+    <link href="blog.virualyz.com/2018/08/22/201808220037_Markdown%E5%AD%A6%E4%B9%A0/"/>
+    <id>blog.virualyz.com/2018/08/22/201808220037_Markdown学习/</id>
+    <published>2018-08-21T16:00:00.000Z</published>
     <updated>2019-02-24T07:47:44.601Z</updated>
     
-    <content type="html"><![CDATA[<h3 id="必看提示以及声明："><a href="#必看提示以及声明：" class="headerlink" title="必看提示以及声明："></a>必看提示以及声明：</h3><p>请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关</p><p>####介绍<br>在微服务架构中，服务被拆分成一个一个的单元，各个单元之间相互依赖调用。如果某个单元由于网络原因或者别的单元故障奔溃，那么会直接导致调用方对外的服务也发生延迟。若此时调用方的请求不断增加，最后就会出现因等待出现故障的依赖方响应而形成任务积压，最终导致自身服务的瘫痪，为了解决这个问题，我们可以采用断路器</p><p>在分布式架构中，当某个服务单元发生故障，使用断路器返回一个错误的相应，而不是进行长时间的等待，这样就不会使得线程被长时间占用，导致服务器的瘫痪。</p><p>Spring Cloud提供了Hystrix这么一个组件来实现断路器的功能。</p><h6 id="大致流程"><a href="#大致流程" class="headerlink" title="大致流程"></a>大致流程</h6><p>1：确认注册中心已启动</p><p>2：确认客户端已启动(上节是2222端口为服务端，我们可以创建并配置一模一样的端口号为2223的客户端)</p><p>3：开发工具创建maven项目(博主这里选择与客户端一样的创建流程，稍后修改下pom)</p><p>4：配置pom,并修改负载均衡的controller，创建service</p><p><a href="">图片暂无</a></p><h6 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h6><p>1：启动注册中心(博主这里端口号为:1111)以及2222端口2223端口的客户端</p><p>2：idea工具</p><a id="more"></a> <h4 id="具体流程"><a href="#具体流程" class="headerlink" title="具体流程"></a>具体流程</h4><p>1：启动注册中心，访问<a href="http://localhost:1111，出现注册中心页面" target="_blank" rel="noopener">http://localhost:1111，出现注册中心页面</a></p><p>2：启动客户端，访问<a href="http://localhost:1111，客户端已注册" target="_blank" rel="noopener">http://localhost:1111，客户端已注册</a></p><p>3：修改Ribbon负载均衡项目的pom(博主这里是client-2333项目),添加如下依赖</p><pre><code>&lt;dependency&gt;    &lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;    &lt;artifactId&gt;spring-cloud-starter-hystrix&lt;/artifactId&gt;&lt;/dependency&gt;</code></pre><p>4：修改Ribbon负载均衡项目的application中增加@EnableCircuitBreaker注解，表明使用断路器。</p><pre><code>@SpringBootApplication@EnableDiscoveryClient@EnableCircuitBreakerpublic class RibbonApplication {    @Bean    @LoadBalanced    RestTemplate restTemplate() {        return new RestTemplate();    }    public static void main(String[] args) {        SpringApplication.run(RibbonApplication.class, args);    }}</code></pre><p>   Hystrix使用消息队列的方式，如果连接的服务崩溃，则异步回调某个方法进行处理。</p><p>5： 新增一个Service类，在这个类中定义好如何访问，以及失败之后的返回等</p><p>   代码如下</p><pre><code>@Servicepublic class ComputeService {    @Autowired    RestTemplate restTemplate;    @HystrixCommand(fallbackMethod = &quot;addServiceFallback&quot;)    public String addService() {        return restTemplate.getForEntity(&quot;http://COMPUTE-SERVICE/add?a=10&amp;b=20&quot;, String.class).getBody();    }    public String addServiceFallback() {        return &quot;error&quot;;    }}</code></pre><p>   这里重点是@HystrixCommand注解：表明该方法为hystrix包裹，可以对依赖服务进行隔离、降级、快速失败、快速重试等等hystrix相关功能</p><p>   列举几个属性：</p><ol><li><p>fallbackMethod 降级方法</p></li><li><p>commandProperties 普通配置属性，可以配置HystrixCommand对应属性，例如采用线程池还是信号量隔离、熔断器熔断规则等等</p></li><li><p>ignoreExceptions 忽略的异常，默认HystrixBadRequestException不计入失败</p></li><li><p>groupKey() 组名称，默认使用类名称</p></li><li><p>commandKey 命令名称，默认使用方法名</p></li></ol><p>5：在application.properties中配置如下：</p><pre><code>spring.application.name=ribbon-consumerserver.port=2333eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka/</code></pre><p>6：最后修改Controller<br>    @RestController<br>    public class ConsumerController {</p><pre><code>    @Autowired    private ComputeService computeService;    @RequestMapping(value = &quot;/add&quot;, method = RequestMethod.GET)    public String add() {        return computeService.addService();    }}</code></pre><p>8：访问<a href="http://localhost:2333/add" target="_blank" rel="noopener">http://localhost:2333/add</a><br>    当客户端关闭时访问： 显示error<br>    客户端启动时访问： 返回正确的数据</p><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://blog.csdn.net/a60782885/article/details/69267934" target="_blank" rel="noopener">https://blog.csdn.net/a60782885/article/details/69267934</a></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p> 本文介绍Markdown 的简单功能以及实现</p><p>##宗旨</p><p> Markdown 的目标是实现「易读易写」。</p><p> 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。</p><p> 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像<em>强调</em>。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p><a id="more"></a> <p>##区块元素</p><p>###段落和换行</p><p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进</p><p>####标题</p><p>Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。</p><p>类 Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第二阶标题），例如：</p><pre><code>This is an H1=============This is an H2-------------</code></pre><p>任何数量的 = 和 - 都可以有效果。</p><p>类 Atx 形式则是在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶，行首的井字符数量决定标题的阶数，例如：</p><pre><code># 这是 H1## 这是 H2###### 这是 H6</code></pre><p>####区块引用 Blockquotes</p><p>Markdown 标记区块引用是使用类似 email 中用 &gt; 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 &gt; ：</p><pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&gt; &gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse&gt; id sem consectetuer libero luctus adipiscing.</code></pre><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">https://www.appinn.com/markdown/</a></p>]]></content>
     
     <summary type="html">
     
-      &lt;h3 id=&quot;必看提示以及声明：&quot;&gt;&lt;a href=&quot;#必看提示以及声明：&quot; class=&quot;headerlink&quot; title=&quot;必看提示以及声明：&quot;&gt;&lt;/a&gt;必看提示以及声明：&lt;/h3&gt;&lt;p&gt;请合理选择适合自己使用的方式,因个人原因产生的问题,均与博主无关&lt;/p&gt;
-&lt;p&gt;####介绍&lt;br&gt;在微服务架构中，服务被拆分成一个一个的单元，各个单元之间相互依赖调用。如果某个单元由于网络原因或者别的单元故障奔溃，那么会直接导致调用方对外的服务也发生延迟。若此时调用方的请求不断增加，最后就会出现因等待出现故障的依赖方响应而形成任务积压，最终导致自身服务的瘫痪，为了解决这个问题，我们可以采用断路器&lt;/p&gt;
-&lt;p&gt;在分布式架构中，当某个服务单元发生故障，使用断路器返回一个错误的相应，而不是进行长时间的等待，这样就不会使得线程被长时间占用，导致服务器的瘫痪。&lt;/p&gt;
-&lt;p&gt;Spring Cloud提供了Hystrix这么一个组件来实现断路器的功能。&lt;/p&gt;
-&lt;h6 id=&quot;大致流程&quot;&gt;&lt;a href=&quot;#大致流程&quot; class=&quot;headerlink&quot; title=&quot;大致流程&quot;&gt;&lt;/a&gt;大致流程&lt;/h6&gt;&lt;p&gt;1：确认注册中心已启动&lt;/p&gt;
-&lt;p&gt;2：确认客户端已启动(上节是2222端口为服务端，我们可以创建并配置一模一样的端口号为2223的客户端)&lt;/p&gt;
-&lt;p&gt;3：开发工具创建maven项目(博主这里选择与客户端一样的创建流程，稍后修改下pom)&lt;/p&gt;
-&lt;p&gt;4：配置pom,并修改负载均衡的controller，创建service&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;&quot;&gt;图片暂无&lt;/a&gt;&lt;/p&gt;
-&lt;h6 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot; title=&quot;准备&quot;&gt;&lt;/a&gt;准备&lt;/h6&gt;&lt;p&gt;1：启动注册中心(博主这里端口号为:1111)以及2222端口2223端口的客户端&lt;/p&gt;
-&lt;p&gt;2：idea工具&lt;/p&gt;
+      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt; 本文介绍Markdown 的简单功能以及实现&lt;/p&gt;
+&lt;p&gt;##宗旨&lt;/p&gt;
+&lt;p&gt; Markdown 的目标是实现「易读易写」。&lt;/p&gt;
+&lt;p&gt; 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。&lt;/p&gt;
+&lt;p&gt; 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像&lt;em&gt;强调&lt;/em&gt;。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。&lt;/p&gt;
     
     </summary>
     
-      <category term="spring cloud" scheme="blog.virualyz.com/categories/spring-cloud/"/>
+      <category term="Markdown" scheme="blog.virualyz.com/categories/Markdown/"/>
     
     
-      <category term="spring cloud" scheme="blog.virualyz.com/tags/spring-cloud/"/>
+      <category term="Markdown" scheme="blog.virualyz.com/tags/Markdown/"/>
     
   </entry>
   
