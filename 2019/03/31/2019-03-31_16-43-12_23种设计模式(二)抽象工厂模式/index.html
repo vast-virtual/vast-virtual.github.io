@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="设计模式," />
+  <meta name="keywords" content="设计模式延伸," />
 
 
 
@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="简介设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类的、代码设计经验的总结。使用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性 设计模式分类根据设计模式的参考书 Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素），一共有23">
-<meta name="keywords" content="设计模式">
+<meta name="description" content="本文介绍学习抽象工厂模式(Abstract Factory)">
+<meta name="keywords" content="设计模式延伸">
 <meta property="og:type" content="article">
-<meta property="og:title" content="设计模式介绍及解析">
-<meta property="og:url" content="blog.virualyz.com/2018/08/31/201808310312-设计模式介绍及解析/index.html">
+<meta property="og:title" content="23种设计模式(二)抽象工厂模式">
+<meta property="og:url" content="blog.virualyz.com/2019/03/31/2019-03-31_16-43-12_23种设计模式(二)抽象工厂模式/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="简介设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类的、代码设计经验的总结。使用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性 设计模式分类根据设计模式的参考书 Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素），一共有23">
+<meta property="og:description" content="本文介绍学习抽象工厂模式(Abstract Factory)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-02-24T07:47:44.605Z">
+<meta property="og:updated_time" content="2019-03-31T13:57:09.621Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="设计模式介绍及解析">
-<meta name="twitter:description" content="简介设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类的、代码设计经验的总结。使用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性 设计模式分类根据设计模式的参考书 Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素），一共有23">
+<meta name="twitter:title" content="23种设计模式(二)抽象工厂模式">
+<meta name="twitter:description" content="本文介绍学习抽象工厂模式(Abstract Factory)">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="blog.virualyz.com/2018/08/31/201808310312-设计模式介绍及解析/"/>
+  <link rel="canonical" href="blog.virualyz.com/2019/03/31/2019-03-31_16-43-12_23种设计模式(二)抽象工厂模式/"/>
 
 
 
 
 
-  <title>设计模式介绍及解析 | Hexo</title>
+  <title>23种设计模式(二)抽象工厂模式 | Hexo</title>
   
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2018/08/31/201808310312-设计模式介绍及解析/">
+    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2019/03/31/2019-03-31_16-43-12_23种设计模式(二)抽象工厂模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xcxd">
@@ -312,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">设计模式介绍及解析</h1>
+          <h1 class="post-title" itemprop="name headline">23种设计模式(二)抽象工厂模式</h1>
         
 
         <div class="post-meta">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-31T00:00:00+08:00">
-                2018-08-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-31T18:00:00+08:00">
+                2019-03-31
               </time>
             
 
@@ -347,8 +347,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/设计模式/" itemprop="url" rel="index">
-                    <span itemprop="name">设计模式</span>
+                  <a href="/categories/设计模式延伸/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式延伸</span>
                   </a>
                 </span>
 
@@ -384,25 +384,259 @@
       
 
       
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类的、代码设计经验的总结。<br>使用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性</p>
-<h2 id="设计模式分类"><a href="#设计模式分类" class="headerlink" title="设计模式分类"></a>设计模式分类</h2><p>根据设计模式的参考书 Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素）<br>，一共有23种设计模式。</p>
-<p>这些模式可以分为三大类：</p>
-<ul>
-<li>创建模式(五)：工厂方法模式，抽象工厂模式，单例模式，建造者模式，原型模式</li>
-<li>结构模式(七)：适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式</li>
-<li>行为模式(十一)：策略模式，模板方法模式，观察者模式，迭代子模式，责任链模式，命令模式，备忘录模式，状态模式，访问者模式，中介者模式，解释器模式</li>
-</ul>
-<a id="more"></a> 
-<h2 id="设计模式的六大原则"><a href="#设计模式的六大原则" class="headerlink" title="设计模式的六大原则"></a>设计模式的六大原则</h2><p>总原则：开闭原则</p>
-<ul>
-<li>单一职责原则</li>
-<li>里氏替换原则</li>
-<li>依赖倒转原则</li>
-<li>接口隔离原则</li>
-<li>最少知道原则(迪米特法则)</li>
-<li>合成复用原则</li>
-</ul>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.cnblogs.com/geek6/p/3951677.html" target="_blank" rel="noopener">https://www.cnblogs.com/geek6/p/3951677.html</a></p>
+        <h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>学习抽象工厂模式(Abstract Factory)<br><a id="more"></a></p>
+<h1 id="抽象工厂模式介绍"><a href="#抽象工厂模式介绍" class="headerlink" title="抽象工厂模式介绍"></a>抽象工厂模式介绍</h1><p>抽象工厂模式是所有形态的工厂模式中最为抽象和最具一般性的一种形态。<br>抽象工厂模式是指当有多个抽象角色时，使用的一种工厂模式。<br>抽象工厂模式可以向客户端提供一个接口，<br>使客户端在不必指定产品的具体的情况下，<br>创建多个产品族中的产品对象。根据里氏替换原则，任何接受父类型的地方，<br>都应当能够接受子类型。因此，实际上系统所需要的，<br>仅仅是类型与这些抽象产品角色相同的一些实例，而不是这些抽象产品的实例。<br>换言之，也就是这些抽象产品的具体子类的实例。<br>工厂类负责创建抽象产品的具体子类的实例</p>
+<p>当每个抽象产品都有多于一个的具体子类的时候，工厂角色怎么知道实例化哪一个子类呢？比如每个抽象产品 [1]  角色都有两个具体产品。抽象工厂模式提供两个具体工厂角色，分别对应于这两个具体产品角色，每一个具体工厂角色只负责某一个产品角色的实例化。每一个具体工厂类只负责创建抽象产品的某一个具体子类的实例。<br>每一个模式都是针对一定问题的解决方案，工厂方法模式针对的是一个产品等级结构；而抽象工厂模式针对的是多个产品等级结构。</p>
+<h1 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h1><p>1、抽象工厂</p>
+<p>2、具体工厂</p>
+<p>3、抽象产品</p>
+<p>4、具体产品</p>
+<p>5、产品使用者</p>
+<p>说明：</p>
+<p>具体工厂“继承”抽象工厂；</p>
+<p>具体产品”继承“抽象产品；</p>
+<p>每个具体工厂（如PC工厂）包含若干个子工厂方法（如cpu工厂方法、显卡工厂方法…），子工厂方法负责生产对应的具体子产品，所有具体子产品（cpu、内存、显卡…）组合成一个具体产品（如惠普XXX型号PC）；</p>
+<p>产品使用者使用每个具体工厂生产的具体产品；</p>
+<h1 id="代码介绍"><a href="#代码介绍" class="headerlink" title="代码介绍"></a>代码介绍</h1><p>具体的实例代码：</p>
+<p>1.抽象产品:衣服、裤子</p>
+<p>1、衣服<br>    package com.test.demo;</p>
+<pre><code>/**
+ *
+ * @author test
+ */
+public interface Clothes {
+    /**
+     * 获得名字
+     */
+    void printName();
+
+}
+</code></pre><p>2、裤子</p>
+<pre><code>package com.test.demo;
+
+/**
+ *
+ * @author test
+ */
+public interface Pants {
+    /**
+     * 获得名字
+     */void printName();
+
+}
+</code></pre><p>2.具体产品：花花公子衣服、花花公子裤子、七匹狼衣服、七匹狼裤子</p>
+<p>  1、花花公子衣服</p>
+<pre><code>package com.test.demo;
+
+/**
+ *
+ * @author test
+ */
+
+public class PlayBoyClothes implements Clothes{
+
+    private String name;
+    public PlayBoyClothes(String name) {
+        this.name = name;
+        System.out.println(&quot;create a PlayBoyClothes.&quot;);
+    }
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void printName() {
+        System.out.println(this.getClass().getName() + &quot;:&quot; + this.name);
+
+    }
+}
+</code></pre><p>  2、花花公子裤子</p>
+<pre><code>package com.test.demo;
+
+/**
+ *
+ * @author test
+ */
+
+public class PlayBoyPants implements Pants{
+    private String name;
+    public PlayBoyPants(String name) {
+        this.name = name;
+        System.out.println(&quot;create a PlayBoyPants.&quot;);
+    }
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void printName() {
+        System.out.println(this.getClass().getName() + &quot;:&quot; + this.name);
+
+    }
+}
+</code></pre><p>   3、七匹狼衣服</p>
+<pre><code>package com.test.demo;
+
+/**
+ *
+ * @author test
+ */
+public class SeptwolvesClothes implements Clothes{
+
+    private String name;
+    public SeptwolvesClothes(String name) {
+        this.name = name;
+        System.out.println(&quot;create a SeptwolvesClothes.&quot;);
+    }
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void printName() {
+        System.out.println(this.getClass().getName() + &quot;:&quot; + this.name);
+
+    }
+}
+</code></pre><p>   4、七匹狼裤子<br>    package com.test.demo;</p>
+<pre><code>/**
+ *
+ * @author test
+ */
+
+public class SeptwolvesPants implements Pants{
+    private String name;
+    public SeptwolvesPants(String name) {
+        this.name = name;
+        System.out.println(&quot;create a SeptwolvesPants.&quot;);
+    }
+    /**
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void printName() {
+        System.out.println(this.getClass().getName() + &quot;:&quot; + this.name);
+
+    }
+}
+</code></pre><p>3.抽象工厂</p>
+<pre><code>package com.test.demo;
+
+/**
+ *
+ * @author test
+ */
+
+public interface SuitFactory {
+    Clothes createClothes(String name);
+    Pants createPants(String name);
+}
+</code></pre><p>4.具体工厂子类</p>
+<p>   1、花花公子工厂</p>
+<pre><code>package com.test.demo;
+
+/**
+ *
+ * @author test
+ */
+
+public class PlayBoyFactory implements SuitFactory {
+
+    @Override
+    public Clothes createClothes(String name) {
+        return new PlayBoyClothes(name);    }
+
+    @Override
+    public Pants createPants(String name) {
+        return new PlayBoyPants(name);
+    }
+}
+</code></pre><p>   2、七匹狼工厂</p>
+<pre><code>package com.test.demo;
+
+/**
+ *
+ * @author test
+ */
+
+public class SeptwolvesFactory implements SuitFactory {
+
+    @Override
+    public Clothes createClothes(String name) {
+        return new SeptwolvesClothes(name);    }
+
+    @Override
+    public Pants createPants(String name) {
+        return new SeptwolvesPants(name);
+    }
+}
+</code></pre><p>最后，使用简单的测试类，来验证下 不同的工厂能够产生不同的产品对象：测试类如下：</p>
+<pre><code>package com.test.demo;
+
+/**
+ *
+ * @author test
+ */
+
+public class Test {
+    public static void main(String[] args) {
+        SuitFactory PlayBoyFactory = new PlayBoyFactory();
+        SuitFactory SeptwolvesFactory = new SeptwolvesFactory();
+
+        Clothes playBoyClothes = PlayBoyFactory.createClothes(&quot;PlayBoy秋冬上装&quot;);
+        Pants playBoyPants = PlayBoyFactory.createPants(&quot;PlayBoy秋冬裤子&quot;);
+
+        Clothes septwolvesClothes = SeptwolvesFactory.createClothes(&quot;Septwolves秋冬上装&quot;);
+        Pants septwolvesCants = SeptwolvesFactory.createPants(&quot;Septwolves秋冬裤子&quot;);
+
+        playBoyClothes.printName();
+        playBoyPants.printName();
+        septwolvesClothes.printName();
+        septwolvesCants.printName();
+    }
+}
+</code></pre><p>打印结果如下：</p>
+<p>create a PlayBoyClothes.<br>create a PlayBoyPants.<br>create a SeptwolvesClothes.<br>create a SeptwolvesPants.<br>com.test.demo.PlayBoyClothes:PlayBoy秋冬上装<br>com.test.demo.PlayBoyPants:PlayBoy秋冬裤子<br>com.test.demo.SeptwolvesClothes:Septwolves秋冬上装<br>com.test.demo.SeptwolvesPants:Septwolves秋冬裤子</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>优点：当一个产品族中的多个对象被设计成一起工作时，它能保证客户端始终只使用同一个产品族中的对象。</p>
+<p>缺点：产品族扩展非常困难，要增加一个系列的某一产品，既要在抽象的 Creator 里加代码，又要在具体的里面加代码。</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://baike.baidu.com/item/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/2361182" target="_blank" rel="noopener">https://baike.baidu.com/item/%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/2361182</a></p>
 
       
     </div>
@@ -420,7 +654,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+            <a href="/tags/设计模式延伸/" rel="tag"># 设计模式延伸</a>
           
         </div>
       
@@ -433,8 +667,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/" rel="next" title="jvm监控工具-VisualVM介绍以及实践">
-                <i class="fa fa-chevron-left"></i> jvm监控工具-VisualVM介绍以及实践
+              <a href="/2019/03/31/2019-03-31_17-09-37_23种设计模式延伸-简单工厂模式/" rel="next" title="23种设计模式延伸-简单工厂模式">
+                <i class="fa fa-chevron-left"></i> 23种设计模式延伸-简单工厂模式
               </a>
             
           </div>
@@ -443,8 +677,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/09/03/201809030244-初步了解数据库/" rel="prev" title="初步了解数据库">
-                初步了解数据库 <i class="fa fa-chevron-right"></i>
+              <a href="/2019/04/04/2019-04-02_22-24-09_mysql中like何时使用索引/" rel="prev" title="mysql中like何时使用索引">
+                mysql中like何时使用索引 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -522,7 +756,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -584,7 +818,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式分类"><span class="nav-number">2.</span> <span class="nav-text">设计模式分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计模式的六大原则"><span class="nav-number">3.</span> <span class="nav-text">设计模式的六大原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文章"><span class="nav-number">4.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文介绍"><span class="nav-number">1.</span> <span class="nav-text">本文介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象工厂模式介绍"><span class="nav-number">2.</span> <span class="nav-text">抽象工厂模式介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#角色"><span class="nav-number">3.</span> <span class="nav-text">角色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码介绍"><span class="nav-number">4.</span> <span class="nav-text">代码介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">6.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
             
 
           </div>

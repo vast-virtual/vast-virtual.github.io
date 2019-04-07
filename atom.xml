@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="blog.virualyz.com/"/>
-  <updated>2019-04-04T13:36:36.189Z</updated>
+  <updated>2019-04-06T14:02:23.054Z</updated>
   <id>blog.virualyz.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>23种设计模式(三)单例模式</title>
+    <link href="blog.virualyz.com/2019/04/06/2019-04-06_20-40-38_23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%B8%89)%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/"/>
+    <id>blog.virualyz.com/2019/04/06/2019-04-06_20-40-38_23种设计模式(三)单例模式/</id>
+    <published>2019-04-06T12:00:00.000Z</published>
+    <updated>2019-04-06T14:02:23.054Z</updated>
+    
+    <content type="html"><![CDATA[<p>#本文介绍</p><p>学习单例模式(Singleton pattern)<br><a id="more"></a></p><p>#单例模式</p><p>单例模式，是一种常用的软件设计模式，是最简单的设计模式之一，<br>属于创建型模式，它提供了一种创建对象的最佳方式。在它的核心结构中只包含一个被称为<br>单例的特殊类。通过单例模式可以保证系统中，应用该模式的一个类只有一个<br>实例。即一个类只有一个对象实例。</p><p>#简介</p><p>这一模式的目的是使得类的一个对象成为系统中的唯一实例。要实现这一点，<br>可以从客户端对其进行实例化开始。因此需要用一种只允许生成对象类的唯一<br>实例的机制，“阻止”所有想要生成对象的访问。使用工厂方法来限制实例化过<br>程。这个方法应该是静态方法（类方法），因为让类的实例去生成另一个唯一<br>实例毫无意义。</p><p>#动机</p><p>对于系统中的某些类来说，只有一个实例很重要。如：一个系统只能有一个任务管理器，<br>如果有多个一样的任务管理会造成资源浪费，如果有多个不一样的任务管理器，会造成<br>分辨困难，乃至无法分辨。</p><p>如何保证一个类只有一个实例并且这个实例易于被访问呢？<br>定义一个全局变量可以确保对象随时都可以被访问，<br>但不能防止我们实例化多个对象。<br>一个更好的解决办法是让类自身负责保存它的唯一实例。<br>这个类可以保证没有其他实例被创建，并且它可以提供一个访问该实例的方法。<br>这就是单例模式的模式动机。</p><p>#要点</p><p>1、单例类只能有一个实例</p><p>2、单例类必须自己创建自己的唯一实例</p><p>3、单例类必须自行给所有其他对象提供这一唯一实例</p><p>#基本的实现思路</p><p>单例模式要求类能够有返回对象一个引用(永远是同一个)和一个获得该实例的方法（必须是静态方法，通常使用getInstance这个名称）。</p><p>单例的实现主要是通过以下两个步骤：</p><p>1、将该类的构造方法定义为私有方法，这样其他处的代码就无法通过调用该类的构造方法来实例化该类的对象，只有通过该类提供的静态方法来得到该类的唯一实例；</p><p>2、在该类内提供一个静态方法，当我们调用这个方法时，如果类持有的引用不为空就返回这个引用，如果类保持的引用为空就创建该类的实例并将实例的引用赋予该类保持的引用。</p><p>#优缺点</p><p>优点：</p><p>1、在内存里只有一个实例，减少了内存的开销，尤其是频繁的创建和销毁实例</p><p>2、避免对资源的多重占用（比如写文件操作）</p><p>缺点：</p><p>1、没有接口，不能继承，与单一职责原则冲突，一个类应该只关心内部逻辑，而不关心外面怎么样来实例化。</p><p>2、当想实例化一个单例类的时候，必须要记住使用相应的获取对象的方法，而不是使用new，<br>可能会给其他开发人员造成困扰，特别是看不到源码的时候。</p><p>#适用场景</p><p>1、需要频繁的进行创建和销毁的对象</p><p>2、创建对象时耗时过多或耗费资源过多，但又经常用到的对象</p><p>3、工具类对象</p><p>4、频繁访问数据库或文件的对象</p><p>#注意事项</p><p>单例模式在多线程的应用场合下必须小心使用。<br>如果当唯一实例尚未创建时，有两个线程同时调用创建方法，<br>那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，<br>这样就有两个实例被构造出来，从而违反了单例模式中实例唯一的原则。<br>解决这个问题的办法是为指示类是否已经实例化的变量提供一个互斥锁<br>(虽然这样会降低效率)。</p><p>#单例的各种类型介绍</p><p>通常单例模式在Java语言中，有两种构建方式：</p><p>  饿汉方式：指全局的单例实例在类装载时构建</p><p>  懒汉方式：指全局的单例实例在第一次被使用时构建</p><p>##饿汉方式</p><p>###饿汉方式：静态常量-推荐</p><p>   类型特点：静态常量</p><p>   问题：无</p><p>   是否建议使用：推荐</p><pre><code>public class Singleton {    private final static Singleton INSTANCE = new Singleton();    //私有构造    private Singleton(){}    public static Singleton getInstance(){        return INSTANCE;    }}</code></pre><p>   优点：这种写法比较简单，就是在类装载的时候就完成实例化。避免了线程同步问题。</p><p>   缺点：在类装载的时候就完成实例化，没有达到Lazy Loading的效果。如果从始至终从未使用过这个实例，则会造成内存的浪费。</p><p>###饿汉方式：静态代码块-推荐</p><p>   类型特点：静态代码块</p><p>   问题：无</p><p>   是否建议使用：推荐</p><pre><code>public class Singleton {    private static Singleton instance;    static {        instance = new Singleton();    }    private Singleton() {}    public static Singleton getInstance() {        return instance;    }}</code></pre><p>这种方式和上面的方式其实类似，只不过将类实例化的过程放在了静态代码块中，也是在类装载的时候，就执行静态代码块中的代码，初始化类的实例。优缺点和上面是一样的。</p><p>##懒汉式</p><p>###懒汉式：线程不安全-不推荐</p><p>   类型特点：静态代码块</p><p>   类型问题：线程不安全</p><p>   是否建议使用：不推荐</p><pre><code>public class Singleton {    private static Singleton singleton;    private Singleton() {}    public static Singleton getInstance() {        if (singleton == null) {            singleton = new Singleton();        }        return singleton;    }}</code></pre><p>这种写法起到了Lazy Loading的效果，但是只能在单线程下使用。如果在多线程下，一个线程进入了if (singleton == null)判断语句块，还未来得及往下执行，另一个线程也通过了这个判断语句，这时便会产生多个实例。所以在多线程环境下不可使用这种方式。</p><p>###懒汉式：同步方法-线程安全</p><p>   类型特点：同步方法</p><p>   问题：无（线程安全）</p><p>   是否建议使用：不推荐</p><pre><code>public class Singleton {    private static Singleton singleton;    private Singleton() {}    public static synchronized Singleton getInstance() {        if (singleton == null) {            singleton = new Singleton();        }        return singleton;    }}</code></pre><p>解决上面第三种实现方式的线程不安全问题，做个线程同步就可以了，于是就对getInstance()方法进行了线程同步。</p><p>缺点：效率太低了，每个线程在想获得类的实例时候，执行getInstance()方法都要进行同步。而其实这个方法只执行一次实例化代码就够了，后面的想获得该类实例，直接return就行了。方法进行同步效率太低要改进。</p><p>###懒汉式：同步代码块-线程安全-不推荐</p><p>   类型特点：同步代码块</p><p>   问题：无（线程安全）</p><p>   是否建议使用：不推荐</p><pre><code>public class Singleton {    private static Singleton singleton;    private Singleton() {}    public static Singleton getInstance() {        if (singleton == null) {            synchronized (Singleton.class) {                singleton = new Singleton();            }        }        return singleton;    }}</code></pre><p>由于第四种实现方式同步效率太低，所以摒弃同步方法，改为同步产生实例化的的代码块。但是这种同步并不能起到线程同步的作用。跟第3种实现方式遇到的情形一致，假如一个线程进入了if (singleton == null)判断语句块，还未来得及往下执行，另一个线程也通过了这个判断语句，这时便会产生多个实例。</p><p>##拓展类型</p><p>###双重检查：同步代码块-线程安全-推荐</p><p>   类型特点：同步代码块</p><p>   问题：无（线程安全）</p><p>   是否建议使用：推荐</p><pre><code>public class Singleton {    private static volatile Singleton singleton;    private Singleton() {}    public static Singleton getInstance() {        if (singleton == null) {            synchronized (Singleton.class) {                if (singleton == null) {                    singleton = new Singleton();                }            }        }        return singleton;    }}    </code></pre><p>如代码中所示，我们进行了两次if (singleton == null)检查，这样就可以保证线程安全了。这样，实例化代码只用执行一次，后面再次访问时，判断if (singleton == null)，直接return实例化对象。</p><p>优点；延迟加载；效率较高</p><p>###静态内部类：推荐</p><p>   类型特点：静态内部类</p><p>   问题：无（线程安全）</p><p>   是否建议使用：推荐</p><pre><code>public class Singleton {    private static volatile Singleton singleton;    private Singleton() {}    public static Singleton getInstance() {        if (singleton == null) {            synchronized (Singleton.class) {                if (singleton == null) {                    singleton = new Singleton();                }            }        }        return singleton;    }}  </code></pre><p>种方式跟饿汉式方式采用的机制类似，但又有不同。两者都是采用了类装载的机制来保证初始化实例时只有一个线程。不同的地方在饿汉式方式是只要Singleton类被装载就会实例化，没有Lazy-Loading的作用，而静态内部类方式在Singleton类被装载时并不会立即实例化，而是在需要实例化时，调用getInstance方法，才会装载SingletonInstance类，从而完成Singleton的实例化。</p><p>类的静态属性只会在第一次加载类的时候初始化，所以在这里，JVM帮助我们保证了线程的安全性，在类进行初始化时，别的线程是无法进入的。</p><p>优点：延迟加载，效率较高。</p><p>###枚举</p><pre><code>public enum Singleton {    INSTANCE;    public void whateverMethod() {    }}</code></pre><p>枚举方法的调用方式</p><pre><code>Singleton.INSTANCE.whateverMethod();</code></pre><p>借助JDK1.5中添加的枚举来实现单例模式。不仅能避免多线程同步问题，而且还能防止反序列化重新创建新的对象，不知道是不是1.5加入，所以使用较少</p><p>#参考文章<br><a href="http://www.runoob.com/design-pattern/singleton-pattern.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/singleton-pattern.html</a><br><a href="https://www.cnblogs.com/zhaoyan001/p/6365064.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhaoyan001/p/6365064.html</a><br><a href="https://baike.baidu.com/item/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/5946627?fr=aladdin#reference-[2]-1859857-wrap" target="_blank" rel="noopener">https://baike.baidu.com/item/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/5946627?fr=aladdin#reference-[2]-1859857-wrap</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;#本文介绍&lt;/p&gt;
+&lt;p&gt;学习单例模式(Singleton pattern)&lt;br&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="blog.virualyz.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>mysql中like何时使用索引</title>
@@ -42,8 +65,8 @@
   
   <entry>
     <title>23种设计模式(二)抽象工厂模式</title>
-    <link href="blog.virualyz.com/2019/03/31/2019-03-31_16-43-12_23%E4%B8%AD%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%BA%8C)%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
-    <id>blog.virualyz.com/2019/03/31/2019-03-31_16-43-12_23中设计模式(二)抽象工厂模式/</id>
+    <link href="blog.virualyz.com/2019/03/31/2019-03-31_16-43-12_23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%BA%8C)%E6%8A%BD%E8%B1%A1%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
+    <id>blog.virualyz.com/2019/03/31/2019-03-31_16-43-12_23种设计模式(二)抽象工厂模式/</id>
     <published>2019-03-31T10:00:00.000Z</published>
     <updated>2019-03-31T13:57:09.621Z</updated>
     
@@ -64,8 +87,8 @@
   
   <entry>
     <title>23种设计模式延伸-简单工厂模式</title>
-    <link href="blog.virualyz.com/2019/03/31/2019-03-31_17-09-37_23%E4%B8%AD%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%BB%B6%E4%BC%B8-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
-    <id>blog.virualyz.com/2019/03/31/2019-03-31_17-09-37_23中设计模式延伸-简单工厂模式/</id>
+    <link href="blog.virualyz.com/2019/03/31/2019-03-31_17-09-37_23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%BB%B6%E4%BC%B8-%E7%AE%80%E5%8D%95%E5%B7%A5%E5%8E%82%E6%A8%A1%E5%BC%8F/"/>
+    <id>blog.virualyz.com/2019/03/31/2019-03-31_17-09-37_23种设计模式延伸-简单工厂模式/</id>
     <published>2019-03-31T08:00:00.000Z</published>
     <updated>2019-03-31T12:31:57.692Z</updated>
     
@@ -412,11 +435,11 @@ java.net.BindException: Address already in use: JVM_Bind
   </entry>
   
   <entry>
-    <title>设计模式介绍及解析</title>
-    <link href="blog.virualyz.com/2018/08/31/201808310312-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D%E5%8F%8A%E8%A7%A3%E6%9E%90/"/>
-    <id>blog.virualyz.com/2018/08/31/201808310312-设计模式介绍及解析/</id>
+    <title>设计模式介绍</title>
+    <link href="blog.virualyz.com/2018/08/31/201808310312-%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%BB%8B%E7%BB%8D/"/>
+    <id>blog.virualyz.com/2018/08/31/201808310312-设计模式介绍/</id>
     <published>2018-08-30T16:00:00.000Z</published>
-    <updated>2019-02-24T07:47:44.605Z</updated>
+    <updated>2019-04-05T13:02:00.190Z</updated>
     
     <content type="html"><![CDATA[<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>设计模式（Design Pattern）是一套被反复使用、多数人知晓的、经过分类的、代码设计经验的总结。<br>使用设计模式是为了重用代码、让代码更容易被他人理解、保证代码可靠性</p><h2 id="设计模式分类"><a href="#设计模式分类" class="headerlink" title="设计模式分类"></a>设计模式分类</h2><p>根据设计模式的参考书 Design Patterns - Elements of Reusable Object-Oriented Software（中文译名：设计模式 - 可复用的面向对象软件元素）<br>，一共有23种设计模式。</p><p>这些模式可以分为三大类：</p><ul><li>创建模式(五)：工厂方法模式，抽象工厂模式，单例模式，建造者模式，原型模式</li><li>结构模式(七)：适配器模式，装饰器模式，代理模式，外观模式，桥接模式，组合模式，享元模式</li><li>行为模式(十一)：策略模式，模板方法模式，观察者模式，迭代子模式，责任链模式，命令模式，备忘录模式，状态模式，访问者模式，中介者模式，解释器模式</li></ul><a id="more"></a> <h2 id="设计模式的六大原则"><a href="#设计模式的六大原则" class="headerlink" title="设计模式的六大原则"></a>设计模式的六大原则</h2><p>总原则：开闭原则</p><ul><li>单一职责原则</li><li>里氏替换原则</li><li>依赖倒转原则</li><li>接口隔离原则</li><li>最少知道原则(迪米特法则)</li><li>合成复用原则</li></ul><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.cnblogs.com/geek6/p/3951677.html" target="_blank" rel="noopener">https://www.cnblogs.com/geek6/p/3951677.html</a></p>]]></content>
     
@@ -492,32 +515,6 @@ http://markdownpad.com/download/awesomium_v1.6.6_sdk_win.exe
     
     
       <category term="makedownPad2" scheme="blog.virualyz.com/tags/makedownPad2/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Markdown 学习</title>
-    <link href="blog.virualyz.com/2018/08/22/201808220037_Markdown%E5%AD%A6%E4%B9%A0/"/>
-    <id>blog.virualyz.com/2018/08/22/201808220037_Markdown学习/</id>
-    <published>2018-08-21T16:00:00.000Z</published>
-    <updated>2019-02-24T07:47:44.601Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p> 本文介绍Markdown 的简单功能以及实现</p><p>##宗旨</p><p> Markdown 的目标是实现「易读易写」。</p><p> 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。</p><p> 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像<em>强调</em>。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。</p><a id="more"></a> <p>##区块元素</p><p>###段落和换行</p><p>一个 Markdown 段落是由一个或多个连续的文本行组成，它的前后要有一个以上的空行（空行的定义是显示上看起来像是空的，便会被视为空行。比方说，若某一行只包含空格和制表符，则该行也会被视为空行）。普通段落不该用空格或制表符来缩进</p><p>####标题</p><p>Markdown 支持两种标题的语法，类 Setext 和类 atx 形式。</p><p>类 Setext 形式是用底线的形式，利用 = （最高阶标题）和 - （第二阶标题），例如：</p><pre><code>This is an H1=============This is an H2-------------</code></pre><p>任何数量的 = 和 - 都可以有效果。</p><p>类 Atx 形式则是在行首插入 1 到 6 个 # ，对应到标题 1 到 6 阶，行首的井字符数量决定标题的阶数，例如：</p><pre><code># 这是 H1## 这是 H2###### 这是 H6</code></pre><p>####区块引用 Blockquotes</p><p>Markdown 标记区块引用是使用类似 email 中用 &gt; 的引用方式。如果你还熟悉在 email 信件中的引言部分，你就知道怎么在 Markdown 文件中建立一个区块引用，那会看起来像是你自己先断好行，然后在每行的最前面加上 &gt; ：</p><pre><code>&gt; This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,&gt; consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.&gt; Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.&gt; &gt; Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse&gt; id sem consectetuer libero luctus adipiscing.</code></pre><h2 id="碰到的问题以及解决方法"><a href="#碰到的问题以及解决方法" class="headerlink" title="碰到的问题以及解决方法"></a>碰到的问题以及解决方法</h2><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">https://www.appinn.com/markdown/</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h1&gt;&lt;p&gt; 本文介绍Markdown 的简单功能以及实现&lt;/p&gt;
-&lt;p&gt;##宗旨&lt;/p&gt;
-&lt;p&gt; Markdown 的目标是实现「易读易写」。&lt;/p&gt;
-&lt;p&gt; 可读性，无论如何，都是最重要的。一份使用 Markdown 格式撰写的文件应该可以直接以纯文本发布，并且看起来不会像是由许多标签或是格式指令所构成。Markdown 语法受到一些既有 text-to-HTML 格式的影响，包括 Setext、atx、Textile、reStructuredText、Grutatext 和 EtText，而最大灵感来源其实是纯文本电子邮件的格式。&lt;/p&gt;
-&lt;p&gt; 总之， Markdown 的语法全由一些符号所组成，这些符号经过精挑细选，其作用一目了然。比如：在文字两旁加上星号，看起来就像&lt;em&gt;强调&lt;/em&gt;。Markdown 的列表看起来，嗯，就是列表。Markdown 的区块引用看起来就真的像是引用一段文字，就像你曾在电子邮件中见过的那样。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="Markdown" scheme="blog.virualyz.com/categories/Markdown/"/>
-    
-    
-      <category term="Markdown" scheme="blog.virualyz.com/tags/Markdown/"/>
     
   </entry>
   

@@ -294,6 +294,141 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2018/07/16/201807162308_jfinal与springMVC/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xcxd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/16/201807162308_jfinal与springMVC/" itemprop="url">jfinal与springMVC的区别</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-16T23:00:00+08:00">
+                2018-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <pre><code>0配置
+
+1：JFinal 是微内核 + 全方位扩展架构，光周边扩展方式就有：
+Handler、Interceptor、Controller、Render、Model，外围的大粒度扩展有 Plugin，扩展性极强。 
+2：开发效率 jfinal 至少比 spring 快三倍以上 
+3：对于升级与迭代 jfinal 更加方便快速，因为简洁的力量是很强大的，而极简的力量更是极度强大 
+4：spring 本身就很厚重，在 spring 上再封装会变得更加笨重，即便 api 有所简化，但对于spring的学习成本仍然无法避免。而 jfinal 是极度轻量级的 WEB + ORM，天生就为了极速开发，并且已在生产环境应用了三年，事实证明其极速与可靠性 
+5：JFinal 或许是首个极度关注开发体验的 WEB + ORM 框架，开发的时候一定要有爽的感觉才是好的工具
+
+Spring mvc 只是一个mvc框架
+jfinal 是orm+mvc,而且有易与扩展的render plugin等机制
+</code></pre><p>路由规则：jfinal配置controller类方式可以在集成 JFinalConfig的路由重写方法里面配置,同时默认的情况controller/method这样请求，spring mvc则是在controller类头声明，方法默认需要使用requestMapping注解。</p>
+<p>返回视图，jfinal返回视图使用render系列方法，底层和spring mvc相同使用request,response对象跳转带值，区别在于jfinal返回使用的不是在spring mvc下return关键字，这意味着我们可以在返回视图后继续做一些事情。而在spring mvc中更多的时候我们返回一个视图需要做很多事情。</p>
+<p>jfinal的model特性决定了，我们使用jfinal mvc的getModel()获取一个页面封装实体同时，它也是一个同时能够被数据持久化的对象。</p>
+<p>5.文件上传区别：jfinal文件上传做的封装非常强大，只需一行代码即可实现文件批量上传（重命名除外）</p>
+<h3 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h3><p><a href="https://blog.csdn.net/gdutxiaoxu/article/details/53576018" target="_blank" rel="noopener">https://www.oschina.net/question/1985427_193639</a></p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2018/07/16/201807200131_hexo百度谷歌收录/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1342,7 +1477,7 @@ constructor() {
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">38</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
