@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="blog.virualyz.com/"/>
-  <updated>2019-04-07T14:09:01.526Z</updated>
+  <updated>2019-04-14T13:45:19.484Z</updated>
   <id>blog.virualyz.com/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>23种设计模式(五)原型模式</title>
+    <link href="blog.virualyz.com/2019/04/14/2019-04-13_21-54-47_23%E4%B8%AD%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%BA%94)%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/"/>
+    <id>blog.virualyz.com/2019/04/14/2019-04-13_21-54-47_23中设计模式(五)原型模式/</id>
+    <published>2019-04-14T08:00:00.000Z</published>
+    <updated>2019-04-14T13:45:19.484Z</updated>
+    
+    <content type="html"><![CDATA[<p>#本文介绍</p><p>原型模式(Prototype Pattern)</p><a id="more"></a><p>#原型模式<br>原型模式是一种创建型设计模式，原型模式(Prototype)允许一个对象再创建另外一个可定制的对象，<br>根本无需知道任何如何创建的细节</p><p>#简介</p><p>用原型实例指定创建对象的种类，并且通过拷贝这些原型来创建新的对象</p><p>#主要角色</p><p>在这样的设计模式中，有以下几个角色：</p><p>1、客户（Client）角色：客户端类向原型管理器提出创建对象的请求</p><p>2、抽象原型（Prototype）角色：这是一个抽象角色，通常由一个C#接口或抽象类实现。此角色给出所有的具体原型类所需的接口。在C#中，抽象原型角色通常实现了ICloneable接口。</p><p>3、具体原型（Concrete Prototype）角色：被复制的对象。此角色需要实现抽象的原型角色所要求的接口。</p><p>4、原型管理器（Prototype Manager）角色：创建具体原型类的对象，并记录每一个被创建的对象。</p><p>#基本的实现思路</p><p>通过将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝它们自己来实施创建</p><p>#优缺点</p><p>##优点</p><p>1、当创建的对象实例较为复杂的时候，使用原型模式可以简化对象的创建过程！</p><p>2、扩展性好，由于写原型模式的时候使用了抽象原型类，在客户端进行编程的时候可以将具体的原型类通过配置进行读取。</p><p>3、可以使用深度克隆来保存对象的状态，使用原型模式进行复制。当你需要恢复到某一时刻就直接跳到。比如我们的idea种就有历史版本，或则SVN中也有这样的操作。非常好用！</p><p>##缺点</p><p>1、需要为每一个类配备一个克隆方法，而且该克隆方法位于一个类的里面，当对已有的类经行改造时需要修改源代码，违背了开闭原则。</p><p>2、在实现深克隆的时需要编写较为复杂的代码，而且当对象之间存在多重嵌套引用的时候，为了实现深克隆，每一层对象对应的类都必须支持深克隆，实现相对麻烦。</p><p>#适用场景</p><p>1、当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时。 [1] </p><p>2、当构造过程必须允许被构造的对象有不同表示时。</p><h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><p>1创建对象成本比较大，比如初始化要很长时间的，占用太多CPU的，新对象可以通过复制已有的对象获得的，如果是相似的对象，则可以对其成员变量稍作修改。</p><p>2系统要保存对象状态的，而对象的状态改变很小。</p><p>3需要避免使用分层次的工厂类来创建分层次的对象，并且类的对象就只用一个或很少的组合状态！</p><p>#注意事项</p><p>#实现代码</p><p>1、创建一个实现了 Cloneable 接口的抽象类。</p><pre><code>public abstract class Shape implements Cloneable {   private String id;   protected String type;   abstract void draw();   public String getType(){      return type;   }   public String getId() {      return id;   }   public void setId(String id) {      this.id = id;   }   public Object clone() {      Object clone = null;      try {         clone = super.clone();      } catch (CloneNotSupportedException e) {         e.printStackTrace();      }      return clone;   }}</code></pre><p>2、创建扩展了上面抽象类的实体类</p><pre><code>public class Rectangle extends Shape {   public Rectangle(){     type = &quot;Rectangle&quot;;   }   @Override   public void draw() {      System.out.println(&quot;Inside Rectangle::draw() method.&quot;);   }}public class Square extends Shape {   public Square(){     type = &quot;Square&quot;;   }   @Override   public void draw() {      System.out.println(&quot;Inside Square::draw() method.&quot;);   }}public class Circle extends Shape {   public Circle(){     type = &quot;Circle&quot;;   }   @Override   public void draw() {      System.out.println(&quot;Inside Circle::draw() method.&quot;);   }}</code></pre><p>3、创建一个类，从数据库获取实体类，并把它们存储在一个 Hashtable 中</p><pre><code>import java.util.Hashtable;public class ShapeCache {   private static Hashtable&lt;String, Shape&gt; shapeMap       = new Hashtable&lt;String, Shape&gt;();   public static Shape getShape(String shapeId) {      Shape cachedShape = shapeMap.get(shapeId);      return (Shape) cachedShape.clone();   }   // 对每种形状都运行数据库查询，并创建该形状   // shapeMap.put(shapeKey, shape);   // 例如，我们要添加三种形状   public static void loadCache() {      Circle circle = new Circle();      circle.setId(&quot;1&quot;);      shapeMap.put(circle.getId(),circle);      Square square = new Square();      square.setId(&quot;2&quot;);      shapeMap.put(square.getId(),square);      Rectangle rectangle = new Rectangle();      rectangle.setId(&quot;3&quot;);      shapeMap.put(rectangle.getId(),rectangle);   }}</code></pre><p>4、PrototypePatternDemo 使用 ShapeCache 类来获取存储在 Hashtable 中的形状的克隆</p><pre><code>public class PrototypePatternDemo {   public static void main(String[] args) {      ShapeCache.loadCache();      Shape clonedShape = (Shape) ShapeCache.getShape(&quot;1&quot;);      System.out.println(&quot;Shape : &quot; + clonedShape.getType());              Shape clonedShape2 = (Shape) ShapeCache.getShape(&quot;2&quot;);      System.out.println(&quot;Shape : &quot; + clonedShape2.getType());              Shape clonedShape3 = (Shape) ShapeCache.getShape(&quot;3&quot;);      System.out.println(&quot;Shape : &quot; + clonedShape3.getType());           }}</code></pre><p>5、客户端类代码片段：</p><p>   在客户端代码中，无须关心产品对象的具体组装过程，只需确定具体建造者的类型即可，建造者模式将复杂对象的构建与对象的表现分离开来，这样使得同样的构建过程可以创建出不同的表现。</p><pre><code>package com.test.builder;public class TestMain {    //something    Builder builder = new ConcreteBuilder();    Director director = new Director(builder);    Product product = director.construct();    //something}</code></pre><p>输出结果：</p><pre><code>Shape : CircleShape : SquareShape : Rectangle</code></pre><p>#总结</p><p>#参考文章<br><a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/4941014?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/4941014?fr=aladdin</a><br><a href="https://blog.csdn.net/qq_40709468/article/details/82316418" target="_blank" rel="noopener">https://blog.csdn.net/qq_40709468/article/details/82316418</a><br><a href="http://www.runoob.com/design-pattern/prototype-pattern.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/prototype-pattern.html</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;#本文介绍&lt;/p&gt;
+&lt;p&gt;原型模式(Prototype Pattern)&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="blog.virualyz.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>23种设计模式(四)建造者(生成器)模式</title>
@@ -483,28 +506,6 @@ java.net.BindException: Address already in use: JVM_Bind
     
     
       <category term="设计模式" scheme="blog.virualyz.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>jvm监控工具-VisualVM介绍以及实践</title>
-    <link href="blog.virualyz.com/2018/08/30/201808300000-jvm%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7-VisualVM%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/"/>
-    <id>blog.virualyz.com/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/</id>
-    <published>2018-08-29T16:00:00.000Z</published>
-    <updated>2019-02-24T07:47:44.602Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>visualvm 是一个jvm监控工具,其实就是oracle的jvisualvm,VisualVM是免费的图形化的jvm监控和分析工具，<br>集成多个jdk命令的行工具的可视化工具，他包括以下命令行工具jstat,JConsole,jstack,jmap,jinfo等，<br>可以使用VisualVM生成和分析海量数据、跟踪内存泄漏、监控垃圾回收器、执行内存和CPU分析，<br>同时它还支持在MBeans上进行浏览和操作，虽然visualvm需要jdk1.6，但是其实jdk1.4以上版本都可以监控。</p><a id="more"></a> <h2 id="获取visualVM"><a href="#获取visualVM" class="headerlink" title="获取visualVM"></a>获取visualVM</h2><p>1.不辞辛苦从github下载，这里还有部分解读，可以看看熟悉下<a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">https://www.appinn.com/markdown/</a><br>2.在你安装完jdk之后，你可以在jdk安装根目录-&gt;bin下找到如图所示的exe文件.</p><p><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvmexe所在位置.png" alt="visualvm所在位置"></p><h2 id="打开VisualVM"><a href="#打开VisualVM" class="headerlink" title="打开VisualVM"></a>打开VisualVM</h2><p>visualvm.exe文件双击打开，显示如下界面<br><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualVM初始页面.png" alt="visualvm初始页面"></p><h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>visual vm 有许多有用的插件，插件的安装位置在tools-&gt;plugins，在available plugins中选择并安装自己想要下载的插件，下载前建议先了解下<br><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvm插件界面.png" alt="visualvm插件页面"></p><h2 id="查看监控"><a href="#查看监控" class="headerlink" title="查看监控"></a>查看监控</h2><p>1.本地<br>    如果你本地已经有启动的程序就在local中查找即可查看相应的数据.<br><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/vimualvm监控显示.png" alt="visualvm监控"></p><p>2.远程  （暂无）</p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;p&gt;visualvm 是一个jvm监控工具,其实就是oracle的jvisualvm,VisualVM是免费的图形化的jvm监控和分析工具，&lt;br&gt;集成多个jdk命令的行工具的可视化工具，他包括以下命令行工具jstat,JConsole,jstack,jmap,jinfo等，&lt;br&gt;可以使用VisualVM生成和分析海量数据、跟踪内存泄漏、监控垃圾回收器、执行内存和CPU分析，&lt;br&gt;同时它还支持在MBeans上进行浏览和操作，虽然visualvm需要jdk1.6，但是其实jdk1.4以上版本都可以监控。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="jvm" scheme="blog.virualyz.com/categories/jvm/"/>
-    
-    
-      <category term="jvm监控工具" scheme="blog.virualyz.com/tags/jvm%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7/"/>
     
   </entry>
   
