@@ -5,7 +5,7 @@
     
   <url>
     <loc>blog.virualyz.com/2019/04/14/2019-04-13_21-54-47_23%E4%B8%AD%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%BA%94)%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2019-04-14T13:45:19.484Z</lastmod>
+    <lastmod>2019-04-14T13:53:45.765Z</lastmod>
     <data>
         <display>
         <title>23种设计模式(五)原型模式</title>
@@ -25,7 +25,7 @@
     
   <url>
     <loc>blog.virualyz.com/2019/04/07/2019-04-07_19-08-37_23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E5%9B%9B)%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2019-04-07T14:09:01.526Z</lastmod>
+    <lastmod>2019-04-14T13:53:19.240Z</lastmod>
     <data>
         <display>
         <title>23种设计模式(四)建造者(生成器)模式</title>
@@ -45,7 +45,7 @@
     
   <url>
     <loc>blog.virualyz.com/2019/04/06/2019-04-06_20-40-38_23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%B8%89)%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/</loc>
-    <lastmod>2019-04-06T14:02:23.054Z</lastmod>
+    <lastmod>2019-04-14T13:52:38.418Z</lastmod>
     <data>
         <display>
         <title>23种设计模式(三)单例模式</title>
@@ -727,19 +727,19 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/06/13/201806130120_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E7%88%B6%E7%BB%84%E4%BB%B6%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E5%88%B0%E5%AD%90%E7%BB%84%E4%BB%B6/</loc>
+    <loc>blog.virualyz.com/2018/06/13/201806130205_github+hexo%E5%88%9B%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2019-02-24T07:47:44.599Z</lastmod>
     <data>
         <display>
-        <title>angular4主从结构父组件参数传递到子组件</title>
-        <pubTime>2018-06-12T17:20:00.000Z</pubTime>
+        <title>github+hexo创建属于自己的博客</title>
+        <pubTime>2018-06-12T18:06:00.000Z</pubTime>
         
-        <tag>angular</tag>
+        <tag>hexo</tag>
          
          
            
              
-              <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
+              <breadCrumb title="hexo" url="blog.virualyz.com/categories/hexo/"/>
           
         </display>
     </data>
@@ -767,19 +767,19 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/06/13/201806130205_github+hexo%E5%88%9B%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</loc>
+    <loc>blog.virualyz.com/2018/06/13/201806130120_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E7%88%B6%E7%BB%84%E4%BB%B6%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E5%88%B0%E5%AD%90%E7%BB%84%E4%BB%B6/</loc>
     <lastmod>2019-02-24T07:47:44.599Z</lastmod>
     <data>
         <display>
-        <title>github+hexo创建属于自己的博客</title>
-        <pubTime>2018-06-12T18:06:00.000Z</pubTime>
+        <title>angular4主从结构父组件参数传递到子组件</title>
+        <pubTime>2018-06-12T17:20:00.000Z</pubTime>
         
-        <tag>hexo</tag>
+        <tag>angular</tag>
          
          
            
              
-              <breadCrumb title="hexo" url="blog.virualyz.com/categories/hexo/"/>
+              <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
           
         </display>
     </data>

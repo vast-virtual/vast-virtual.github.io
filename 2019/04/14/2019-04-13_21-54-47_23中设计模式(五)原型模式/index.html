@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="#本文介绍 原型模式(Prototype Pattern)">
+<meta name="description" content="本文介绍原型模式(Prototype Pattern)">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="23种设计模式(五)原型模式">
 <meta property="og:url" content="blog.virualyz.com/2019/04/14/2019-04-13_21-54-47_23中设计模式(五)原型模式/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="#本文介绍 原型模式(Prototype Pattern)">
+<meta property="og:description" content="本文介绍原型模式(Prototype Pattern)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-14T13:45:19.484Z">
+<meta property="og:updated_time" content="2019-04-14T13:53:45.765Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="23种设计模式(五)原型模式">
-<meta name="twitter:description" content="#本文介绍 原型模式(Prototype Pattern)">
+<meta name="twitter:description" content="本文介绍原型模式(Prototype Pattern)">
 
 
 
@@ -384,37 +384,27 @@
       
 
       
-        <p>#本文介绍</p>
-<p>原型模式(Prototype Pattern)</p>
+        <h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>原型模式(Prototype Pattern)</p>
 <a id="more"></a>
-<p>#原型模式<br>原型模式是一种创建型设计模式，原型模式(Prototype)允许一个对象再创建另外一个可定制的对象，<br>根本无需知道任何如何创建的细节</p>
-<p>#简介</p>
-<p>用原型实例指定创建对象的种类，并且通过拷贝这些原型来创建新的对象</p>
-<p>#主要角色</p>
-<p>在这样的设计模式中，有以下几个角色：</p>
+<h1 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h1><p>原型模式是一种创建型设计模式，原型模式(Prototype)允许一个对象再创建另外一个可定制的对象，<br>根本无需知道任何如何创建的细节</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>用原型实例指定创建对象的种类，并且通过拷贝这些原型来创建新的对象</p>
+<h1 id="主要角色"><a href="#主要角色" class="headerlink" title="主要角色"></a>主要角色</h1><p>在这样的设计模式中，有以下几个角色：</p>
 <p>1、客户（Client）角色：客户端类向原型管理器提出创建对象的请求</p>
 <p>2、抽象原型（Prototype）角色：这是一个抽象角色，通常由一个C#接口或抽象类实现。此角色给出所有的具体原型类所需的接口。在C#中，抽象原型角色通常实现了ICloneable接口。</p>
 <p>3、具体原型（Concrete Prototype）角色：被复制的对象。此角色需要实现抽象的原型角色所要求的接口。</p>
 <p>4、原型管理器（Prototype Manager）角色：创建具体原型类的对象，并记录每一个被创建的对象。</p>
-<p>#基本的实现思路</p>
-<p>通过将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝它们自己来实施创建</p>
-<p>#优缺点</p>
-<p>##优点</p>
-<p>1、当创建的对象实例较为复杂的时候，使用原型模式可以简化对象的创建过程！</p>
+<h1 id="基本的实现思路"><a href="#基本的实现思路" class="headerlink" title="基本的实现思路"></a>基本的实现思路</h1><p>通过将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝它们自己来实施创建</p>
+<h1 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>1、当创建的对象实例较为复杂的时候，使用原型模式可以简化对象的创建过程！</p>
 <p>2、扩展性好，由于写原型模式的时候使用了抽象原型类，在客户端进行编程的时候可以将具体的原型类通过配置进行读取。</p>
 <p>3、可以使用深度克隆来保存对象的状态，使用原型模式进行复制。当你需要恢复到某一时刻就直接跳到。比如我们的idea种就有历史版本，或则SVN中也有这样的操作。非常好用！</p>
-<p>##缺点</p>
-<p>1、需要为每一个类配备一个克隆方法，而且该克隆方法位于一个类的里面，当对已有的类经行改造时需要修改源代码，违背了开闭原则。</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>1、需要为每一个类配备一个克隆方法，而且该克隆方法位于一个类的里面，当对已有的类经行改造时需要修改源代码，违背了开闭原则。</p>
 <p>2、在实现深克隆的时需要编写较为复杂的代码，而且当对象之间存在多重嵌套引用的时候，为了实现深克隆，每一层对象对应的类都必须支持深克隆，实现相对麻烦。</p>
-<p>#适用场景</p>
-<p>1、当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时。 [1] </p>
+<h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><p>1、当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时。 [1] </p>
 <p>2、当构造过程必须允许被构造的对象有不同表示时。</p>
-<h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><p>1创建对象成本比较大，比如初始化要很长时间的，占用太多CPU的，新对象可以通过复制已有的对象获得的，如果是相似的对象，则可以对其成员变量稍作修改。</p>
+<h1 id="适用场景-1"><a href="#适用场景-1" class="headerlink" title="适用场景"></a>适用场景</h1><p>1创建对象成本比较大，比如初始化要很长时间的，占用太多CPU的，新对象可以通过复制已有的对象获得的，如果是相似的对象，则可以对其成员变量稍作修改。</p>
 <p>2系统要保存对象状态的，而对象的状态改变很小。</p>
 <p>3需要避免使用分层次的工厂类来创建分层次的对象，并且类的对象就只用一个或很少的组合状态！</p>
-<p>#注意事项</p>
-<p>#实现代码</p>
-<p>1、创建一个实现了 Cloneable 接口的抽象类。</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><p>1、创建一个实现了 Cloneable 接口的抽象类。</p>
 <pre><code>public abstract class Shape implements Cloneable {
 
    private String id;
@@ -542,8 +532,7 @@ public class TestMain {
 <pre><code>Shape : Circle
 Shape : Square
 Shape : Rectangle
-</code></pre><p>#总结</p>
-<p>#参考文章<br><a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/4941014?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/4941014?fr=aladdin</a><br><a href="https://blog.csdn.net/qq_40709468/article/details/82316418" target="_blank" rel="noopener">https://blog.csdn.net/qq_40709468/article/details/82316418</a><br><a href="http://www.runoob.com/design-pattern/prototype-pattern.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/prototype-pattern.html</a></p>
+</code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/4941014?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/4941014?fr=aladdin</a><br><a href="https://blog.csdn.net/qq_40709468/article/details/82316418" target="_blank" rel="noopener">https://blog.csdn.net/qq_40709468/article/details/82316418</a><br><a href="http://www.runoob.com/design-pattern/prototype-pattern.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/prototype-pattern.html</a></p>
 
       
     </div>
@@ -721,7 +710,7 @@ Shape : Rectangle
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#适用场景"><span class="nav-number">1.</span> <span class="nav-text">适用场景</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文介绍"><span class="nav-number">1.</span> <span class="nav-text">本文介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原型模式"><span class="nav-number">2.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">3.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要角色"><span class="nav-number">4.</span> <span class="nav-text">主要角色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本的实现思路"><span class="nav-number">5.</span> <span class="nav-text">基本的实现思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优缺点"><span class="nav-number">6.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">6.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">6.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适用场景"><span class="nav-number">7.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适用场景-1"><span class="nav-number">8.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意事项"><span class="nav-number">9.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">10.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">11.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">12.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
             
 
           </div>

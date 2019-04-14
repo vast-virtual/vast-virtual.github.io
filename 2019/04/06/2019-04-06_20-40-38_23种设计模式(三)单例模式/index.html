@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="#本文介绍 学习单例模式(Singleton pattern)">
+<meta name="description" content="本文介绍学习单例模式(Singleton pattern)">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="23种设计模式(三)单例模式">
 <meta property="og:url" content="blog.virualyz.com/2019/04/06/2019-04-06_20-40-38_23种设计模式(三)单例模式/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="#本文介绍 学习单例模式(Singleton pattern)">
+<meta property="og:description" content="本文介绍学习单例模式(Singleton pattern)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-06T14:02:23.054Z">
+<meta property="og:updated_time" content="2019-04-14T13:52:38.418Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="23种设计模式(三)单例模式">
-<meta name="twitter:description" content="#本文介绍 学习单例模式(Singleton pattern)">
+<meta name="twitter:description" content="本文介绍学习单例模式(Singleton pattern)">
 
 
 
@@ -384,45 +384,33 @@
       
 
       
-        <p>#本文介绍</p>
-<p>学习单例模式(Singleton pattern)<br><a id="more"></a></p>
-<p>#单例模式</p>
-<p>单例模式，是一种常用的软件设计模式，是最简单的设计模式之一，<br>属于创建型模式，它提供了一种创建对象的最佳方式。在它的核心结构中只包含一个被称为<br>单例的特殊类。通过单例模式可以保证系统中，应用该模式的一个类只有一个<br>实例。即一个类只有一个对象实例。</p>
-<p>#简介</p>
-<p>这一模式的目的是使得类的一个对象成为系统中的唯一实例。要实现这一点，<br>可以从客户端对其进行实例化开始。因此需要用一种只允许生成对象类的唯一<br>实例的机制，“阻止”所有想要生成对象的访问。使用工厂方法来限制实例化过<br>程。这个方法应该是静态方法（类方法），因为让类的实例去生成另一个唯一<br>实例毫无意义。</p>
-<p>#动机</p>
-<p>对于系统中的某些类来说，只有一个实例很重要。如：一个系统只能有一个任务管理器，<br>如果有多个一样的任务管理会造成资源浪费，如果有多个不一样的任务管理器，会造成<br>分辨困难，乃至无法分辨。</p>
+        <h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>学习单例模式(Singleton pattern)<br><a id="more"></a></p>
+<h1 id="单例模式"><a href="#单例模式" class="headerlink" title="单例模式"></a>单例模式</h1><p>单例模式，是一种常用的软件设计模式，是最简单的设计模式之一，<br>属于创建型模式，它提供了一种创建对象的最佳方式。在它的核心结构中只包含一个被称为<br>单例的特殊类。通过单例模式可以保证系统中，应用该模式的一个类只有一个<br>实例。即一个类只有一个对象实例。</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>这一模式的目的是使得类的一个对象成为系统中的唯一实例。要实现这一点，<br>可以从客户端对其进行实例化开始。因此需要用一种只允许生成对象类的唯一<br>实例的机制，“阻止”所有想要生成对象的访问。使用工厂方法来限制实例化过<br>程。这个方法应该是静态方法（类方法），因为让类的实例去生成另一个唯一<br>实例毫无意义。</p>
+<h1 id="动机"><a href="#动机" class="headerlink" title="动机"></a>动机</h1><p>对于系统中的某些类来说，只有一个实例很重要。如：一个系统只能有一个任务管理器，<br>如果有多个一样的任务管理会造成资源浪费，如果有多个不一样的任务管理器，会造成<br>分辨困难，乃至无法分辨。</p>
 <p>如何保证一个类只有一个实例并且这个实例易于被访问呢？<br>定义一个全局变量可以确保对象随时都可以被访问，<br>但不能防止我们实例化多个对象。<br>一个更好的解决办法是让类自身负责保存它的唯一实例。<br>这个类可以保证没有其他实例被创建，并且它可以提供一个访问该实例的方法。<br>这就是单例模式的模式动机。</p>
-<p>#要点</p>
-<p>1、单例类只能有一个实例</p>
+<h1 id="要点"><a href="#要点" class="headerlink" title="要点"></a>要点</h1><p>1、单例类只能有一个实例</p>
 <p>2、单例类必须自己创建自己的唯一实例</p>
 <p>3、单例类必须自行给所有其他对象提供这一唯一实例</p>
-<p>#基本的实现思路</p>
-<p>单例模式要求类能够有返回对象一个引用(永远是同一个)和一个获得该实例的方法（必须是静态方法，通常使用getInstance这个名称）。</p>
+<h1 id="基本的实现思路"><a href="#基本的实现思路" class="headerlink" title="基本的实现思路"></a>基本的实现思路</h1><p>单例模式要求类能够有返回对象一个引用(永远是同一个)和一个获得该实例的方法（必须是静态方法，通常使用getInstance这个名称）。</p>
 <p>单例的实现主要是通过以下两个步骤：</p>
 <p>1、将该类的构造方法定义为私有方法，这样其他处的代码就无法通过调用该类的构造方法来实例化该类的对象，只有通过该类提供的静态方法来得到该类的唯一实例；</p>
 <p>2、在该类内提供一个静态方法，当我们调用这个方法时，如果类持有的引用不为空就返回这个引用，如果类保持的引用为空就创建该类的实例并将实例的引用赋予该类保持的引用。</p>
-<p>#优缺点</p>
-<p>优点：</p>
+<h1 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h1><p>优点：</p>
 <p>1、在内存里只有一个实例，减少了内存的开销，尤其是频繁的创建和销毁实例</p>
 <p>2、避免对资源的多重占用（比如写文件操作）</p>
 <p>缺点：</p>
 <p>1、没有接口，不能继承，与单一职责原则冲突，一个类应该只关心内部逻辑，而不关心外面怎么样来实例化。</p>
 <p>2、当想实例化一个单例类的时候，必须要记住使用相应的获取对象的方法，而不是使用new，<br>可能会给其他开发人员造成困扰，特别是看不到源码的时候。</p>
-<p>#适用场景</p>
-<p>1、需要频繁的进行创建和销毁的对象</p>
+<h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><p>1、需要频繁的进行创建和销毁的对象</p>
 <p>2、创建对象时耗时过多或耗费资源过多，但又经常用到的对象</p>
 <p>3、工具类对象</p>
 <p>4、频繁访问数据库或文件的对象</p>
-<p>#注意事项</p>
-<p>单例模式在多线程的应用场合下必须小心使用。<br>如果当唯一实例尚未创建时，有两个线程同时调用创建方法，<br>那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，<br>这样就有两个实例被构造出来，从而违反了单例模式中实例唯一的原则。<br>解决这个问题的办法是为指示类是否已经实例化的变量提供一个互斥锁<br>(虽然这样会降低效率)。</p>
-<p>#单例的各种类型介绍</p>
-<p>通常单例模式在Java语言中，有两种构建方式：</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><p>单例模式在多线程的应用场合下必须小心使用。<br>如果当唯一实例尚未创建时，有两个线程同时调用创建方法，<br>那么它们同时没有检测到唯一实例的存在，从而同时各自创建了一个实例，<br>这样就有两个实例被构造出来，从而违反了单例模式中实例唯一的原则。<br>解决这个问题的办法是为指示类是否已经实例化的变量提供一个互斥锁<br>(虽然这样会降低效率)。</p>
+<h1 id="单例的各种类型介绍"><a href="#单例的各种类型介绍" class="headerlink" title="单例的各种类型介绍"></a>单例的各种类型介绍</h1><p>通常单例模式在Java语言中，有两种构建方式：</p>
 <p>  饿汉方式：指全局的单例实例在类装载时构建</p>
 <p>  懒汉方式：指全局的单例实例在第一次被使用时构建</p>
-<p>##饿汉方式</p>
-<p>###饿汉方式：静态常量-推荐</p>
-<p>   类型特点：静态常量</p>
+<h2 id="饿汉方式"><a href="#饿汉方式" class="headerlink" title="饿汉方式"></a>饿汉方式</h2><h3 id="饿汉方式：静态常量-推荐"><a href="#饿汉方式：静态常量-推荐" class="headerlink" title="饿汉方式：静态常量-推荐"></a>饿汉方式：静态常量-推荐</h3><p>   类型特点：静态常量</p>
 <p>   问题：无</p>
 <p>   是否建议使用：推荐</p>
 <pre><code>public class Singleton {
@@ -438,8 +426,7 @@
 }
 </code></pre><p>   优点：这种写法比较简单，就是在类装载的时候就完成实例化。避免了线程同步问题。</p>
 <p>   缺点：在类装载的时候就完成实例化，没有达到Lazy Loading的效果。如果从始至终从未使用过这个实例，则会造成内存的浪费。</p>
-<p>###饿汉方式：静态代码块-推荐</p>
-<p>   类型特点：静态代码块</p>
+<h3 id="饿汉方式：静态代码块-推荐"><a href="#饿汉方式：静态代码块-推荐" class="headerlink" title="饿汉方式：静态代码块-推荐"></a>饿汉方式：静态代码块-推荐</h3><p>   类型特点：静态代码块</p>
 <p>   问题：无</p>
 <p>   是否建议使用：推荐</p>
 <pre><code>public class Singleton {
@@ -457,9 +444,7 @@
     }
 }
 </code></pre><p>这种方式和上面的方式其实类似，只不过将类实例化的过程放在了静态代码块中，也是在类装载的时候，就执行静态代码块中的代码，初始化类的实例。优缺点和上面是一样的。</p>
-<p>##懒汉式</p>
-<p>###懒汉式：线程不安全-不推荐</p>
-<p>   类型特点：静态代码块</p>
+<h2 id="懒汉式"><a href="#懒汉式" class="headerlink" title="懒汉式"></a>懒汉式</h2><h3 id="懒汉式：线程不安全-不推荐"><a href="#懒汉式：线程不安全-不推荐" class="headerlink" title="懒汉式：线程不安全-不推荐"></a>懒汉式：线程不安全-不推荐</h3><p>   类型特点：静态代码块</p>
 <p>   类型问题：线程不安全</p>
 <p>   是否建议使用：不推荐</p>
 <pre><code>public class Singleton {
@@ -476,8 +461,7 @@
     }
 }
 </code></pre><p>这种写法起到了Lazy Loading的效果，但是只能在单线程下使用。如果在多线程下，一个线程进入了if (singleton == null)判断语句块，还未来得及往下执行，另一个线程也通过了这个判断语句，这时便会产生多个实例。所以在多线程环境下不可使用这种方式。</p>
-<p>###懒汉式：同步方法-线程安全</p>
-<p>   类型特点：同步方法</p>
+<h3 id="懒汉式：同步方法-线程安全"><a href="#懒汉式：同步方法-线程安全" class="headerlink" title="懒汉式：同步方法-线程安全"></a>懒汉式：同步方法-线程安全</h3><p>   类型特点：同步方法</p>
 <p>   问题：无（线程安全）</p>
 <p>   是否建议使用：不推荐</p>
 <pre><code>public class Singleton {
@@ -495,8 +479,7 @@
 }
 </code></pre><p>解决上面第三种实现方式的线程不安全问题，做个线程同步就可以了，于是就对getInstance()方法进行了线程同步。</p>
 <p>缺点：效率太低了，每个线程在想获得类的实例时候，执行getInstance()方法都要进行同步。而其实这个方法只执行一次实例化代码就够了，后面的想获得该类实例，直接return就行了。方法进行同步效率太低要改进。</p>
-<p>###懒汉式：同步代码块-线程安全-不推荐</p>
-<p>   类型特点：同步代码块</p>
+<h3 id="懒汉式：同步代码块-线程安全-不推荐"><a href="#懒汉式：同步代码块-线程安全-不推荐" class="headerlink" title="懒汉式：同步代码块-线程安全-不推荐"></a>懒汉式：同步代码块-线程安全-不推荐</h3><p>   类型特点：同步代码块</p>
 <p>   问题：无（线程安全）</p>
 <p>   是否建议使用：不推荐</p>
 <pre><code>public class Singleton {
@@ -515,9 +498,7 @@
     }
 }
 </code></pre><p>由于第四种实现方式同步效率太低，所以摒弃同步方法，改为同步产生实例化的的代码块。但是这种同步并不能起到线程同步的作用。跟第3种实现方式遇到的情形一致，假如一个线程进入了if (singleton == null)判断语句块，还未来得及往下执行，另一个线程也通过了这个判断语句，这时便会产生多个实例。</p>
-<p>##拓展类型</p>
-<p>###双重检查：同步代码块-线程安全-推荐</p>
-<p>   类型特点：同步代码块</p>
+<h2 id="拓展类型"><a href="#拓展类型" class="headerlink" title="拓展类型"></a>拓展类型</h2><h3 id="双重检查：同步代码块-线程安全-推荐"><a href="#双重检查：同步代码块-线程安全-推荐" class="headerlink" title="双重检查：同步代码块-线程安全-推荐"></a>双重检查：同步代码块-线程安全-推荐</h3><p>   类型特点：同步代码块</p>
 <p>   问题：无（线程安全）</p>
 <p>   是否建议使用：推荐</p>
 <pre><code>public class Singleton {
@@ -539,8 +520,7 @@
 }    
 </code></pre><p>如代码中所示，我们进行了两次if (singleton == null)检查，这样就可以保证线程安全了。这样，实例化代码只用执行一次，后面再次访问时，判断if (singleton == null)，直接return实例化对象。</p>
 <p>优点；延迟加载；效率较高</p>
-<p>###静态内部类：推荐</p>
-<p>   类型特点：静态内部类</p>
+<h3 id="静态内部类：推荐"><a href="#静态内部类：推荐" class="headerlink" title="静态内部类：推荐"></a>静态内部类：推荐</h3><p>   类型特点：静态内部类</p>
 <p>   问题：无（线程安全）</p>
 <p>   是否建议使用：推荐</p>
 <pre><code>public class Singleton {
@@ -563,8 +543,7 @@
 </code></pre><p>种方式跟饿汉式方式采用的机制类似，但又有不同。两者都是采用了类装载的机制来保证初始化实例时只有一个线程。不同的地方在饿汉式方式是只要Singleton类被装载就会实例化，没有Lazy-Loading的作用，而静态内部类方式在Singleton类被装载时并不会立即实例化，而是在需要实例化时，调用getInstance方法，才会装载SingletonInstance类，从而完成Singleton的实例化。</p>
 <p>类的静态属性只会在第一次加载类的时候初始化，所以在这里，JVM帮助我们保证了线程的安全性，在类进行初始化时，别的线程是无法进入的。</p>
 <p>优点：延迟加载，效率较高。</p>
-<p>###枚举</p>
-<pre><code>public enum Singleton {
+<h3 id="枚举"><a href="#枚举" class="headerlink" title="枚举"></a>枚举</h3><pre><code>public enum Singleton {
     INSTANCE;
     public void whateverMethod() {
 
@@ -573,7 +552,7 @@
 </code></pre><p>枚举方法的调用方式</p>
 <pre><code>Singleton.INSTANCE.whateverMethod();
 </code></pre><p>借助JDK1.5中添加的枚举来实现单例模式。不仅能避免多线程同步问题，而且还能防止反序列化重新创建新的对象，不知道是不是1.5加入，所以使用较少</p>
-<p>#参考文章<br><a href="http://www.runoob.com/design-pattern/singleton-pattern.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/singleton-pattern.html</a><br><a href="https://www.cnblogs.com/zhaoyan001/p/6365064.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhaoyan001/p/6365064.html</a><br><a href="https://baike.baidu.com/item/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/5946627?fr=aladdin#reference-[2]-1859857-wrap" target="_blank" rel="noopener">https://baike.baidu.com/item/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/5946627?fr=aladdin#reference-[2]-1859857-wrap</a></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="http://www.runoob.com/design-pattern/singleton-pattern.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/singleton-pattern.html</a><br><a href="https://www.cnblogs.com/zhaoyan001/p/6365064.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhaoyan001/p/6365064.html</a><br><a href="https://baike.baidu.com/item/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/5946627?fr=aladdin#reference-[2]-1859857-wrap" target="_blank" rel="noopener">https://baike.baidu.com/item/%E5%8D%95%E4%BE%8B%E6%A8%A1%E5%BC%8F/5946627?fr=aladdin#reference-[2]-1859857-wrap</a></p>
 
       
     </div>
@@ -668,8 +647,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -736,6 +724,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文介绍"><span class="nav-number">1.</span> <span class="nav-text">本文介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单例模式"><span class="nav-number">2.</span> <span class="nav-text">单例模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">3.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#动机"><span class="nav-number">4.</span> <span class="nav-text">动机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#要点"><span class="nav-number">5.</span> <span class="nav-text">要点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本的实现思路"><span class="nav-number">6.</span> <span class="nav-text">基本的实现思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优缺点"><span class="nav-number">7.</span> <span class="nav-text">优缺点</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适用场景"><span class="nav-number">8.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意事项"><span class="nav-number">9.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单例的各种类型介绍"><span class="nav-number">10.</span> <span class="nav-text">单例的各种类型介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#饿汉方式"><span class="nav-number">10.1.</span> <span class="nav-text">饿汉方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#饿汉方式：静态常量-推荐"><span class="nav-number">10.1.1.</span> <span class="nav-text">饿汉方式：静态常量-推荐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#饿汉方式：静态代码块-推荐"><span class="nav-number">10.1.2.</span> <span class="nav-text">饿汉方式：静态代码块-推荐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#懒汉式"><span class="nav-number">10.2.</span> <span class="nav-text">懒汉式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#懒汉式：线程不安全-不推荐"><span class="nav-number">10.2.1.</span> <span class="nav-text">懒汉式：线程不安全-不推荐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懒汉式：同步方法-线程安全"><span class="nav-number">10.2.2.</span> <span class="nav-text">懒汉式：同步方法-线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#懒汉式：同步代码块-线程安全-不推荐"><span class="nav-number">10.2.3.</span> <span class="nav-text">懒汉式：同步代码块-线程安全-不推荐</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拓展类型"><span class="nav-number">10.3.</span> <span class="nav-text">拓展类型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双重检查：同步代码块-线程安全-推荐"><span class="nav-number">10.3.1.</span> <span class="nav-text">双重检查：同步代码块-线程安全-推荐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#静态内部类：推荐"><span class="nav-number">10.3.2.</span> <span class="nav-text">静态内部类：推荐</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#枚举"><span class="nav-number">10.3.3.</span> <span class="nav-text">枚举</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">11.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

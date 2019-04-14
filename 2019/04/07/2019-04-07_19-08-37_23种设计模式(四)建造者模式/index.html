@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="#本文介绍 学习建造者(生成器)模式(builder Pattern)">
+<meta name="description" content="本文介绍学习建造者(生成器)模式(builder Pattern)">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="23种设计模式(四)建造者(生成器)模式">
 <meta property="og:url" content="blog.virualyz.com/2019/04/07/2019-04-07_19-08-37_23种设计模式(四)建造者模式/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="#本文介绍 学习建造者(生成器)模式(builder Pattern)">
+<meta property="og:description" content="本文介绍学习建造者(生成器)模式(builder Pattern)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-07T14:09:01.526Z">
+<meta property="og:updated_time" content="2019-04-14T13:53:19.240Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="23种设计模式(四)建造者(生成器)模式">
-<meta name="twitter:description" content="#本文介绍 学习建造者(生成器)模式(builder Pattern)">
+<meta name="twitter:description" content="本文介绍学习建造者(生成器)模式(builder Pattern)">
 
 
 
@@ -384,37 +384,26 @@
       
 
       
-        <p>#本文介绍</p>
-<p>学习建造者(生成器)模式(builder Pattern)</p>
+        <h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>学习建造者(生成器)模式(builder Pattern)</p>
 <a id="more"></a>
-<p>#建造者模式</p>
-<p>建造者模式，又名生成器模式，是一种软件设计模式，<br>属于创建型模式。建造者模式将一个复杂对象的构建与它的表示分离，<br>使得同样的构建过程可以创建不同的表示(属性)。</p>
-<p>#简介</p>
-<p>建造者模式是一步一步创建一个复杂的对象，它允许用户只通过指定复杂对象的类型和内容就可以构建它们，用户不需要知道内部的具体构建细节</p>
-<p>#主要角色</p>
-<p>在这样的设计模式中，有以下几个角色：</p>
+<h1 id="建造者模式"><a href="#建造者模式" class="headerlink" title="建造者模式"></a>建造者模式</h1><p>建造者模式，又名生成器模式，是一种软件设计模式，<br>属于创建型模式。建造者模式将一个复杂对象的构建与它的表示分离，<br>使得同样的构建过程可以创建不同的表示(属性)。</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>建造者模式是一步一步创建一个复杂的对象，它允许用户只通过指定复杂对象的类型和内容就可以构建它们，用户不需要知道内部的具体构建细节</p>
+<h1 id="主要角色"><a href="#主要角色" class="headerlink" title="主要角色"></a>主要角色</h1><p>在这样的设计模式中，有以下几个角色：</p>
 <p>1、builder（抽象建造者）：为创建一个产品对象的各个部件指定抽象接口。</p>
 <p>2、ConcreteBuilder（具体建造者）：实现Builder的接口以构造和装配该产品的各个部件，定义并明确它所创建的表示，并提供一个检索产品的接口。</p>
 <p>3、Director（指挥者）：构造一个使用Builder接口的对象。 它主要是用于创建一个复杂的对象。它主要有两个作用，一是：隔离了客户与对象的生产过程，二是：负责控制产品对象的生产过程</p>
 <p>4、Product（产品角色）：表示被构造的复杂对象。ConcreteBuilder创建该产品的内部表示并定义它的装配过程，包含定义组成部件的类，包括将这些部件装配成最终产品的接口。</p>
-<p>#基本的实现思路</p>
-<p>#优缺点</p>
-<p>##优点</p>
-<p>1、不必知道产品内部组成的细节，产品的建造和表示分离，实现了解耦。</p>
+<h1 id="基本的实现思路"><a href="#基本的实现思路" class="headerlink" title="基本的实现思路"></a>基本的实现思路</h1><h1 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>1、不必知道产品内部组成的细节，产品的建造和表示分离，实现了解耦。</p>
 <p>2、隐藏了产品的建造细节，用户只需关心产品的表示，而不需要了解是如何创建产品的。</p>
 <p>3、每一个具体建造者都相对独立，而与其他的具体建造者无关，因此可以很方便地替换具体建造者或增加新的具体建造者， 用户使用不同的具体建造者即可得到不同的产品对象 </p>
 <p>4、可以更加精细地控制产品的创建过程 。将复杂产品的创建步骤分解在不同的方法中，使得创建过程更加清晰，也更方便使用程序来控制创建过程</p>
 <p>5、体现了开闭原则，增加新的具体建造者无须修改原有建造者代码，指挥者类针对抽象建造者类编程，扩展方便</p>
-<p>##缺点</p>
-<p>1、当建造者过多时，会产生很多类，难以维护。</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>1、当建造者过多时，会产生很多类，难以维护。</p>
 <p>2、产品之间差异性很大的情况：建造者模式所创建的产品一般具有较多的共同点，其组成部分相似，如果产品之间的差异性很大，则不适合使用建造者模式，因此其使用范围受到一定的限制</p>
 <p>3、产品内部变化很复杂的情况：产品内部变化很复杂的情况： 如果产品的内部变化复杂，可能会导致需要定义很多具体建造者类来实现这种变化，导致系统变得很庞大。</p>
-<p>#适用场景</p>
-<p>1、当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时。 [1] </p>
+<h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><p>1、当创建复杂对象的算法应该独立于该对象的组成部分以及它们的装配方式时。 [1] </p>
 <p>2、当构造过程必须允许被构造的对象有不同表示时。</p>
-<p>#注意事项</p>
-<p>#实现代码</p>
-<p>1、一个典型的复杂对象其类代码示例如下：</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><p>1、一个典型的复杂对象其类代码示例如下：</p>
 <pre><code>package com.test.builder;
 public class Product {
     /**
@@ -531,9 +520,8 @@ public class TestMain {
 
     //something
 }
-</code></pre><p>#例子</p>
-<p>##贩卖不同内容的纸<br>建造者模式可以用于描述创建不同内容的纸张<br>一张纸上的内容一般包含很多内容，按照头部，身体 脚等区分内容<br>不同的纸有不同的组成内容，可以根据顾客的要求，<br>一步一步装配这些组成部分，构造一份客户需要的内容的纸给他。</p>
-<p>###Product（产品角色）<br>具体的产品对象</p>
+</code></pre><h1 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h1><h2 id="贩卖不同内容的纸"><a href="#贩卖不同内容的纸" class="headerlink" title="贩卖不同内容的纸"></a>贩卖不同内容的纸</h2><p>建造者模式可以用于描述创建不同内容的纸张<br>一张纸上的内容一般包含很多内容，按照头部，身体 脚等区分内容<br>不同的纸有不同的组成内容，可以根据顾客的要求，<br>一步一步装配这些组成部分，构造一份客户需要的内容的纸给他。</p>
+<h3 id="Product（产品角色）"><a href="#Product（产品角色）" class="headerlink" title="Product（产品角色）"></a>Product（产品角色）</h3><p>具体的产品对象</p>
 <pre><code>package com.test.test;
 
 public class Paper {
@@ -566,7 +554,7 @@ public class Paper {
         this.foot = foot;
     }
 }
-</code></pre><p>###Builder（抽象建造者）<br>创建一个Product对象的各个部件指定的抽象接口。</p>
+</code></pre><h3 id="Builder（抽象建造者）"><a href="#Builder（抽象建造者）" class="headerlink" title="Builder（抽象建造者）"></a>Builder（抽象建造者）</h3><p>创建一个Product对象的各个部件指定的抽象接口。</p>
 <pre><code>package com.test.test;
 
 public abstract class PaperBuilder {
@@ -584,7 +572,7 @@ public abstract class PaperBuilder {
         return paper;
     }
 }
-</code></pre><p>###ConcreteBuilder（具体建造者）<br>实现抽象接口，构建和装配各个部件</p>
+</code></pre><h3 id="ConcreteBuilder（具体建造者）"><a href="#ConcreteBuilder（具体建造者）" class="headerlink" title="ConcreteBuilder（具体建造者）"></a>ConcreteBuilder（具体建造者）</h3><p>实现抽象接口，构建和装配各个部件</p>
 <p>纸张A</p>
 <pre><code>package com.test.test;
 
@@ -635,8 +623,7 @@ public class PaperB extends PaperBuilder{
         paper.setFoot(&quot;24码的脚&quot;);
     }
 }
-</code></pre><p>###Director（指挥者）</p>
-<p>构建一个使用Builder接口的对象。它主要是用于创建一个复杂的对象，它主要有两个作用，一是：隔离了客户与对象的生产过程，二是：负责控制产品对象的生产过程</p>
+</code></pre><h3 id="Director（指挥者）"><a href="#Director（指挥者）" class="headerlink" title="Director（指挥者）"></a>Director（指挥者）</h3><p>构建一个使用Builder接口的对象。它主要是用于创建一个复杂的对象，它主要有两个作用，一是：隔离了客户与对象的生产过程，二是：负责控制产品对象的生产过程</p>
 <pre><code>package com.test.test;
 
 public class PaperDirector {
@@ -662,8 +649,7 @@ public class PaperDirector {
         return PaperBuilder.getPaper();
     }
 }
-</code></pre><p>###测试类(客户端类)  </p>
-<pre><code>package com.test.test;
+</code></pre><h3 id="测试类-客户端类"><a href="#测试类-客户端类" class="headerlink" title="测试类(客户端类)"></a>测试类(客户端类)</h3><pre><code>package com.test.test;
 
 public class Test {
     public static void main(String[] args) {
@@ -680,8 +666,8 @@ public class Test {
 }
 </code></pre><p>输出结果：</p>
 <pre><code>纸A的组成部分:头：A；   身体：类型1；   手：无手；   脚：42码的脚
-</code></pre><p>#总结<br>建造者模式的使用场合是当创建复杂对象时，把创建对象成员和装配方法分离出来，放在建造者类中去实现，用户使用该复杂对象时，不用理会它的创建和装配过程，只关心它的表示形式</p>
-<p>#参考文章<br><a href="https://baike.baidu.com/item/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/3229729" target="_blank" rel="noopener">https://baike.baidu.com/item/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/3229729</a><br><a href="https://www.cnblogs.com/jenkinschan/p/6426694.html" target="_blank" rel="noopener">https://www.cnblogs.com/jenkinschan/p/6426694.html</a><br><a href="https://blog.csdn.net/u010102390/article/details/80179754" target="_blank" rel="noopener">https://blog.csdn.net/u010102390/article/details/80179754</a><br><a href="https://www.cnblogs.com/snailclimb/p/builderpattern.html" target="_blank" rel="noopener">https://www.cnblogs.com/snailclimb/p/builderpattern.html</a></p>
+</code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>建造者模式的使用场合是当创建复杂对象时，把创建对象成员和装配方法分离出来，放在建造者类中去实现，用户使用该复杂对象时，不用理会它的创建和装配过程，只关心它的表示形式</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://baike.baidu.com/item/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/3229729" target="_blank" rel="noopener">https://baike.baidu.com/item/%E5%BB%BA%E9%80%A0%E8%80%85%E6%A8%A1%E5%BC%8F/3229729</a><br><a href="https://www.cnblogs.com/jenkinschan/p/6426694.html" target="_blank" rel="noopener">https://www.cnblogs.com/jenkinschan/p/6426694.html</a><br><a href="https://blog.csdn.net/u010102390/article/details/80179754" target="_blank" rel="noopener">https://blog.csdn.net/u010102390/article/details/80179754</a><br><a href="https://www.cnblogs.com/snailclimb/p/builderpattern.html" target="_blank" rel="noopener">https://www.cnblogs.com/snailclimb/p/builderpattern.html</a></p>
 
       
     </div>
@@ -776,8 +762,17 @@ public class Test {
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -844,6 +839,22 @@ public class Test {
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文介绍"><span class="nav-number">1.</span> <span class="nav-text">本文介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#建造者模式"><span class="nav-number">2.</span> <span class="nav-text">建造者模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">3.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要角色"><span class="nav-number">4.</span> <span class="nav-text">主要角色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本的实现思路"><span class="nav-number">5.</span> <span class="nav-text">基本的实现思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优缺点"><span class="nav-number">6.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">6.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">6.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适用场景"><span class="nav-number">7.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意事项"><span class="nav-number">8.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">9.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#例子"><span class="nav-number">10.</span> <span class="nav-text">例子</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#贩卖不同内容的纸"><span class="nav-number">10.1.</span> <span class="nav-text">贩卖不同内容的纸</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Product（产品角色）"><span class="nav-number">10.1.1.</span> <span class="nav-text">Product（产品角色）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Builder（抽象建造者）"><span class="nav-number">10.1.2.</span> <span class="nav-text">Builder（抽象建造者）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcreteBuilder（具体建造者）"><span class="nav-number">10.1.3.</span> <span class="nav-text">ConcreteBuilder（具体建造者）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Director（指挥者）"><span class="nav-number">10.1.4.</span> <span class="nav-text">Director（指挥者）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试类-客户端类"><span class="nav-number">10.1.5.</span> <span class="nav-text">测试类(客户端类)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">11.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">12.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
