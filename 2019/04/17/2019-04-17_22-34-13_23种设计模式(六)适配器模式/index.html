@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="设计模式," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="本文介绍适配器模式(Adapter Pattern)">
+<meta name="keywords" content="设计模式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="23种设计模式(六)适配器模式">
+<meta property="og:url" content="blog.virualyz.com/2019/04/17/2019-04-17_22-34-13_23种设计模式(六)适配器模式/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="本文介绍适配器模式(Adapter Pattern)">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-19T14:43:23.377Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="23种设计模式(六)适配器模式">
+<meta name="twitter:description" content="本文介绍适配器模式(Adapter Pattern)">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="blog.virualyz.com/2019/04/17/2019-04-17_22-34-13_23种设计模式(六)适配器模式/"/>
+
+
+
+
+
+  <title>23种设计模式(六)适配器模式 | Hexo</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Hexo</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
+            
+            日程表
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-sitemap">
+          <a href="/sitemap.xml" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
+            
+            站点地图
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2019/04/17/2019-04-17_22-34-13_23种设计模式(六)适配器模式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xcxd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">23种设计模式(六)适配器模式</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-17T20:00:00+08:00">
+                2019-04-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>适配器模式(Adapter Pattern)</p>
+<a id="more"></a>
+<h1 id="适配器模式"><a href="#适配器模式" class="headerlink" title="适配器模式"></a>适配器模式</h1><p>又名为包装器(Wrapper)模式,将一个类的接口适配成用户所期待的。一个适配允许通常因为接口不兼容而不能在一起工作的类工作在一起</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>是作为两个不兼容的接口之间的桥梁。这种类型的设计模式属于结构型模式，它结合了两个独立接口的功能。</p>
+<p>这种模式涉及到一个单一的类，该类负责加入独立的或不兼容的接口功能</p>
+<p>共有两类适配器模式：</p>
+<h3 id="对象适配器模式"><a href="#对象适配器模式" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h3><p>在这种适配器模式中，适配器容纳一个它包裹的类的实例。在这种情况下，适配器调用被包裹对象的物理实体。</p>
+<h3 id="类适配器模式"><a href="#类适配器模式" class="headerlink" title="类适配器模式"></a>类适配器模式</h3><p>这种适配器模式下，适配器继承自已实现的类（一般多重继承）。</p>
+<h1 id="主要角色"><a href="#主要角色" class="headerlink" title="主要角色"></a>主要角色</h1><p>1：Target(目标抽象类)：目标抽象类定义客户所需的接口，可以是一个抽象类或接口，也可以是具体类。在类适配器中，由于C#语言不支持多重继承，所以它只能是接口。</p>
+<p>2：Adapter(适配器类)：它可以调用另一个接口，作为一个转换器，对Adaptee和Target进行适配。它是适配器模式的核心。</p>
+<p>3：Adaptee(适配者类)：适配者即被适配的角色，它定义了一个已经存在的接口，这个接口需要适配，适配者类包好了客户希望的业务方法。</p>
+<h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>为了保留现有类所提供的服务，但是又需要新的服务去适应新的需求</p>
+<h1 id="基本的实现思路"><a href="#基本的实现思路" class="headerlink" title="基本的实现思路"></a>基本的实现思路</h1><p>将类自己的接口包裹在一个已存在的类中。exp： a-&gt;a1,b  ==&gt; aa%% b==&gt; c</p>
+<h1 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>1：将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，无需修改原有结构。</p>
+<p>2：增加了类的透明性和复用性，将具体的业务实现过程封装在适配者类中，对于客户端类而言是透明的，而且提高了适配者的复用性，同一适配者类可以在多个不同的系统中复用。</p>
+<p>3：灵活性和扩展性都非常好，通过使用配置文件，可以很方便的更换适配器，也可以在不修改原有代码的基础上 增加新的适配器，完全复合开闭原则</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>1：一次最多只能适配一个适配者类，不能同时适配多个适配者。</p>
+<p>2：适配者类不能为最终类</p>
+<p>3：目标抽象类只能为接口，不能为类，其使用有一定的局限性</p>
+<h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><p>1、在已有的接口中不适用现有需求，需要扩展这些接口使用</p>
+<p>2、创建一个可重复用的类，用于连接一些彼此没有关联的类，以及以后可能会在将来使用的类</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><h2 id="类适配器模式："><a href="#类适配器模式：" class="headerlink" title="类适配器模式："></a>类适配器模式：</h2><p>　　原理：通过继承来实现适配器功能</p>
+<p>有一台mac电脑，他的接口是typec类型的，现在有一台显示器是vga接口的，需要要一个转换器，<br>这个转换器让显示器vga也可以用typec</p>
+<p>typec</p>
+<pre><code>/**
+ * Typec
+ *
+ * @author test
+ * @date
+ */
+public interface Typec {
+
+    /**
+     *
+     * @return
+     */
+    void isTypec();
+
+}
+</code></pre><p>vga</p>
+<pre><code>/**
+ * Vga
+ *
+ * @author test
+ * @date
+ */
+public interface Vga {
+
+
+    /**
+     *
+     * @return
+     */
+    void isVga();
+}
+</code></pre><p>typec实现类</p>
+<pre><code>/**
+ * UseTypec
+ *
+ * @author test
+ * @date
+ */
+public class UseTypec implements Typec {
+    @Override
+    public void isTypec() {
+        System.out.println(&quot;Typec&quot;);
+    }
+}
+</code></pre><p>适配器 Adapter</p>
+<pre><code>/**
+ * Adapter
+ *
+ * @author test
+ * @date
+ */
+public class Adapter extends UseTypec implements Vga {
+
+    @Override
+    public void isVga() {
+        isTypec();
+    }
+}
+</code></pre><p>测试</p>
+<pre><code>/**
+ * Main
+ *
+ * @author test
+ * @date
+ */
+public class Main {
+
+    public static void main(String[] args) {
+        UseTypec p = new Adapter();
+        p.isTypec();
+    }
+
+}
+</code></pre><p>输出结果</p>
+<pre><code>Typec
+</code></pre><p>　  接口typec：描述typec接口格式</p>
+<p>　　接口vga：描述vga接口格式</p>
+<p>　　类UseTypec：是接口Typec的实现类，是具体的ypec接口格式</p>
+<p>　　Adapter：用于将vga接口格式转换成为Typec接口格式T</p>
+<h2 id="对象适配器模式-1"><a href="#对象适配器模式-1" class="headerlink" title="对象适配器模式"></a>对象适配器模式</h2><p>原理：通过组合来实现适配器功能</p>
+<p>相对于类适配器，对象适配器通过在适配器内定义私有变量，并通过带参数的构造方法为<br>此定义变量进行赋值，然后在实现a接口的方法中调用b中的方法</p>
+<p>typec</p>
+<pre><code>/**
+ * Typec
+ *
+ * @author test
+ * @date
+ */
+public interface Typec {
+
+    /**
+     *
+     * @return
+     */
+    void isTypec();
+
+}
+</code></pre><p>vga</p>
+<pre><code>/**
+ * Vga
+ *
+ * @author test
+ * @date
+ */
+public interface Vga {
+
+
+    /**
+     *
+     * @return
+     */
+    void isVga();
+}
+</code></pre><p>typec实现类</p>
+<pre><code>/**
+ * UseTypec
+ *
+ * @author test
+ * @date
+ */
+public class UseTypec implements Typec {
+    @Override
+    public void isTypec() {
+        System.out.println(&quot;Typec&quot;);
+    }
+}
+</code></pre><p>适配器 Adapter</p>
+<pre><code>/**
+ * Adapter
+ *
+ * @author test
+ * @date
+ */
+public class Adapter implements Vga {
+
+    private Typec typec;
+    public Adapter(Typec typec){
+        this.typec = typec;
+    }
+
+    @Override
+    public void isVga() {
+        typec.isTypec();
+    }
+}
+</code></pre><p>测试</p>
+<pre><code>public static void main(String[] args) {
+        Vga p = new Adapter(new UseTypec());
+        p.isVga();
+}
+</code></pre><p>输出结果</p>
+<pre><code>Typec
+</code></pre><h3 id="接口适配器"><a href="#接口适配器" class="headerlink" title="接口适配器"></a>接口适配器</h3><p>原理：通过抽象类来实现适配</p>
+<p>基于类适配器，当只需要接口typec中的部分方法，但是接口中有许多方法，我们实现接口<br>则需要实现其中的所有方法，这时我们可以通过抽象类来实现接口，并<br>不对方法进行实现（仅置空），然后我们再继承这个抽象类来通过重写想<br>用的方法的方式来实现。这个抽象类就是适配器。</p>
+<p>接口typec</p>
+<pre><code>/**
+ *
+ * @author test
+ * @date
+ */
+public interface Typec {
+    void charge();
+    void sound();
+    void connectingCellPhone();
+}
+</code></pre><p>适配器</p>
+<pre><code>/**
+ *
+ * @author test
+ * @date
+ */
+public abstract class Adapter implements Typec {
+    @Override
+    public void charge(){}
+    @Override
+    public void sound(){}
+    @Override
+    public void connectingCellPhone(){}
+
+}
+</code></pre><p>使用类</p>
+<pre><code>/**
+ *
+ * @author test
+ * @date
+ */
+public class UseTypec extends Adapter {
+    @Override
+    public void charge(){
+        System.out.println(&quot;实现充电方法被调用&quot;);
+    }
+
+    @Override
+    public void connectingCellPhone(){
+        System.out.println(&quot;实现连接手机方法被调用&quot;);
+    }
+}
+</code></pre><p>测试类</p>
+<pre><code>/**
+ *
+ * @author test
+ * @date
+ */
+public class Main {
+
+    public static void main(String[] args) {
+        UseTypec a = new UseTypec();
+        a.charge();
+        a.connectingCellPhone();
+    }
+
+}  
+</code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>类适配器与对象适配器的使用场景一致，仅仅是实现手段稍有区别</p>
+<p>1、想要使用一个已经存在的类，但是它却不符合现有的接口规范，导致无法直接去访问，这时创建一个适配器就能间接去访问这个类中的方法。</p>
+<p>2、我们有一个类，想将其设计为可重用的类（可被多处访问），我们可以创建适配器来将这个类来适配其他没有提供合适接口的类。</p>
+<p>　　以上两个场景其实就是从两个角度来描述一类问题，那就是要访问的方法不在合适的接口里，一个从接口出发（被访问），一个从访问出发（主动访问）。</p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://baike.baidu.com/item/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/10218946?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/10218946?fr=aladdin</a><br><a href="https://www.cnblogs.com/V1haoge/p/6479118.html" target="_blank" rel="noopener">https://www.cnblogs.com/V1haoge/p/6479118.html</a><br><a href="https://www.cnblogs.com/songyaqi/p/4805820.html" target="_blank" rel="noopener">https://www.cnblogs.com/songyaqi/p/4805820.html</a><br><a href="http://www.runoob.com/design-pattern/adapter-pattern.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/adapter-pattern.html</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/设计模式/" rel="tag"># 设计模式</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/14/2019-04-13_21-54-47_23中设计模式(五)原型模式/" rel="next" title="23种设计模式(五)原型模式">
+                <i class="fa fa-chevron-left"></i> 23种设计模式(五)原型模式
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">xcxd</p>
+              <p class="site-description motion-element" itemprop="description">一小步一小步</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">41</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文介绍"><span class="nav-number">1.</span> <span class="nav-text">本文介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适配器模式"><span class="nav-number">2.</span> <span class="nav-text">适配器模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">3.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#对象适配器模式"><span class="nav-number">3.0.1.</span> <span class="nav-text">对象适配器模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#类适配器模式"><span class="nav-number">3.0.2.</span> <span class="nav-text">类适配器模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要角色"><span class="nav-number">4.</span> <span class="nav-text">主要角色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目的"><span class="nav-number">5.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本的实现思路"><span class="nav-number">6.</span> <span class="nav-text">基本的实现思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优缺点"><span class="nav-number">7.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">7.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">7.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适用场景"><span class="nav-number">8.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意事项"><span class="nav-number">9.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">10.</span> <span class="nav-text">实现代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类适配器模式："><span class="nav-number">10.1.</span> <span class="nav-text">类适配器模式：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象适配器模式-1"><span class="nav-number">10.2.</span> <span class="nav-text">对象适配器模式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#接口适配器"><span class="nav-number">10.2.1.</span> <span class="nav-text">接口适配器</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">11.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">12.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xcxd</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  <script type="text/javascript" src="/js/src/love.js"></script>
+
+</body>
+</html>
