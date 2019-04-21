@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="blog.virualyz.com/"/>
-  <updated>2019-04-19T14:43:23.377Z</updated>
+  <updated>2019-04-21T13:19:07.238Z</updated>
   <id>blog.virualyz.com/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>23种设计模式(六)适配器模式</title>
+    <link href="blog.virualyz.com/2019/04/20/2019-04-20_21-24-43_23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%B8%83)%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/"/>
+    <id>blog.virualyz.com/2019/04/20/2019-04-20_21-24-43_23种设计模式(七)装饰器模式/</id>
+    <published>2019-04-20T10:00:00.000Z</published>
+    <updated>2019-04-21T13:19:07.238Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>装饰器模式(Decorator Pattern)</p><a id="more"></a><h1 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a>装饰器模式</h1><p>装饰模式指的是在不必改变原类文件和使用继承的情况下，<br>动态地扩展一个对象的功能。它是通过创建一个包装对象，<br>也就是装饰来包裹真实的对象</p><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>装饰模式允许向一个现有的对象添加新的功能，同时又不改变其结构。这种类型的设计<br>模式属于结构型模式，它是作为现有的类的一个包装</p><h1 id="主要角色"><a href="#主要角色" class="headerlink" title="主要角色"></a>主要角色</h1><p>1、抽象构件（Component）角色：给出一个抽象接口，以规范准备接收附加责任的对象。</p><p>2、具体构件（Concrete Component）角色：定义一个将要接收附加责任的类。</p><p>3、装饰（Decorator）角色：持有一个构件（Component）对象的实例，并实现一个与抽象构件接口一致的接口。</p><p>4、具体装饰（Concrete Decorator）角色：负责给构件对象添加上附加的责任。</p><h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>用来包装原有的类，并在保持类方法签名完整性的前提下，提供了额外的功能，比生成子类更为灵活</p><h1 id="基本的实现思路"><a href="#基本的实现思路" class="headerlink" title="基本的实现思路"></a>基本的实现思路</h1><p>将具体功能职责划分，同时继承装饰者模式</p><h1 id="实际使用"><a href="#实际使用" class="headerlink" title="实际使用"></a>实际使用</h1><p>java IO 流是典型的装饰模式</p><h1 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>1.、Decorator模式与继承关系的目的都是要扩展对象的功能，但是Decorator可以提供比继承更多的灵活性。</p><p>2、 通过使用不同的具体装饰类以及这些装饰类的排列组合，设计师可以创造出很多不同行为的组合</p><h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>1、这种比继承更加灵活机动的特性，也同时意味着更加多的复杂性</p><p>2、装饰模式会导致设计中出现许多小类，如果过度使用，会使程序变得很复杂。</p><p>3、装饰模式是针对抽象组件（Component）类型编程。但是，如果你要针对具体组件编程时，就应该重新思考你的应用架构，以及装饰者是否合适。当然也可以改变Component接口，增加新的公开的行为，实现“半透明”的装饰者模式。在实际项目中要做出最佳选择</p><h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><ol><li><p>需要扩展一个类的功能，或给一个类添加附加职责</p></li><li><p>需要动态的给一个对象添加功能，这些功能可以再动态的撤销</p></li><li><p>需要增加由一些基本功能的排列组合而产生的非常大量的功能，从而使继承关系变的不现实。</p></li><li><p>当不能采用生成子类的方法进行扩充时。一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。另一种情况可能是因为类定义被隐藏，或类定义不能用于生成子类</p></li></ol><h1 id="与其他模式的区别"><a href="#与其他模式的区别" class="headerlink" title="与其他模式的区别"></a>与其他模式的区别</h1><p>1、关于新职责：适配器也可以在转换时增加新的职责，但主要目的不在此。装饰者模式主要是给被装饰者增加新职责的。</p><p>2、关于原接口：适配器模式是用新接口来调用原接口，原接口对新系统是不可见或者说不可用的。装饰者模式原封不动的使用原接口，系统对装饰的对象也通过原接口来完成使用。（增加新接口的装饰者模式可以认为是其变种–“半透明”装饰者）</p><p>3、关于其包裹的对象：适配器是知道被适配者的详细情况的（就是那个类或那个接口）。装饰者只知道其接口是什么，至于其具体类型（是基类还是其他派生类）只有在运行期间才知道</p><h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><p>接口</p><pre><code>/** * @author test * @date */public interface Home {    /**     * 家庭名称     * @return     */    void homeName();    /**     * 家庭地址     * @return     */    void homeAddress();}</code></pre><p>实现</p><pre><code>/** * @author test * @date */public class AmericanHome implements Home {    @Override    public void homeName(){        System.out.println(&quot;HomeName:AmericanH&quot;);    }    @Override    public void homeAddress(){        System.out.println(&quot;HomeAddress:AmericanH&quot;);    }}/** * @author test * @date */public class ChineseHome implements Home {    @Override    public void homeName(){        System.out.println(&quot;HomeName:Chinese&quot;);    }    @Override    public void homeAddress(){        System.out.println(&quot;HomeAddress:Chinese&quot;);    }}</code></pre><p>接口的抽象装饰类</p><pre><code>/** * @author test * @date */public abstract class HomeDecorator implements Home {    protected Home homeDecorator;    public HomeDecorator(Home homeDecorator){        this.homeDecorator = homeDecorator;    }    @Override    public void homeName(){        homeDecorator.homeName();    }    @Override    public void homeAddress(){        homeDecorator.homeAddress();    }}</code></pre><p>创建扩展了 抽象装饰类的实体装饰类</p><pre><code>/** * @author test * @date */public class NewHomeDecorator extends HomeDecorator {    public NewHomeDecorator(Home home){        super(home);    }    @Override    public void homeName(){        homeDecorator.homeName();        recordHomeComeFrom(homeDecorator);    }    @Override    public void homeAddress(){        homeDecorator.homeAddress();        recordHomeComeFrom(homeDecorator);    }    private void recordHomeComeFrom(Home home){        System.out.println(&quot;record come from: 已记录家庭来自的地址&quot;);    }}</code></pre><p>使用 实体装饰类 来装饰对象   </p><pre><code>/** * @author test * @date */public class Main {    public static void main(String[] args) {        Home home = new ChineseHome();        Home chineseHome = new NewHomeDecorator(new ChineseHome());        Home americanHome = new NewHomeDecorator(new AmericanHome());        System.out.println(&quot;Home with normal &quot;);        home.homeName();        home.homeAddress();        System.out.println(&quot;\nHome of chinese&quot;);        chineseHome.homeName();        chineseHome.homeAddress();        System.out.println(&quot;\nHome of american&quot;);        americanHome.homeName();        americanHome.homeAddress();    }}</code></pre><p>输出结果</p><pre><code>Home with normal HomeName:ChineseHomeAddress:ChineseHome of chineseHomeName:Chineserecord come from: 已记录家庭来自的地址HomeAddress:Chineserecord come from: 已记录家庭来自的地址Home of americanHomeName:Americanrecord come from: 已记录家庭来自的地址HomeAddress:Americanrecord come from: 已记录家庭来自的地址Process finished with exit code 0　</code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://baike.baidu.com/item/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/10218946?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/10218946?fr=aladdin</a></p>]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;本文介绍&quot;&gt;&lt;a href=&quot;#本文介绍&quot; class=&quot;headerlink&quot; title=&quot;本文介绍&quot;&gt;&lt;/a&gt;本文介绍&lt;/h1&gt;&lt;p&gt;装饰器模式(Decorator Pattern)&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="设计模式" scheme="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+    
+      <category term="设计模式" scheme="blog.virualyz.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+  </entry>
   
   <entry>
     <title>23种设计模式(六)适配器模式</title>
@@ -470,32 +492,6 @@ java.net.BindException: Address already in use: JVM_Bind
     
     
       <category term="jenkins" scheme="blog.virualyz.com/tags/jenkins/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>初步了解数据库</title>
-    <link href="blog.virualyz.com/2018/09/03/201809030244-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    <id>blog.virualyz.com/2018/09/03/201809030244-初步了解数据库/</id>
-    <published>2018-09-02T18:45:30.000Z</published>
-    <updated>2019-02-24T07:47:44.605Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><h5 id="数据库定义"><a href="#数据库定义" class="headerlink" title="数据库定义"></a>数据库定义</h5><p>数据库(Database)是按照数据结构来组织、存储和管理数据的仓库</p><h5 id="数据库分类"><a href="#数据库分类" class="headerlink" title="数据库分类"></a>数据库分类</h5><p>早起数据库比较流行的数据库类型分为三类：层次式数据库、网络式数据库和关系型数据库(现在大部分为关系型数据库)。而当今互联网常见的数据库类型分为两类：关系型、非关系型。</p><h6 id="关系型数据库"><a href="#关系型数据库" class="headerlink" title="关系型数据库"></a>关系型数据库</h6><p>关系型数据库模型是把复杂的数据结构归为简单的二元关系(即二维表格形式)，在关系型数据库中，对数据的操作就全部建立在一个或多个表格中，通过这些表格的分类、合并、连接或选取等运算来实现数据的管理。</p><p>关系型数据库诞生于1969年，由 Edgar F.“Ted” Codd发明了关系数据库。最常见的关系型数据库：mysql、Oracle、DB2、MariaDB(mysql分支）、Microsoft SQL Server(微软)，Access（Microsoft）</p><h6 id="非关系型数据库"><a href="#非关系型数据库" class="headerlink" title="非关系型数据库"></a>非关系型数据库</h6><p>非关系型数据库又被称为NoSQL（以下简称NoSQL），NoSQL不是没有SQL的意思，而是“不仅仅是SQL”（not only sql），NoSQL的产生并不是要彻底否定关系型数据库，而是作为传统关系型数据库的一个有效补充。NOSQL典型产品memcached（纯内存），redis（持久化缓存），mongodb（面向文档）</p><a id="more"></a> <p>####### NoSQL的四大分类</p><p>1.键值存储数据库 </p><pre><code>典型产品：Memcached、Redis、MemcacheDB、Berkeley DB</code></pre><p>2.列存储数据库</p><pre><code>典型产品：Hbase、Cassandra</code></pre><p>3.文档型数据库</p><pre><code>典型产品：MongoDB、CouchDB</code></pre><p>4.图形（Graph）数据库</p><pre><code>典型的产品有：Neo4J、InfoGrid。</code></pre><p>####### NoSQL共同特征</p><p>1.不需要预定义模式:在存储时不需要预先定义他们的模式</p><p>2.无共享架构:NoSQL把数据存储在本地服务器上，从本地磁盘读取数据比通过网络获取数据快，从而提高了性能</p><p>3.弹性可扩展</p><p>4.分区</p><p>5.异步复制</p><p>6.BASE:关系型数据库是严格的ACID特性，NoSQL数据库保证的是BASE特性。BASE是最终一致性和软事务</p><p>NoSQL数据库并没有一个统一的架构，两种NoSQL数据库之间的不同，甚至远远超过两种关系型数据库的不同。可以说，NoSQL各有所长，成功的NoSQL必然特别适用于某些场合或者某些应用，在这些场合中会远远胜过关系型数据库和其他的NoSQL。</p><p>####### NoSQL 适用场景</p><p>1.数据模型比较简单；</p><p>2.需要灵活性更强的IT系统；</p><p>3.对数据库性能要求较高；</p><p>4.不需要高度的数据一致性；</p><p>5.对于给定key，比较容易映射复杂值的环境。</p><h5 id="数据库排名"><a href="#数据库排名" class="headerlink" title="数据库排名"></a>数据库排名</h5><p>地址：<a href="https://db-engines.com/en/ranking" target="_blank" rel="noopener">https://db-engines.com/en/ranking</a></p><h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a href="https://baike.baidu.com/item/NoSQL/8828247?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/NoSQL/8828247?fr=aladdin</a><br><a href="http://blog.51cto.com/13178102/2064041" target="_blank" rel="noopener">http://blog.51cto.com/13178102/2064041</a></p>]]></content>
-    
-    <summary type="html">
-    
-      &lt;h2 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h2&gt;&lt;h5 id=&quot;数据库定义&quot;&gt;&lt;a href=&quot;#数据库定义&quot; class=&quot;headerlink&quot; title=&quot;数据库定义&quot;&gt;&lt;/a&gt;数据库定义&lt;/h5&gt;&lt;p&gt;数据库(Database)是按照数据结构来组织、存储和管理数据的仓库&lt;/p&gt;
-&lt;h5 id=&quot;数据库分类&quot;&gt;&lt;a href=&quot;#数据库分类&quot; class=&quot;headerlink&quot; title=&quot;数据库分类&quot;&gt;&lt;/a&gt;数据库分类&lt;/h5&gt;&lt;p&gt;早起数据库比较流行的数据库类型分为三类：层次式数据库、网络式数据库和关系型数据库(现在大部分为关系型数据库)。而当今互联网常见的数据库类型分为两类：关系型、非关系型。&lt;/p&gt;
-&lt;h6 id=&quot;关系型数据库&quot;&gt;&lt;a href=&quot;#关系型数据库&quot; class=&quot;headerlink&quot; title=&quot;关系型数据库&quot;&gt;&lt;/a&gt;关系型数据库&lt;/h6&gt;&lt;p&gt;关系型数据库模型是把复杂的数据结构归为简单的二元关系(即二维表格形式)，在关系型数据库中，对数据的操作就全部建立在一个或多个表格中，通过这些表格的分类、合并、连接或选取等运算来实现数据的管理。&lt;/p&gt;
-&lt;p&gt;关系型数据库诞生于1969年，由 Edgar F.“Ted” Codd发明了关系数据库。最常见的关系型数据库：mysql、Oracle、DB2、MariaDB(mysql分支）、Microsoft SQL Server(微软)，Access（Microsoft）&lt;/p&gt;
-&lt;h6 id=&quot;非关系型数据库&quot;&gt;&lt;a href=&quot;#非关系型数据库&quot; class=&quot;headerlink&quot; title=&quot;非关系型数据库&quot;&gt;&lt;/a&gt;非关系型数据库&lt;/h6&gt;&lt;p&gt;非关系型数据库又被称为NoSQL（以下简称NoSQL），NoSQL不是没有SQL的意思，而是“不仅仅是SQL”（not only sql），NoSQL的产生并不是要彻底否定关系型数据库，而是作为传统关系型数据库的一个有效补充。NOSQL典型产品memcached（纯内存），redis（持久化缓存），mongodb（面向文档）&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="数据库" scheme="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
-    
-    
-      <category term="数据库" scheme="blog.virualyz.com/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
     
   </entry>
   

@@ -4,6 +4,26 @@
 
     
   <url>
+    <loc>blog.virualyz.com/2019/04/20/2019-04-20_21-24-43_23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E4%B8%83)%E8%A3%85%E9%A5%B0%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
+    <lastmod>2019-04-21T13:19:07.238Z</lastmod>
+    <data>
+        <display>
+        <title>23种设计模式(六)适配器模式</title>
+        <pubTime>2019-04-20T10:00:00.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="设计模式" url="blog.virualyz.com/categories/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>blog.virualyz.com/2019/04/17/2019-04-17_22-34-13_23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E5%85%AD)%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2019-04-19T14:43:23.377Z</lastmod>
     <data>
@@ -432,26 +452,6 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/09/04/201809042330-jenkins%E4%BB%8B%E7%BB%8D-%E5%AE%89%E8%A3%85/</loc>
-    <lastmod>2019-02-24T07:47:44.605Z</lastmod>
-    <data>
-        <display>
-        <title>jenkins介绍-安装</title>
-        <pubTime>2018-09-03T16:00:00.000Z</pubTime>
-        
-        <tag>jenkins</tag>
-         
-         
-           
-             
-              <breadCrumb title="数据集成" url="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>blog.virualyz.com/2018/09/03/201809030244-%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3%E6%95%B0%E6%8D%AE%E5%BA%93/</loc>
     <lastmod>2019-02-24T07:47:44.605Z</lastmod>
     <data>
@@ -465,6 +465,26 @@
            
              
               <breadCrumb title="数据库" url="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/09/04/201809042330-jenkins%E4%BB%8B%E7%BB%8D-%E5%AE%89%E8%A3%85/</loc>
+    <lastmod>2019-02-24T07:47:44.605Z</lastmod>
+    <data>
+        <display>
+        <title>jenkins介绍-安装</title>
+        <pubTime>2018-09-03T16:00:00.000Z</pubTime>
+        
+        <tag>jenkins</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据集成" url="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/"/>
           
         </display>
     </data>
@@ -512,19 +532,19 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/22/201808220037_Markdown%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>Markdown 学习</title>
-        <pubTime>2018-08-21T16:00:00.000Z</pubTime>
+        <title>spring-cloud-使用Hystrix实现断路器</title>
+        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
         
-        <tag>Markdown</tag>
+        <tag>spring cloud</tag>
          
          
            
              
-              <breadCrumb title="Markdown" url="blog.virualyz.com/categories/Markdown/"/>
+              <breadCrumb title="spring cloud" url="blog.virualyz.com/categories/spring-cloud/"/>
           
         </display>
     </data>
@@ -532,11 +552,11 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/</loc>
+    <loc>blog.virualyz.com/2018/08/14/201808140251_spring-cloud-%E4%BD%BF%E7%94%A8Ribbon%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud-使用Hystrix实现断路器</title>
+        <title>spring-cloud-使用Ribbon实现负载均衡</title>
         <pubTime>2018-08-13T18:55:00.000Z</pubTime>
         
         <tag>spring cloud</tag>
@@ -612,19 +632,19 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/14/201808140251_spring-cloud-%E4%BD%BF%E7%94%A8Ribbon%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
+    <loc>blog.virualyz.com/2018/08/22/201808220037_Markdown%E5%AD%A6%E4%B9%A0/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud-使用Ribbon实现负载均衡</title>
-        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
+        <title>Markdown 学习</title>
+        <pubTime>2018-08-21T16:00:00.000Z</pubTime>
         
-        <tag>spring cloud</tag>
+        <tag>Markdown</tag>
          
          
            
              
-              <breadCrumb title="spring cloud" url="blog.virualyz.com/categories/spring-cloud/"/>
+              <breadCrumb title="Markdown" url="blog.virualyz.com/categories/Markdown/"/>
           
         </display>
     </data>
@@ -692,6 +712,21 @@
 
     
   <url>
+    <loc>blog.virualyz.com/2018/07/16/201807162308_jfinal%E4%B8%8EspringMVC/</loc>
+    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
+    <data>
+        <display>
+        <title>jfinal与springMVC的区别</title>
+        <pubTime>2018-07-16T15:00:00.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>blog.virualyz.com/2018/07/17/201807170010_%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/</loc>
     <lastmod>2019-02-24T07:47:44.600Z</lastmod>
     <data>
@@ -712,21 +747,6 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/07/16/201807162308_jfinal%E4%B8%8EspringMVC/</loc>
-    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
-    <data>
-        <display>
-        <title>jfinal与springMVC的区别</title>
-        <pubTime>2018-07-16T15:00:00.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>blog.virualyz.com/2018/07/15/201807152339_aws%E7%94%B3%E8%AF%B712%E4%B8%AA%E6%9C%88%E5%85%8D%E8%B4%B9yun/</loc>
     <lastmod>2019-02-24T07:47:44.599Z</lastmod>
     <data>
@@ -740,6 +760,26 @@
            
              
               <breadCrumb title="aws" url="blog.virualyz.com/categories/aws/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/06/13/201806130205_github+hexo%E5%88%9B%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</loc>
+    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
+    <data>
+        <display>
+        <title>github+hexo创建属于自己的博客</title>
+        <pubTime>2018-06-12T18:06:00.000Z</pubTime>
+        
+        <tag>hexo</tag>
+         
+         
+           
+             
+              <breadCrumb title="hexo" url="blog.virualyz.com/categories/hexo/"/>
           
         </display>
     </data>
@@ -780,26 +820,6 @@
            
              
               <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2018/06/13/201806130205_github+hexo%E5%88%9B%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</loc>
-    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
-    <data>
-        <display>
-        <title>github+hexo创建属于自己的博客</title>
-        <pubTime>2018-06-12T18:06:00.000Z</pubTime>
-        
-        <tag>hexo</tag>
-         
-         
-           
-             
-              <breadCrumb title="hexo" url="blog.virualyz.com/categories/hexo/"/>
           
         </display>
     </data>

@@ -81,18 +81,18 @@
 
 
 
-<meta name="description" content="本文介绍原型模式(Prototype Pattern)">
+<meta name="description" content="本文介绍装饰器模式(Decorator Pattern)">
 <meta name="keywords" content="设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="23种设计模式(五)原型模式">
-<meta property="og:url" content="blog.virualyz.com/2019/04/14/2019-04-13_21-54-47_23中设计模式(五)原型模式/index.html">
+<meta property="og:title" content="23种设计模式(六)适配器模式">
+<meta property="og:url" content="blog.virualyz.com/2019/04/20/2019-04-20_21-24-43_23种设计模式(七)装饰器模式/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="本文介绍原型模式(Prototype Pattern)">
+<meta property="og:description" content="本文介绍装饰器模式(Decorator Pattern)">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-17T14:53:31.275Z">
+<meta property="og:updated_time" content="2019-04-21T13:19:07.238Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="23种设计模式(五)原型模式">
-<meta name="twitter:description" content="本文介绍原型模式(Prototype Pattern)">
+<meta name="twitter:title" content="23种设计模式(六)适配器模式">
+<meta name="twitter:description" content="本文介绍装饰器模式(Decorator Pattern)">
 
 
 
@@ -122,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="blog.virualyz.com/2019/04/14/2019-04-13_21-54-47_23中设计模式(五)原型模式/"/>
+  <link rel="canonical" href="blog.virualyz.com/2019/04/20/2019-04-20_21-24-43_23种设计模式(七)装饰器模式/"/>
 
 
 
 
 
-  <title>23种设计模式(五)原型模式 | Hexo</title>
+  <title>23种设计模式(六)适配器模式 | Hexo</title>
   
 
 
@@ -295,7 +295,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2019/04/14/2019-04-13_21-54-47_23中设计模式(五)原型模式/">
+    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2019/04/20/2019-04-20_21-24-43_23种设计模式(七)装饰器模式/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xcxd">
@@ -312,7 +312,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">23种设计模式(五)原型模式</h1>
+          <h1 class="post-title" itemprop="name headline">23种设计模式(六)适配器模式</h1>
         
 
         <div class="post-meta">
@@ -324,8 +324,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-14T16:00:00+08:00">
-                2019-04-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-20T18:00:00+08:00">
+                2019-04-20
               </time>
             
 
@@ -384,153 +384,182 @@
       
 
       
-        <h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>原型模式(Prototype Pattern)</p>
+        <h1 id="本文介绍"><a href="#本文介绍" class="headerlink" title="本文介绍"></a>本文介绍</h1><p>装饰器模式(Decorator Pattern)</p>
 <a id="more"></a>
-<h1 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h1><p>原型模式是一种创建型设计模式，原型模式(Prototype)允许一个对象再创建另外一个可定制的对象，<br>根本无需知道任何如何创建的细节</p>
-<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>用原型实例指定创建对象的种类，并且通过拷贝这些原型来创建新的对象</p>
-<h1 id="主要角色"><a href="#主要角色" class="headerlink" title="主要角色"></a>主要角色</h1><p>在这样的设计模式中，有以下几个角色：</p>
-<p>1、客户（Client）角色：客户端类向原型管理器提出创建对象的请求</p>
-<p>2、抽象原型（Prototype）角色：这是一个抽象角色，通常由一个C#接口或抽象类实现。此角色给出所有的具体原型类所需的接口。在C#中，抽象原型角色通常实现了ICloneable接口。</p>
-<p>3、具体原型（Concrete Prototype）角色：被复制的对象。此角色需要实现抽象的原型角色所要求的接口。</p>
-<p>4、原型管理器（Prototype Manager）角色：创建具体原型类的对象，并记录每一个被创建的对象。</p>
-<h1 id="基本的实现思路"><a href="#基本的实现思路" class="headerlink" title="基本的实现思路"></a>基本的实现思路</h1><p>通过将一个原型对象传给那个要发动创建的对象，这个要发动创建的对象通过请求原型对象拷贝它们自己来实施创建</p>
-<h1 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>1、当创建的对象实例较为复杂的时候，使用原型模式可以简化对象的创建过程！</p>
-<p>2、扩展性好，由于写原型模式的时候使用了抽象原型类，在客户端进行编程的时候可以将具体的原型类通过配置进行读取。</p>
-<p>3、可以使用深度克隆来保存对象的状态，使用原型模式进行复制。当你需要恢复到某一时刻就直接跳到。比如我们的idea种就有历史版本，或则SVN中也有这样的操作。非常好用！</p>
-<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>1、需要为每一个类配备一个克隆方法，而且该克隆方法位于一个类的里面，当对已有的类经行改造时需要修改源代码，违背了开闭原则。</p>
-<p>2、在实现深克隆的时需要编写较为复杂的代码，而且当对象之间存在多重嵌套引用的时候，为了实现深克隆，每一层对象对应的类都必须支持深克隆，实现相对麻烦。</p>
-<h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><p>1创建对象成本比较大，比如初始化要很长时间的，占用太多CPU的，新对象可以通过复制已有的对象获得的，如果是相似的对象，则可以对其成员变量稍作修改。</p>
-<p>2系统要保存对象状态的，而对象的状态改变很小。</p>
-<p>3需要避免使用分层次的工厂类来创建分层次的对象，并且类的对象就只用一个或很少的组合状态！</p>
-<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><p>1、创建一个实现了 Cloneable 接口的抽象类。</p>
-<pre><code>public abstract class Shape implements Cloneable {
-
-   private String id;
-   protected String type;
-
-   abstract void draw();
-
-   public String getType(){
-      return type;
-   }
-
-   public String getId() {
-      return id;
-   }
-
-   public void setId(String id) {
-      this.id = id;
-   }
-
-   public Object clone() {
-      Object clone = null;
-      try {
-         clone = super.clone();
-      } catch (CloneNotSupportedException e) {
-         e.printStackTrace();
-      }
-      return clone;
-   }
+<h1 id="装饰器模式"><a href="#装饰器模式" class="headerlink" title="装饰器模式"></a>装饰器模式</h1><p>装饰模式指的是在不必改变原类文件和使用继承的情况下，<br>动态地扩展一个对象的功能。它是通过创建一个包装对象，<br>也就是装饰来包裹真实的对象</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>装饰模式允许向一个现有的对象添加新的功能，同时又不改变其结构。这种类型的设计<br>模式属于结构型模式，它是作为现有的类的一个包装</p>
+<h1 id="主要角色"><a href="#主要角色" class="headerlink" title="主要角色"></a>主要角色</h1><p>1、抽象构件（Component）角色：给出一个抽象接口，以规范准备接收附加责任的对象。</p>
+<p>2、具体构件（Concrete Component）角色：定义一个将要接收附加责任的类。</p>
+<p>3、装饰（Decorator）角色：持有一个构件（Component）对象的实例，并实现一个与抽象构件接口一致的接口。</p>
+<p>4、具体装饰（Concrete Decorator）角色：负责给构件对象添加上附加的责任。</p>
+<h1 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h1><p>用来包装原有的类，并在保持类方法签名完整性的前提下，提供了额外的功能，比生成子类更为灵活</p>
+<h1 id="基本的实现思路"><a href="#基本的实现思路" class="headerlink" title="基本的实现思路"></a>基本的实现思路</h1><p>将具体功能职责划分，同时继承装饰者模式</p>
+<h1 id="实际使用"><a href="#实际使用" class="headerlink" title="实际使用"></a>实际使用</h1><p>java IO 流是典型的装饰模式</p>
+<h1 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h1><h2 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h2><p>1.、Decorator模式与继承关系的目的都是要扩展对象的功能，但是Decorator可以提供比继承更多的灵活性。</p>
+<p>2、 通过使用不同的具体装饰类以及这些装饰类的排列组合，设计师可以创造出很多不同行为的组合</p>
+<h2 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h2><p>1、这种比继承更加灵活机动的特性，也同时意味着更加多的复杂性</p>
+<p>2、装饰模式会导致设计中出现许多小类，如果过度使用，会使程序变得很复杂。</p>
+<p>3、装饰模式是针对抽象组件（Component）类型编程。但是，如果你要针对具体组件编程时，就应该重新思考你的应用架构，以及装饰者是否合适。当然也可以改变Component接口，增加新的公开的行为，实现“半透明”的装饰者模式。在实际项目中要做出最佳选择</p>
+<h1 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h1><h1 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h1><ol>
+<li><p>需要扩展一个类的功能，或给一个类添加附加职责</p>
+</li>
+<li><p>需要动态的给一个对象添加功能，这些功能可以再动态的撤销</p>
+</li>
+<li><p>需要增加由一些基本功能的排列组合而产生的非常大量的功能，从而使继承关系变的不现实。</p>
+</li>
+<li><p>当不能采用生成子类的方法进行扩充时。一种情况是，可能有大量独立的扩展，为支持每一种组合将产生大量的子类，使得子类数目呈爆炸性增长。另一种情况可能是因为类定义被隐藏，或类定义不能用于生成子类</p>
+</li>
+</ol>
+<h1 id="与其他模式的区别"><a href="#与其他模式的区别" class="headerlink" title="与其他模式的区别"></a>与其他模式的区别</h1><p>1、关于新职责：适配器也可以在转换时增加新的职责，但主要目的不在此。装饰者模式主要是给被装饰者增加新职责的。</p>
+<p>2、关于原接口：适配器模式是用新接口来调用原接口，原接口对新系统是不可见或者说不可用的。装饰者模式原封不动的使用原接口，系统对装饰的对象也通过原接口来完成使用。（增加新接口的装饰者模式可以认为是其变种–“半透明”装饰者）</p>
+<p>3、关于其包裹的对象：适配器是知道被适配者的详细情况的（就是那个类或那个接口）。装饰者只知道其接口是什么，至于其具体类型（是基类还是其他派生类）只有在运行期间才知道</p>
+<h1 id="实现代码"><a href="#实现代码" class="headerlink" title="实现代码"></a>实现代码</h1><p>接口</p>
+<pre><code>/**
+ * @author test
+ * @date
+ */
+public interface Home {
+    /**
+     * 家庭名称
+     * @return
+     */
+    void homeName();
+    /**
+     * 家庭地址
+     * @return
+     */
+    void homeAddress();
 }
-</code></pre><p>2、创建扩展了上面抽象类的实体类</p>
-<pre><code>public class Rectangle extends Shape {
+</code></pre><p>实现</p>
+<pre><code>/**
+ * @author test
+ * @date
+ */
+public class AmericanHome implements Home {
 
-   public Rectangle(){
-     type = &quot;Rectangle&quot;;
-   }
+    @Override
+    public void homeName(){
+        System.out.println(&quot;HomeName:AmericanH&quot;);
+    }
 
-   @Override
-   public void draw() {
-      System.out.println(&quot;Inside Rectangle::draw() method.&quot;);
-   }
-}
-
-public class Square extends Shape {
-
-   public Square(){
-     type = &quot;Square&quot;;
-   }
-
-   @Override
-   public void draw() {
-      System.out.println(&quot;Inside Square::draw() method.&quot;);
-   }
+    @Override
+    public void homeAddress(){
+        System.out.println(&quot;HomeAddress:AmericanH&quot;);
+    }
 }
 
-public class Circle extends Shape {
 
-   public Circle(){
-     type = &quot;Circle&quot;;
-   }
+/**
+ * @author test
+ * @date
+ */
+public class ChineseHome implements Home {
 
-   @Override
-   public void draw() {
-      System.out.println(&quot;Inside Circle::draw() method.&quot;);
-   }
+    @Override
+    public void homeName(){
+        System.out.println(&quot;HomeName:Chinese&quot;);
+    }
+
+    @Override
+    public void homeAddress(){
+        System.out.println(&quot;HomeAddress:Chinese&quot;);
+    }
 }
-</code></pre><p>3、创建一个类，从数据库获取实体类，并把它们存储在一个 Hashtable 中</p>
-<pre><code>import java.util.Hashtable;
+</code></pre><p>接口的抽象装饰类</p>
+<pre><code>/**
+ * @author test
+ * @date
+ */
+public abstract class HomeDecorator implements Home {
+    protected Home homeDecorator;
 
-public class ShapeCache {
+    public HomeDecorator(Home homeDecorator){
+        this.homeDecorator = homeDecorator;
+    }
 
-   private static Hashtable&lt;String, Shape&gt; shapeMap 
-      = new Hashtable&lt;String, Shape&gt;();
+    @Override
+    public void homeName(){
+        homeDecorator.homeName();
+    }
 
-   public static Shape getShape(String shapeId) {
-      Shape cachedShape = shapeMap.get(shapeId);
-      return (Shape) cachedShape.clone();
-   }
-
-   // 对每种形状都运行数据库查询，并创建该形状
-   // shapeMap.put(shapeKey, shape);
-   // 例如，我们要添加三种形状
-   public static void loadCache() {
-      Circle circle = new Circle();
-      circle.setId(&quot;1&quot;);
-      shapeMap.put(circle.getId(),circle);
-
-      Square square = new Square();
-      square.setId(&quot;2&quot;);
-      shapeMap.put(square.getId(),square);
-
-      Rectangle rectangle = new Rectangle();
-      rectangle.setId(&quot;3&quot;);
-      shapeMap.put(rectangle.getId(),rectangle);
-   }
+    @Override
+    public void homeAddress(){
+        homeDecorator.homeAddress();
+    }
 }
-</code></pre><p>4、PrototypePatternDemo 使用 ShapeCache 类来获取存储在 Hashtable 中的形状的克隆</p>
-<pre><code>public class PrototypePatternDemo {
-   public static void main(String[] args) {
-      ShapeCache.loadCache();
+</code></pre><p>创建扩展了 抽象装饰类的实体装饰类</p>
+<pre><code>/**
+ * @author test
+ * @date
+ */public class NewHomeDecorator extends HomeDecorator {
 
-      Shape clonedShape = (Shape) ShapeCache.getShape(&quot;1&quot;);
-      System.out.println(&quot;Shape : &quot; + clonedShape.getType());        
+    public NewHomeDecorator(Home home){
+        super(home);
+    }
 
-      Shape clonedShape2 = (Shape) ShapeCache.getShape(&quot;2&quot;);
-      System.out.println(&quot;Shape : &quot; + clonedShape2.getType());        
+    @Override
+    public void homeName(){
+        homeDecorator.homeName();
+        recordHomeComeFrom(homeDecorator);
+    }
 
-      Shape clonedShape3 = (Shape) ShapeCache.getShape(&quot;3&quot;);
-      System.out.println(&quot;Shape : &quot; + clonedShape3.getType());        
-   }
+    @Override
+    public void homeAddress(){
+        homeDecorator.homeAddress();
+        recordHomeComeFrom(homeDecorator);
+    }
+
+    private void recordHomeComeFrom(Home home){
+        System.out.println(&quot;record come from: 已记录家庭来自的地址&quot;);
+    }
 }
-</code></pre><p>5、客户端类代码片段：</p>
-<p>   在客户端代码中，无须关心产品对象的具体组装过程，只需确定具体建造者的类型即可，建造者模式将复杂对象的构建与对象的表现分离开来，这样使得同样的构建过程可以创建出不同的表现。</p>
-<pre><code>package com.test.builder;
+</code></pre><p>使用 实体装饰类 来装饰对象   </p>
+<pre><code>/**
+ * @author test
+ * @date
+ */
+public class Main {
 
-public class TestMain {
-    //something
+    public static void main(String[] args) {
 
-    Builder builder = new ConcreteBuilder();
-    Director director = new Director(builder);
-    Product product = director.construct();
+        Home home = new ChineseHome();
 
-    //something
+        Home chineseHome = new NewHomeDecorator(new ChineseHome());
+
+        Home americanHome = new NewHomeDecorator(new AmericanHome());
+        System.out.println(&quot;Home with normal &quot;);
+        home.homeName();
+        home.homeAddress();
+
+        System.out.println(&quot;\nHome of chinese&quot;);
+        chineseHome.homeName();
+        chineseHome.homeAddress();
+
+        System.out.println(&quot;\nHome of american&quot;);
+        americanHome.homeName();
+        americanHome.homeAddress();
+    }
 }
-</code></pre><p>输出结果：</p>
-<pre><code>Shape : Circle
-Shape : Square
-Shape : Rectangle
-</code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://baike.baidu.com/item/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/4941014?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/4941014?fr=aladdin</a><br><a href="https://blog.csdn.net/qq_40709468/article/details/82316418" target="_blank" rel="noopener">https://blog.csdn.net/qq_40709468/article/details/82316418</a><br><a href="http://www.runoob.com/design-pattern/prototype-pattern.html" target="_blank" rel="noopener">http://www.runoob.com/design-pattern/prototype-pattern.html</a></p>
+</code></pre><p>输出结果</p>
+<pre><code>Home with normal 
+HomeName:Chinese
+HomeAddress:Chinese
+
+Home of chinese
+HomeName:Chinese
+record come from: 已记录家庭来自的地址
+HomeAddress:Chinese
+record come from: 已记录家庭来自的地址
+
+Home of american
+HomeName:American
+record come from: 已记录家庭来自的地址
+HomeAddress:American
+record come from: 已记录家庭来自的地址
+
+Process finished with exit code 0
+　
+</code></pre><h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://baike.baidu.com/item/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/10218946?fr=aladdin" target="_blank" rel="noopener">https://baike.baidu.com/item/%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/10218946?fr=aladdin</a></p>
 
       
     </div>
@@ -561,8 +590,8 @@ Shape : Rectangle
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/04/07/2019-04-07_19-08-37_23种设计模式(四)建造者模式/" rel="next" title="23种设计模式(四)建造者(生成器)模式">
-                <i class="fa fa-chevron-left"></i> 23种设计模式(四)建造者(生成器)模式
+              <a href="/2019/04/17/2019-04-17_22-34-13_23种设计模式(六)适配器模式/" rel="next" title="23种设计模式(六)适配器模式">
+                <i class="fa fa-chevron-left"></i> 23种设计模式(六)适配器模式
               </a>
             
           </div>
@@ -570,10 +599,6 @@ Shape : Rectangle
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/04/17/2019-04-17_22-34-13_23种设计模式(六)适配器模式/" rel="prev" title="23种设计模式(六)适配器模式">
-                23种设计模式(六)适配器模式 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -712,7 +737,7 @@ Shape : Rectangle
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文介绍"><span class="nav-number">1.</span> <span class="nav-text">本文介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原型模式"><span class="nav-number">2.</span> <span class="nav-text">原型模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">3.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要角色"><span class="nav-number">4.</span> <span class="nav-text">主要角色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本的实现思路"><span class="nav-number">5.</span> <span class="nav-text">基本的实现思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优缺点"><span class="nav-number">6.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">6.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">6.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适用场景"><span class="nav-number">7.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意事项"><span class="nav-number">8.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">9.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">11.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本文介绍"><span class="nav-number">1.</span> <span class="nav-text">本文介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#装饰器模式"><span class="nav-number">2.</span> <span class="nav-text">装饰器模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">3.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#主要角色"><span class="nav-number">4.</span> <span class="nav-text">主要角色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#目的"><span class="nav-number">5.</span> <span class="nav-text">目的</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本的实现思路"><span class="nav-number">6.</span> <span class="nav-text">基本的实现思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实际使用"><span class="nav-number">7.</span> <span class="nav-text">实际使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#优缺点"><span class="nav-number">8.</span> <span class="nav-text">优缺点</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#优点"><span class="nav-number">8.1.</span> <span class="nav-text">优点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺点"><span class="nav-number">8.2.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#注意事项"><span class="nav-number">9.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#适用场景"><span class="nav-number">10.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与其他模式的区别"><span class="nav-number">11.</span> <span class="nav-text">与其他模式的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现代码"><span class="nav-number">12.</span> <span class="nav-text">实现代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#总结"><span class="nav-number">13.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考文章"><span class="nav-number">14.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
             
 
           </div>
