@@ -64,21 +64,6 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2019/04/24/text/</loc>
-    <lastmod>2019-04-24T02:21:57.420Z</lastmod>
-    <data>
-        <display>
-        <title></title>
-        <pubTime>2019-04-23T16:00:00.000Z</pubTime>
-        
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>blog.virualyz.com/2019/04/17/2019-04-17_22-34-13_23%E7%A7%8D%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F(%E5%85%AD)%E9%80%82%E9%85%8D%E5%99%A8%E6%A8%A1%E5%BC%8F/</loc>
     <lastmod>2019-04-19T14:43:23.377Z</lastmod>
     <data>
@@ -587,26 +572,6 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/</loc>
-    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
-    <data>
-        <display>
-        <title>spring-cloud-使用Hystrix实现断路器</title>
-        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
-        
-        <tag>spring cloud</tag>
-         
-         
-           
-             
-              <breadCrumb title="spring cloud" url="blog.virualyz.com/categories/spring-cloud/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
     <loc>blog.virualyz.com/2018/08/02/201808020226_spring-boot%E7%9A%84hello_word/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
@@ -627,32 +592,12 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/13/201808130444_spring-cloud-%E5%90%91%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1/</loc>
+    <loc>blog.virualyz.com/2018/08/08/201808080344_spring-cloud%E5%85%A5%E9%97%A8-%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E4%B8%AD%E5%BF%83/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud-向注册中心注册服务</title>
-        <pubTime>2018-08-12T20:44:00.000Z</pubTime>
-        
-        <tag>spring cloud</tag>
-         
-         
-           
-             
-              <breadCrumb title="spring cloud" url="blog.virualyz.com/categories/spring-cloud/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2018/08/14/201808140251_spring-cloud-%E4%BD%BF%E7%94%A8Ribbon%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
-    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
-    <data>
-        <display>
-        <title>spring-cloud-使用Ribbon实现负载均衡</title>
-        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
+        <title>spring-cloud入门-idea中创建cloud服务中心</title>
+        <pubTime>2018-08-07T19:46:00.000Z</pubTime>
         
         <tag>spring cloud</tag>
          
@@ -687,12 +632,12 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/08/201808080344_spring-cloud%E5%85%A5%E9%97%A8-%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E4%B8%AD%E5%BF%83/</loc>
+    <loc>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud入门-idea中创建cloud服务中心</title>
-        <pubTime>2018-08-07T19:46:00.000Z</pubTime>
+        <title>spring-cloud-使用Hystrix实现断路器</title>
+        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
         
         <tag>spring cloud</tag>
          
@@ -707,19 +652,39 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/07/16/201807200131_hexo%E7%99%BE%E5%BA%A6%E8%B0%B7%E6%AD%8C%E6%94%B6%E5%BD%95/</loc>
-    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
+    <loc>blog.virualyz.com/2018/08/14/201808140251_spring-cloud-%E4%BD%BF%E7%94%A8Ribbon%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
+    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>百度谷歌收录博客</title>
-        <pubTime>2018-07-16T15:00:00.000Z</pubTime>
+        <title>spring-cloud-使用Ribbon实现负载均衡</title>
+        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
         
-        <tag>other</tag>
+        <tag>spring cloud</tag>
          
          
            
              
-              <breadCrumb title="other" url="blog.virualyz.com/categories/other/"/>
+              <breadCrumb title="spring cloud" url="blog.virualyz.com/categories/spring-cloud/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/08/13/201808130444_spring-cloud-%E5%90%91%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1/</loc>
+    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
+    <data>
+        <display>
+        <title>spring-cloud-向注册中心注册服务</title>
+        <pubTime>2018-08-12T20:44:00.000Z</pubTime>
+        
+        <tag>spring cloud</tag>
+         
+         
+           
+             
+              <breadCrumb title="spring cloud" url="blog.virualyz.com/categories/spring-cloud/"/>
           
         </display>
     </data>
@@ -756,6 +721,26 @@
         
          
            
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/07/16/201807200131_hexo%E7%99%BE%E5%BA%A6%E8%B0%B7%E6%AD%8C%E6%94%B6%E5%BD%95/</loc>
+    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
+    <data>
+        <display>
+        <title>百度谷歌收录博客</title>
+        <pubTime>2018-07-16T15:00:00.000Z</pubTime>
+        
+        <tag>other</tag>
+         
+         
+           
+             
+              <breadCrumb title="other" url="blog.virualyz.com/categories/other/"/>
+          
         </display>
     </data>
     </url>
@@ -802,6 +787,46 @@
 
     
   <url>
+    <loc>blog.virualyz.com/2018/07/15/201807152339_aws%E7%94%B3%E8%AF%B712%E4%B8%AA%E6%9C%88%E5%85%8D%E8%B4%B9yun/</loc>
+    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
+    <data>
+        <display>
+        <title>aws:申请12个月免费云</title>
+        <pubTime>2018-07-15T15:50:00.000Z</pubTime>
+        
+        <tag>aws</tag>
+         
+         
+           
+             
+              <breadCrumb title="aws" url="blog.virualyz.com/categories/aws/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/06/13/201806140052_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E6%B6%88%E6%81%AF%E5%88%B0%E7%88%B6%E7%BB%84%E4%BB%B6/</loc>
+    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
+    <data>
+        <display>
+        <title>angular4主从结构子组件传递消息到父组件</title>
+        <pubTime>2018-06-12T17:20:00.000Z</pubTime>
+        
+        <tag>angular</tag>
+         
+         
+           
+             
+              <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>blog.virualyz.com/2018/06/13/201806130205_github+hexo%E5%88%9B%E5%BB%BA%E5%B1%9E%E4%BA%8E%E8%87%AA%E5%B7%B1%E7%9A%84%E5%8D%9A%E5%AE%A2/</loc>
     <lastmod>2019-02-24T07:47:44.599Z</lastmod>
     <data>
@@ -835,46 +860,6 @@
            
              
               <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2018/06/13/201806140052_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E5%AD%90%E7%BB%84%E4%BB%B6%E4%BC%A0%E9%80%92%E6%B6%88%E6%81%AF%E5%88%B0%E7%88%B6%E7%BB%84%E4%BB%B6/</loc>
-    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
-    <data>
-        <display>
-        <title>angular4主从结构子组件传递消息到父组件</title>
-        <pubTime>2018-06-12T17:20:00.000Z</pubTime>
-        
-        <tag>angular</tag>
-         
-         
-           
-             
-              <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2018/07/15/201807152339_aws%E7%94%B3%E8%AF%B712%E4%B8%AA%E6%9C%88%E5%85%8D%E8%B4%B9yun/</loc>
-    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
-    <data>
-        <display>
-        <title>aws:申请12个月免费云</title>
-        <pubTime>2018-07-15T15:50:00.000Z</pubTime>
-        
-        <tag>aws</tag>
-         
-         
-           
-             
-              <breadCrumb title="aws" url="blog.virualyz.com/categories/aws/"/>
           
         </display>
     </data>
