@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>blog.virualyz.com/2018/08/30/201808300000-jvm%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7-VisualVM%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</loc>
+    
+    <lastmod>2019-05-09T02:12:58.149Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>blog.virualyz.com/2019/05/09/test/</loc>
+    
+    <lastmod>2019-05-09T02:05:18.531Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>blog.virualyz.com/2019/05/07/2019-05-07_18-57-09_%E5%9C%A8mac%E7%89%88idea%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83%E6%8F%92%E4%BB%B6%E5%8F%8A%E5%BF%AB%E6%8D%B7%E6%B3%A8%E9%87%8A%E7%9A%84%E9%85%8D%E7%BD%AE/</loc>
     
     <lastmod>2019-05-08T06:05:55.508Z</lastmod>
@@ -156,14 +170,14 @@
   </url>
   
   <url>
-    <loc>blog.virualyz.com/categories/index.html</loc>
+    <loc>blog.virualyz.com/tags/index.html</loc>
     
     <lastmod>2019-02-24T07:47:44.622Z</lastmod>
     
   </url>
   
   <url>
-    <loc>blog.virualyz.com/tags/index.html</loc>
+    <loc>blog.virualyz.com/categories/index.html</loc>
     
     <lastmod>2019-02-24T07:47:44.622Z</lastmod>
     
@@ -212,13 +226,6 @@
   </url>
   
   <url>
-    <loc>blog.virualyz.com/2018/08/30/201808300000-jvm%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7-VisualVM%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</loc>
-    
-    <lastmod>2019-02-24T07:47:44.602Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>blog.virualyz.com/2018/08/22/201808220131_window8%E5%AE%89%E8%A3%85makedownpad2/</loc>
     
     <lastmod>2019-02-24T07:47:44.602Z</lastmod>
@@ -226,7 +233,14 @@
   </url>
   
   <url>
-    <loc>blog.virualyz.com/2018/08/02/201808020226_spring-boot%E7%9A%84hello_word/</loc>
+    <loc>blog.virualyz.com/2018/08/13/201808130444_spring-cloud-%E5%90%91%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1/</loc>
+    
+    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/</loc>
     
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     
@@ -247,7 +261,7 @@
   </url>
   
   <url>
-    <loc>blog.virualyz.com/2018/08/14/201808140327_spring-cloud-%E4%BD%BF%E7%94%A8Hystrix%E5%AE%9E%E7%8E%B0%E6%96%AD%E8%B7%AF%E5%99%A8/</loc>
+    <loc>blog.virualyz.com/2018/08/02/201808020226_spring-boot%E7%9A%84hello_word/</loc>
     
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     
@@ -261,14 +275,7 @@
   </url>
   
   <url>
-    <loc>blog.virualyz.com/2018/08/13/201808130444_spring-cloud-%E5%90%91%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1/</loc>
-    
-    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>blog.virualyz.com/2018/07/17/201807170010_%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/</loc>
+    <loc>blog.virualyz.com/2018/07/17/201807170027_hexo%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D/</loc>
     
     <lastmod>2019-02-24T07:47:44.600Z</lastmod>
     
@@ -282,13 +289,6 @@
   </url>
   
   <url>
-    <loc>blog.virualyz.com/2018/07/16/201807200131_hexo%E7%99%BE%E5%BA%A6%E8%B0%B7%E6%AD%8C%E6%94%B6%E5%BD%95/</loc>
-    
-    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>blog.virualyz.com/2018/08/02/201808020142_idea%E4%B8%ADmaven%E9%A1%B9%E7%9B%AE%E5%AF%BC%E5%85%A5%E4%BE%9D%E8%B5%96%E6%85%A2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
     
     <lastmod>2019-02-24T07:47:44.600Z</lastmod>
@@ -296,16 +296,16 @@
   </url>
   
   <url>
-    <loc>blog.virualyz.com/2018/07/17/201807170027_hexo%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D/</loc>
+    <loc>blog.virualyz.com/2018/07/16/201807200131_hexo%E7%99%BE%E5%BA%A6%E8%B0%B7%E6%AD%8C%E6%94%B6%E5%BD%95/</loc>
     
     <lastmod>2019-02-24T07:47:44.600Z</lastmod>
     
   </url>
   
   <url>
-    <loc>blog.virualyz.com/2018/07/15/201807152339_aws%E7%94%B3%E8%AF%B712%E4%B8%AA%E6%9C%88%E5%85%8D%E8%B4%B9yun/</loc>
+    <loc>blog.virualyz.com/2018/07/17/201807170010_%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/</loc>
     
-    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
+    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
     
   </url>
   
@@ -325,6 +325,13 @@
   
   <url>
     <loc>blog.virualyz.com/2018/06/13/201806130120_angular4%E4%B8%BB%E4%BB%8E%E7%BB%93%E6%9E%84%E7%88%B6%E7%BB%84%E4%BB%B6%E5%8F%82%E6%95%B0%E4%BC%A0%E9%80%92%E5%88%B0%E5%AD%90%E7%BB%84%E4%BB%B6/</loc>
+    
+    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>blog.virualyz.com/2018/07/15/201807152339_aws%E7%94%B3%E8%AF%B712%E4%B8%AA%E6%9C%88%E5%85%8D%E8%B4%B9yun/</loc>
     
     <lastmod>2019-02-24T07:47:44.599Z</lastmod>
     
