@@ -89,12 +89,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="介绍explain是mysql提供的一个优化sql的命令,在5.6以及以后的版本中,除select,如insert,update和delete均可以使用explain查看执行计划，从而知道mysql是如何处理sql语句，分析查询语句或者表结构的性能瓶颈,本次使用的mysql 版本为 @@version 5.6.38 但是为与5.6之后版本关联起来，所以部分内容可能还会含有其他版本的内容 使用方式在">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="/16/2019-03-17_18-06-48_mysql优化神器explain/Snipaste_2019-03-17_17-25-55.jpg">
+<meta property="og:image" content="/2019/03/16/2019-03-17_18-06-48_mysql优化神器explain/Snipaste_2019-03-17_17-25-55.jpg">
 <meta property="og:updated_time" content="2019-03-18T05:42:28.715Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mysql优化神器explain介绍">
 <meta name="twitter:description" content="介绍explain是mysql提供的一个优化sql的命令,在5.6以及以后的版本中,除select,如insert,update和delete均可以使用explain查看执行计划，从而知道mysql是如何处理sql语句，分析查询语句或者表结构的性能瓶颈,本次使用的mysql 版本为 @@version 5.6.38 但是为与5.6之后版本关联起来，所以部分内容可能还会含有其他版本的内容 使用方式在">
-<meta name="twitter:image" content="/16/2019-03-17_18-06-48_mysql优化神器explain/Snipaste_2019-03-17_17-25-55.jpg">
+<meta name="twitter:image" content="/2019/03/16/2019-03-17_18-06-48_mysql优化神器explain/Snipaste_2019-03-17_17-25-55.jpg">
 
 
 
@@ -442,7 +442,7 @@ INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (6, &apos;A&a
 INSERT INTO test_table_4 (ball_id, product_name, productor) VALUES (9, &apos;E&apos;, &apos;特步&apos;);
 </code></pre><h1 id="介绍explain查询出的每项的含义"><a href="#介绍explain查询出的每项的含义" class="headerlink" title="介绍explain查询出的每项的含义"></a>介绍explain查询出的每项的含义</h1><p>   执行sql </p>
 <pre><code>explain select * from test_table_3 where id = 2
-</code></pre><p>   <img src="/16/2019-03-17_18-06-48_mysql优化神器explain/Snipaste_2019-03-17_17-25-55.jpg" alt="图片"></p>
+</code></pre><p>   <img src="/2019/03/16/2019-03-17_18-06-48_mysql优化神器explain/Snipaste_2019-03-17_17-25-55.jpg" alt="图片"></p>
 <h2 id="列介绍"><a href="#列介绍" class="headerlink" title="列介绍"></a>列介绍</h2><p>各列的含义如下:</p>
 <pre><code>id: SELECT 查询的标识符. 每个 SELECT 都会自动分配一个唯一的标识符.
 

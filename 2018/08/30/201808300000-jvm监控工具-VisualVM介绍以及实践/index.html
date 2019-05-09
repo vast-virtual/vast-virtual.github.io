@@ -89,15 +89,15 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="介绍visualvm 是一个jvm监控工具,其实就是oracle的jvisualvm,VisualVM是免费的图形化的jvm监控和分析工具，集成多个jdk命令的行工具的可视化工具，他包括以下命令行工具jstat,JConsole,jstack,jmap,jinfo等，可以使用VisualVM生成和分析海量数据、跟踪内存泄漏、监控垃圾回收器、执行内存和CPU分析，同时它还支持在MBeans上进行浏览">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvmexe所在位置.png">
-<meta property="og:image" content="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualVM初始页面.png">
-<meta property="og:image" content="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvm插件界面.png">
-<meta property="og:image" content="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/vimualvm监控显示.png">
+<meta property="og:image" content="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvmexe所在位置.png">
+<meta property="og:image" content="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualVM初始页面.png">
+<meta property="og:image" content="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvm插件界面.png">
+<meta property="og:image" content="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/vimualvm监控显示.png">
 <meta property="og:updated_time" content="2019-05-09T02:12:58.149Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="jvm监控工具-VisualVM介绍以及实践">
 <meta name="twitter:description" content="介绍visualvm 是一个jvm监控工具,其实就是oracle的jvisualvm,VisualVM是免费的图形化的jvm监控和分析工具，集成多个jdk命令的行工具的可视化工具，他包括以下命令行工具jstat,JConsole,jstack,jmap,jinfo等，可以使用VisualVM生成和分析海量数据、跟踪内存泄漏、监控垃圾回收器、执行内存和CPU分析，同时它还支持在MBeans上进行浏览">
-<meta name="twitter:image" content="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvmexe所在位置.png">
+<meta name="twitter:image" content="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvmexe所在位置.png">
 
 
 
@@ -392,10 +392,10 @@
         <h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>visualvm 是一个jvm监控工具,其实就是oracle的jvisualvm,VisualVM是免费的图形化的jvm监控和分析工具，<br>集成多个jdk命令的行工具的可视化工具，他包括以下命令行工具jstat,JConsole,jstack,jmap,jinfo等，<br>可以使用VisualVM生成和分析海量数据、跟踪内存泄漏、监控垃圾回收器、执行内存和CPU分析，<br>同时它还支持在MBeans上进行浏览和操作，虽然visualvm需要jdk1.6，但是其实jdk1.4以上版本都可以监控。</p>
 <a id="more"></a> 
 <h2 id="获取visualVM"><a href="#获取visualVM" class="headerlink" title="获取visualVM"></a>获取visualVM</h2><p>1.不辞辛苦从github下载，这里还有部分解读，可以看看熟悉下<a href="https://www.appinn.com/markdown/" target="_blank" rel="noopener">https://www.appinn.com/markdown/</a><br>2.在你安装完jdk之后，你可以在jdk安装根目录-&gt;bin下找到如图所示的exe文件.</p>
-<p><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvmexe所在位置.png" alt="visualvm所在位置"></p>
-<h2 id="打开VisualVM"><a href="#打开VisualVM" class="headerlink" title="打开VisualVM"></a>打开VisualVM</h2><p>visualvm.exe文件双击打开，显示如下界面<br><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualVM初始页面.png" alt="visualvm初始页面"></p>
-<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>visual vm 有许多有用的插件，插件的安装位置在tools-&gt;plugins，在available plugins中选择并安装自己想要下载的插件，下载前建议先了解下<br><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvm插件界面.png" alt="visualvm插件页面"></p>
-<h2 id="查看监控"><a href="#查看监控" class="headerlink" title="查看监控"></a>查看监控</h2><p>1.本地<br>    如果你本地已经有启动的程序就在local中查找即可查看相应的数据.<br><img src="/30/201808300000-jvm监控工具-VisualVM介绍以及实践/vimualvm监控显示.png" alt="visualvm监控"></p>
+<p><img src="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvmexe所在位置.png" alt="visualvm所在位置"></p>
+<h2 id="打开VisualVM"><a href="#打开VisualVM" class="headerlink" title="打开VisualVM"></a>打开VisualVM</h2><p>visualvm.exe文件双击打开，显示如下界面<br><img src="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualVM初始页面.png" alt="visualvm初始页面"></p>
+<h2 id="安装插件"><a href="#安装插件" class="headerlink" title="安装插件"></a>安装插件</h2><p>visual vm 有许多有用的插件，插件的安装位置在tools-&gt;plugins，在available plugins中选择并安装自己想要下载的插件，下载前建议先了解下<br><img src="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/visualvm插件界面.png" alt="visualvm插件页面"></p>
+<h2 id="查看监控"><a href="#查看监控" class="headerlink" title="查看监控"></a>查看监控</h2><p>1.本地<br>    如果你本地已经有启动的程序就在local中查找即可查看相应的数据.<br><img src="/2018/08/30/201808300000-jvm监控工具-VisualVM介绍以及实践/vimualvm监控显示.png" alt="visualvm监控"></p>
 <p>2.远程  （暂无）</p>
 
       

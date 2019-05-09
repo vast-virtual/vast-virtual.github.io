@@ -448,153 +448,6 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2018/06/13/201806130120_angular4主从结构父组件参数传递到子组件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="xcxd">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/06/13/201806130120_angular4主从结构父组件参数传递到子组件/" itemprop="url">angular4主从结构父组件参数传递到子组件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-13T01:20:00+08:00">
-                2018-06-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/angular/" itemprop="url" rel="index">
-                    <span itemprop="name">angular</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="父组件"><a href="#父组件" class="headerlink" title="父组件"></a>父组件</h2><p>引用子组件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;app-hero-detail [params]=<span class="string">"params"</span>&gt;&lt;/app-hero-detail&gt;</span><br></pre></td></tr></table></figure></p>
-<h2 id="子组件"><a href="#子组件" class="headerlink" title="子组件"></a>子组件</h2><p>定义接收参数</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ @Input() params:params</span><br></pre></td></tr></table></figure>
-<p>然后你就可以使用params这个参数了.</p>
-<p>碰到的问题:<br>父组件第一次改变参数后子组件相应做出改变,父组件之后的参数改变，却无法再次使子组件改变，是因为什么？需要怎么修改？原理？<br>ps:第一次父组件改变参数为true，子组件弹出提示，第二次乃至以后却无法使子组件弹出</p>
-<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章:"></a>参考文章:</h2><p><a href="https://angular.cn/tutorial/toh-pt3" target="_blank" rel="noopener">angular中文官网</a></p>
-
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2018/06/13/201806140052_angular4主从结构子组件传递消息到父组件/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -704,6 +557,153 @@ constructor() {
             </a>
           </div>
           <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="blog.virualyz.com/2018/06/13/201806130120_angular4主从结构父组件参数传递到子组件/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xcxd">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/06/13/201806130120_angular4主从结构父组件参数传递到子组件/" itemprop="url">angular4主从结构父组件参数传递到子组件</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-13T01:20:00+08:00">
+                2018-06-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/angular/" itemprop="url" rel="index">
+                    <span itemprop="name">angular</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="父组件"><a href="#父组件" class="headerlink" title="父组件"></a>父组件</h2><p>引用子组件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;app-hero-detail [params]=<span class="string">"params"</span>&gt;&lt;/app-hero-detail&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="子组件"><a href="#子组件" class="headerlink" title="子组件"></a>子组件</h2><p>定义接收参数</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ @Input() params:params</span><br></pre></td></tr></table></figure>
+<p>然后你就可以使用params这个参数了.</p>
+<p>碰到的问题:<br>父组件第一次改变参数后子组件相应做出改变,父组件之后的参数改变，却无法再次使子组件改变，是因为什么？需要怎么修改？原理？<br>ps:第一次父组件改变参数为true，子组件弹出提示，第二次乃至以后却无法使子组件弹出</p>
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章:"></a>参考文章:</h2><p><a href="https://angular.cn/tutorial/toh-pt3" target="_blank" rel="noopener">angular中文官网</a></p>
+
+          
         
       
     </div>

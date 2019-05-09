@@ -4,6 +4,21 @@
 
     
   <url>
+    <loc>blog.virualyz.com/2019/05/09/test/</loc>
+    <lastmod>2019-05-09T02:22:42.907Z</lastmod>
+    <data>
+        <display>
+        <title></title>
+        <pubTime>2019-05-08T16:00:00.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
     <loc>blog.virualyz.com/2018/08/30/201808300000-jvm%E7%9B%91%E6%8E%A7%E5%B7%A5%E5%85%B7-VisualVM%E4%BB%8B%E7%BB%8D%E4%BB%A5%E5%8F%8A%E5%AE%9E%E8%B7%B5/</loc>
     <lastmod>2019-05-09T02:12:58.149Z</lastmod>
     <data>
@@ -18,21 +33,6 @@
              
               <breadCrumb title="jvm" url="blog.virualyz.com/categories/jvm/"/>
           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2019/05/09/test/</loc>
-    <lastmod>2019-05-09T02:05:18.531Z</lastmod>
-    <data>
-        <display>
-        <title></title>
-        <pubTime>2019-05-08T16:00:00.000Z</pubTime>
-        
-         
-           
         </display>
     </data>
     </url>
@@ -587,12 +587,32 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/13/201808130444_spring-cloud-%E5%90%91%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1/</loc>
+    <loc>blog.virualyz.com/2018/08/02/201808020226_spring-boot%E7%9A%84hello_word/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud-向注册中心注册服务</title>
-        <pubTime>2018-08-12T20:44:00.000Z</pubTime>
+        <title>idea中创建spring-boot项目并Hello World</title>
+        <pubTime>2018-08-01T18:41:00.000Z</pubTime>
+        
+        <tag>spring boot</tag>
+         
+         
+           
+             
+              <breadCrumb title="spring boot" url="blog.virualyz.com/categories/spring-boot/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/08/08/201808080344_spring-cloud%E5%85%A5%E9%97%A8-%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E4%B8%AD%E5%BF%83/</loc>
+    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
+    <data>
+        <display>
+        <title>spring-cloud入门-idea中创建cloud服务中心</title>
+        <pubTime>2018-08-07T19:46:00.000Z</pubTime>
         
         <tag>spring cloud</tag>
          
@@ -627,12 +647,32 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/08/201808080344_spring-cloud%E5%85%A5%E9%97%A8-%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E4%B8%AD%E5%BF%83/</loc>
+    <loc>blog.virualyz.com/2018/08/14/201808140251_spring-cloud-%E4%BD%BF%E7%94%A8Ribbon%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
     <lastmod>2019-02-24T07:47:44.601Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud入门-idea中创建cloud服务中心</title>
-        <pubTime>2018-08-07T19:46:00.000Z</pubTime>
+        <title>spring-cloud-使用Ribbon实现负载均衡</title>
+        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
+        
+        <tag>spring cloud</tag>
+         
+         
+           
+             
+              <breadCrumb title="spring cloud" url="blog.virualyz.com/categories/spring-cloud/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/08/13/201808130444_spring-cloud-%E5%90%91%E6%B3%A8%E5%86%8C%E4%B8%AD%E5%BF%83%E6%B3%A8%E5%86%8C%E6%9C%8D%E5%8A%A1/</loc>
+    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
+    <data>
+        <display>
+        <title>spring-cloud-向注册中心注册服务</title>
+        <pubTime>2018-08-12T20:44:00.000Z</pubTime>
         
         <tag>spring cloud</tag>
          
@@ -667,19 +707,19 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/02/201808020226_spring-boot%E7%9A%84hello_word/</loc>
-    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
+    <loc>blog.virualyz.com/2018/07/17/201807170010_%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/</loc>
+    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
     <data>
         <display>
-        <title>idea中创建spring-boot项目并Hello World</title>
-        <pubTime>2018-08-01T18:41:00.000Z</pubTime>
+        <title>博客功能更新日志</title>
+        <pubTime>2018-07-17T15:00:00.000Z</pubTime>
         
-        <tag>spring boot</tag>
+        <tag>other</tag>
          
          
            
              
-              <breadCrumb title="spring boot" url="blog.virualyz.com/categories/spring-boot/"/>
+              <breadCrumb title="other" url="blog.virualyz.com/categories/other/"/>
           
         </display>
     </data>
@@ -687,19 +727,54 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/08/14/201808140251_spring-cloud-%E4%BD%BF%E7%94%A8Ribbon%E5%AE%9E%E7%8E%B0%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</loc>
-    <lastmod>2019-02-24T07:47:44.601Z</lastmod>
+    <loc>blog.virualyz.com/2018/07/16/201807162308_jfinal%E4%B8%8EspringMVC/</loc>
+    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
     <data>
         <display>
-        <title>spring-cloud-使用Ribbon实现负载均衡</title>
-        <pubTime>2018-08-13T18:55:00.000Z</pubTime>
+        <title>jfinal与springMVC的区别</title>
+        <pubTime>2018-07-16T15:00:00.000Z</pubTime>
         
-        <tag>spring cloud</tag>
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/07/16/201807200131_hexo%E7%99%BE%E5%BA%A6%E8%B0%B7%E6%AD%8C%E6%94%B6%E5%BD%95/</loc>
+    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
+    <data>
+        <display>
+        <title>百度谷歌收录博客</title>
+        <pubTime>2018-07-16T15:00:00.000Z</pubTime>
+        
+        <tag>other</tag>
          
          
            
              
-              <breadCrumb title="spring cloud" url="blog.virualyz.com/categories/spring-cloud/"/>
+              <breadCrumb title="other" url="blog.virualyz.com/categories/other/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>blog.virualyz.com/2018/08/02/201808020142_idea%E4%B8%ADmaven%E9%A1%B9%E7%9B%AE%E5%AF%BC%E5%85%A5%E4%BE%9D%E8%B5%96%E6%85%A2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
+    <data>
+        <display>
+        <title>idea中maven项目导入依赖慢解决方法</title>
+        <pubTime>2018-08-01T16:00:00.000Z</pubTime>
+        
+        <tag>jenkins</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据集成" url="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/"/>
           
         </display>
     </data>
@@ -727,74 +802,19 @@
 
     
   <url>
-    <loc>blog.virualyz.com/2018/07/16/201807162308_jfinal%E4%B8%8EspringMVC/</loc>
-    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
+    <loc>blog.virualyz.com/2018/07/15/201807152339_aws%E7%94%B3%E8%AF%B712%E4%B8%AA%E6%9C%88%E5%85%8D%E8%B4%B9yun/</loc>
+    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
     <data>
         <display>
-        <title>jfinal与springMVC的区别</title>
-        <pubTime>2018-07-16T15:00:00.000Z</pubTime>
+        <title>aws:申请12个月免费云</title>
+        <pubTime>2018-07-15T15:50:00.000Z</pubTime>
         
-         
-           
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2018/08/02/201808020142_idea%E4%B8%ADmaven%E9%A1%B9%E7%9B%AE%E5%AF%BC%E5%85%A5%E4%BE%9D%E8%B5%96%E6%85%A2%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
-    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
-    <data>
-        <display>
-        <title>idea中maven项目导入依赖慢解决方法</title>
-        <pubTime>2018-08-01T16:00:00.000Z</pubTime>
-        
-        <tag>jenkins</tag>
+        <tag>aws</tag>
          
          
            
              
-              <breadCrumb title="数据集成" url="blog.virualyz.com/categories/%E6%95%B0%E6%8D%AE%E9%9B%86%E6%88%90/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2018/07/16/201807200131_hexo%E7%99%BE%E5%BA%A6%E8%B0%B7%E6%AD%8C%E6%94%B6%E5%BD%95/</loc>
-    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
-    <data>
-        <display>
-        <title>百度谷歌收录博客</title>
-        <pubTime>2018-07-16T15:00:00.000Z</pubTime>
-        
-        <tag>other</tag>
-         
-         
-           
-             
-              <breadCrumb title="other" url="blog.virualyz.com/categories/other/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2018/07/17/201807170010_%E5%8D%9A%E5%AE%A2%E5%8A%9F%E8%83%BD%E6%9B%B4%E6%96%B0%E6%97%A5%E5%BF%97/</loc>
-    <lastmod>2019-02-24T07:47:44.600Z</lastmod>
-    <data>
-        <display>
-        <title>博客功能更新日志</title>
-        <pubTime>2018-07-17T15:00:00.000Z</pubTime>
-        
-        <tag>other</tag>
-         
-         
-           
-             
-              <breadCrumb title="other" url="blog.virualyz.com/categories/other/"/>
+              <breadCrumb title="aws" url="blog.virualyz.com/categories/aws/"/>
           
         </display>
     </data>
@@ -855,26 +875,6 @@
            
              
               <breadCrumb title="angular" url="blog.virualyz.com/categories/angular/"/>
-          
-        </display>
-    </data>
-    </url>
-
-    
-  <url>
-    <loc>blog.virualyz.com/2018/07/15/201807152339_aws%E7%94%B3%E8%AF%B712%E4%B8%AA%E6%9C%88%E5%85%8D%E8%B4%B9yun/</loc>
-    <lastmod>2019-02-24T07:47:44.599Z</lastmod>
-    <data>
-        <display>
-        <title>aws:申请12个月免费云</title>
-        <pubTime>2018-07-15T15:50:00.000Z</pubTime>
-        
-        <tag>aws</tag>
-         
-         
-           
-             
-              <breadCrumb title="aws" url="blog.virualyz.com/categories/aws/"/>
           
         </display>
     </data>
